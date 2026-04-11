@@ -26,9 +26,23 @@ rather than forcing a false ranking.
   beyond accuracy: parameters, training compute, inference latency,
   memory, and CPU deployability.
 
+## How to interpret these numbers
+
+Every column in [leaderboard.md](leaderboard.md) is an instance of a
+specific metric, computed under a specific protocol, against a
+specific set of baselines. For the *pedagogy* of those choices — what
+MASE, CRPS, WQL and MSE actually mean, how seasonal periods enter
+them, what "zero-shot" requires, and what each paper in the wiki
+actually reported — see [../evaluation/README.md](../evaluation/README.md).
+The methodology-caveats page here focuses on the specific asterisks
+behind specific rows; the evaluation section is the more general
+reference.
+
 ## Related wiki pages
 
 - [../datasets-benchmarks/README.md](../datasets-benchmarks/README.md) —
   descriptions of the corpora and eval suites themselves.
 - [../foundation-models/taxonomy.md](../foundation-models/taxonomy.md) —
   the cluster map of TS-FMs referenced throughout this section.
+- [../evaluation/README.md](../evaluation/README.md) — the evaluation
+  methodology layer (metrics, protocols, baselines, per-paper table).

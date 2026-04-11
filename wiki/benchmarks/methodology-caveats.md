@@ -147,3 +147,8 @@ specific capability (covariates, short context, efficiency).
 - [state-of-the-art.md](state-of-the-art.md)
 - [../concepts/probabilistic-forecasting.md](../concepts/probabilistic-forecasting.md)
 - [../concepts/zero-shot-forecasting.md](../concepts/zero-shot-forecasting.md)
+- [../evaluation/protocols.md](../evaluation/protocols.md) — splits,
+  horizons, context lengths, zero-shot discipline, bootstrap CIs.
+- [../evaluation/metrics.md](../evaluation/metrics.md) — the metric
+  definitions behind every column above, including the WQL / SQL /
+  skill-score / GM-relative-MASE conversions referenced in §2.

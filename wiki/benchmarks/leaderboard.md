@@ -182,20 +182,20 @@ table mark datasets these models saw during pretraining.
 Aggregated across all 10 datasets (geometric mean relative to
 Seasonal Naive):
 
-| Model | Average CRPS (rel.) | Average MASE (rel.) | Source |
-|---|---|---|---|
-| Moirai-MoE-Base | 0.478 | 0.651 | Moirai-MoE, Table 2 |
-| Moirai-MoE-Small | 0.497 | 0.670 | Moirai-MoE, Table 2 |
-| TimesFM (*partial leakage) | 0.488 | 0.689 | Moirai-MoE, Table 2 |
-| Chronos-Base (*partial leakage) | 0.499 | 0.656 | Moirai-MoE, Table 2 |
-| Chronos-Large (*partial leakage) | 0.500 | 0.660 | Moirai-MoE, Table 2 |
-| Chronos-Small (*partial leakage) | 0.543 | 0.694 | Moirai-MoE, Table 2 |
-| Moirai-Large | 0.514 | 0.729 | Moirai-MoE, Table 2 |
-| Moirai-Base | 0.520 | 0.736 | Moirai-MoE, Table 2 |
-| Moirai-Small | 0.578 | 0.798 | Moirai-MoE, Table 2 |
-| iTransformer (full-shot) | 0.540 | 0.767 | Moirai-MoE, Table 2 |
-| PatchTST (full-shot) | 0.549 | 0.808 | Moirai-MoE, Table 2 |
-| Seasonal Naive | 1.000 | 1.000 | Moirai-MoE, Table 2 |
+| Model                            | Average CRPS (rel.) | Average MASE (rel.) | Source              |
+| -------------------------------- | ------------------- | ------------------- | ------------------- |
+| Moirai-MoE-Base                  | 0.478               | 0.651               | Moirai-MoE, Table 2 |
+| Moirai-MoE-Small                 | 0.497               | 0.670               | Moirai-MoE, Table 2 |
+| TimesFM (*partial leakage)       | 0.488               | 0.689               | Moirai-MoE, Table 2 |
+| Chronos-Base (*partial leakage)  | 0.499               | 0.656               | Moirai-MoE, Table 2 |
+| Chronos-Large (*partial leakage) | 0.500               | 0.660               | Moirai-MoE, Table 2 |
+| Chronos-Small (*partial leakage) | 0.543               | 0.694               | Moirai-MoE, Table 2 |
+| Moirai-Large                     | 0.514               | 0.729               | Moirai-MoE, Table 2 |
+| Moirai-Base                      | 0.520               | 0.736               | Moirai-MoE, Table 2 |
+| Moirai-Small                     | 0.578               | 0.798               | Moirai-MoE, Table 2 |
+| iTransformer (full-shot)         | 0.540               | 0.767               | Moirai-MoE, Table 2 |
+| PatchTST (full-shot)             | 0.549               | 0.808               | Moirai-MoE, Table 2 |
+| Seasonal Naive                   | 1.000               | 1.000               | Moirai-MoE, Table 2 |
 
 ## 7. MOIRAI probabilistic zero-shot CRPS (paper's own table)
 

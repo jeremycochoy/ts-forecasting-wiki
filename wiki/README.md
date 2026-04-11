@@ -30,6 +30,9 @@ field — read these first, in order:
   19 papers side by side, plus cross-paper takeaways.
 - [benchmarks/leaderboard.md](benchmarks/leaderboard.md) — current
   public numbers on the main evaluation suites.
+- [evaluation/README.md](evaluation/README.md) — the methodology
+  layer: metrics, baselines, protocols, and a per-paper summary of
+  what each wiki paper actually evaluated.
 
 The full research corner, including the reproducibility table,
 contributing guide and glossary, is at
@@ -76,6 +79,10 @@ contributing guide and glossary, is at
   [state-of-the-art analysis](benchmarks/state-of-the-art.md) by regime,
   [methodology caveats](benchmarks/methodology-caveats.md), and an
   [efficiency and cost](benchmarks/efficiency-and-cost.md) page.
+- [evaluation/](evaluation/README.md) — the methodology layer: every
+  metric (MASE, CRPS, WQL, MSE, pinball...), seasonal-period and
+  baseline conventions, evaluation protocols, a per-paper summary
+  of what each wiki paper evaluated, and a comparability checklist.
 - [papers/](papers/README.md) — the 19 leaf pages, one per paper.
 
 ## Knowledge-graph sketch

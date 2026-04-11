@@ -21,7 +21,9 @@ sentences each, with cross-links to deeper pages where one exists.
 - **CRPS (Continuous Ranked Probability Score).** A proper scoring rule
   for probabilistic forecasts; lower is better. The de facto standard
   metric for TS-FMs with distributional output. See
-  [../concepts/probabilistic-forecasting.md](../concepts/probabilistic-forecasting.md).
+  [../concepts/probabilistic-forecasting.md](../concepts/probabilistic-forecasting.md)
+  and the full definition in
+  [../evaluation/metrics.md#21-crps--continuous-ranked-probability-score](../evaluation/metrics.md#21-crps--continuous-ranked-probability-score).
 - **Decoder-only.** A transformer trained to predict the next token
   given its left context, without a separate encoder. The GPT
   recipe — and the pattern used by TimesFM, Timer, Time-MoE and
@@ -58,7 +60,8 @@ sentences each, with cross-links to deeper pages where one exists.
 - **Mamba.** A selective state-space model architecture with linear
   scaling in sequence length. The backbone of Mamba4Cast.
 - **MASE (Mean Absolute Scaled Error).** A scale-free point forecast
-  metric; standard on the Monash archive.
+  metric; standard on the Monash archive. Full definition and pitfalls
+  in [../evaluation/metrics.md#17-mase--mean-absolute-scaled-error](../evaluation/metrics.md#17-mase--mean-absolute-scaled-error).
 - **Masked reconstruction.** A pretraining objective in which parts of
   the input are hidden and the model is trained to reconstruct them.
   The MOMENT, MOIRAI and Moirai-MoE objective.
@@ -84,7 +87,8 @@ sentences each, with cross-links to deeper pages where one exists.
   than a single point. See
   [../concepts/probabilistic-forecasting.md](../concepts/probabilistic-forecasting.md).
 - **Quantile loss.** The pinball loss used to train a quantile
-  regression head. Minimized per quantile level.
+  regression head. Minimized per quantile level. Full definition in
+  [../evaluation/metrics.md#22-pinball--quantile-loss](../evaluation/metrics.md#22-pinball--quantile-loss).
 - **RevIN.** Reversible instance normalization: subtract and rescale
   per-instance statistics before the model and reverse after. Used by
   MOMENT. See [../concepts/revin-normalization.md](../concepts/revin-normalization.md).
@@ -119,7 +123,8 @@ sentences each, with cross-links to deeper pages where one exists.
   TOTEM.
 - **WQL (Weighted Quantile Loss).** A weighted version of the
   pinball loss used in probabilistic TS-FM leaderboards, notably by
-  Chronos and Chronos-2.
+  Chronos and Chronos-2. Full definition in
+  [../evaluation/metrics.md#23-wql--weighted-quantile-loss](../evaluation/metrics.md#23-wql--weighted-quantile-loss).
 - **Zero-shot.** Using a pretrained model on a new dataset without any
   fine-tuning at all. See
   [../concepts/zero-shot-forecasting.md](../concepts/zero-shot-forecasting.md).

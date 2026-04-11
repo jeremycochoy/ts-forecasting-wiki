@@ -75,6 +75,15 @@ set of ablations against the canonical recipes above.
 7. [../concepts/scaling-laws.md](../concepts/scaling-laws.md),
    [../concepts/patch-tokenization.md](../concepts/patch-tokenization.md),
    [../concepts/value-quantization.md](../concepts/value-quantization.md).
+8. [../evaluation/metrics.md](../evaluation/metrics.md) and
+   [../evaluation/protocols.md](../evaluation/protocols.md) —
+   **required reading on the intermediate track.** Without the metric
+   definitions (MASE, CRPS, WQL, MSE-on-normalized) and the
+   zero-shot / rolling-origin / context-length protocol conventions,
+   every table in the papers above collapses into undifferentiated
+   numbers. Read these before the advanced track so that the
+   contrarian claims there (Moirai-MoE vs Chronos on Monash, Sundial
+   vs Chronos-2 on GIFT-Eval) are legible.
 
 ## Advanced track — "what are people arguing about?"
 
