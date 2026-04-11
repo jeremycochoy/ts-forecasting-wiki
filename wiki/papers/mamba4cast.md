@@ -48,7 +48,7 @@ Mamba4Cast is the natural counterpart to [time-moe](./time-moe.md) in the effici
 Cite Mamba4Cast as the canonical reference for a Mamba/SSM backbone in zero-shot time-series forecasting, for the combination of PFN-style synthetic pretraining with state-space models, and as the primary efficiency data point for long-horizon inference cost relative to autoregressive transformer TS-FMs.
 
 ## In the knowledge graph
-- **Cluster:** [Lightweight / non-transformer FMs](../foundation-models/taxonomy.md#cluster-5-lightweight--non-transformer-fms)
+- **Cluster:** [Lightweight / non-transformer FMs](../foundation-models/taxonomy.md#cluster-5--lightweight--non-transformer-fms)
 - **Architecture family:** [Lightweight non-transformer](../architectures/lightweight-non-transformer.md)
 - **Related concepts:** [synthetic data augmentation](../concepts/synthetic-data-augmentation.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md), [in-context learning](../concepts/in-context-learning.md)
 - **See also:** [ttm](./ttm.md), [timesfm](./timesfm.md), [time-moe](./time-moe.md), [lag-llama](./lag-llama.md), [chronos](./chronos.md)

@@ -36,6 +36,32 @@ at the current wave of time-series foundation models (TS-FMs).
 - [wiki/papers/papers.md](wiki/papers/papers.md) — index of the paper
   leaves, with one short page per paper.
 
+## Section hubs
+
+Every wiki section has a folder-note hub named after the section itself.
+The full set, in reading order:
+
+- [wiki/foundations/foundations.md](wiki/foundations/foundations.md) — classical and
+  deep-learning precursors to TS-FMs.
+- [wiki/foundation-models/foundation-models.md](wiki/foundation-models/foundation-models.md) —
+  the TS-FM paradigm, its brief history, and the canonical seven-cluster
+  taxonomy.
+- [wiki/architectures/architectures.md](wiki/architectures/architectures.md) — the
+  architecture-family pages (decoder-only, masked encoder, encoder-decoder,
+  MoE, LLM reprogramming, lightweight, flow matching).
+- [wiki/concepts/concepts.md](wiki/concepts/concepts.md) — cross-cutting
+  technical ideas shared across papers.
+- [wiki/datasets-benchmarks/datasets-benchmarks.md](wiki/datasets-benchmarks/datasets-benchmarks.md) —
+  pretraining corpora and shared evaluation suites.
+- [wiki/benchmarks/benchmarks.md](wiki/benchmarks/benchmarks.md) — head-to-head
+  performance tables and practical guides.
+- [wiki/evaluation/evaluation.md](wiki/evaluation/evaluation.md) — metrics,
+  protocols, baselines, and the per-paper methodology summary.
+- [wiki/research/research.md](wiki/research/research.md) — the research
+  corner: reading roadmap, open problems, comparison matrix,
+  reproducibility table, contributing guide, glossary.
+- [wiki/papers/papers.md](wiki/papers/papers.md) — the 20 paper leaves.
+
 ## Scope (as of 2026-04)
 
 Version 0 of the wiki covers 20 foundation-model papers published between

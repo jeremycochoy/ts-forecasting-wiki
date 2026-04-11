@@ -70,3 +70,4 @@ Sparse MoE scaling is trickier than dense. Load-balancing losses and router choi
 - [Decoder-only autoregressive](../architectures/decoder-only-autoregressive.md)
 - [Mixture-of-experts](../architectures/mixture-of-experts.md)
 - [Flow-matching continuous](../architectures/flow-matching-continuous.md)
+- [Training recipes](../research/training-recipes.md) — the disclosed optimizer / LR / step / hardware values behind each scaling-curve point.

@@ -49,7 +49,7 @@ TimeGPT is the commercial anchor of the TS foundation model wave; it predates an
 Cite TimeGPT as the canonical reference for the first commercially-deployed time-series foundation model delivered as an API, for the "foundation model + conformal prediction" uncertainty recipe, and for popularizing the TS-FM framing to industry. For any claim about model architecture, training corpus, or reproducible scaling behavior, prefer an open paper such as [chronos](./chronos.md), [timesfm](./timesfm.md), [moirai](./moirai.md), or [lag-llama](./lag-llama.md).
 
 ## In the knowledge graph
-- **Cluster:** [Masked-encoder / encoder-decoder TS-FMs](../foundation-models/taxonomy.md#cluster-2-masked-encoder--encoder-decoder-ts-fms)
+- **Cluster:** [Masked-encoder / encoder-decoder TS-FMs](../foundation-models/taxonomy.md#cluster-2--masked-encoder--encoder-decoder-ts-fms)
 - **Architecture family:** [Encoder-decoder T5](../architectures/encoder-decoder-t5.md)
 - **Related concepts:** [zero-shot forecasting](../concepts/zero-shot-forecasting.md), [probabilistic forecasting](../concepts/probabilistic-forecasting.md)
 - **See also:** [chronos](./chronos.md), [moirai](./moirai.md), [timesfm](./timesfm.md)

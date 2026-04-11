@@ -29,5 +29,5 @@ LOTSA's main contribution relative to older TS corpora is scale-per-domain: earl
 - [GIFT-Eval](gift-eval.md)
 - [../benchmarks/training-a-small-model.md](../benchmarks/training-a-small-model.md)
   — see this page for how to use LOTSA as a default pretraining
-  corpus for a small TS-FM, including the Timer-S1 curation pipeline
+  corpus for a small TS-FM, including the [Timer-S1](../papers/timer-s1.md) curation pipeline
   to apply on top of it.

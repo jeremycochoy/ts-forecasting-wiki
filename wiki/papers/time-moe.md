@@ -40,14 +40,14 @@ TTM explicitly frames itself against Time-MoE: if a 1-5M-parameter TSMixer can m
 - **Open weights:** yes — the paper states Time-MoE models and the Time-300B corpus are open-sourced; hub location referenced in paper but URL not extracted.
 - **Code:** public repo stated as `https://github.com/Time-MoE/Time-MoE`.
 - **Training data:** Time-300B is released alongside the paper; it is a cleaned aggregation of public TS corpora.
-- **Compute to retrain:** each model trained for 100,000 steps at batch size 1024 and max sequence length 4096, consuming ~4M time points per iteration; exact GPU-hours are not disclosed in the main text.
+- **Compute to retrain:** each model trained for 100,000 steps at batch size 1024 and maximum sequence length 4096 (~4M time points per iteration). Optimizer is AdamW with peak learning rate 1e-3, weight decay 0.1, `β1=0.9`, `β2=0.95`, auxiliary load-balancing loss coefficient 0.02, linear warmup for 10,000 steps then cosine annealing. Training runs on 128x NVIDIA A100 80GB GPUs with BF16 precision and multi-resolution output heads for horizons `{1, 8, 32, 64}` (Time-MoE, Appendix B). Wall-clock time and total GPU-hours are not disclosed. See [../research/training-recipes.md](../research/training-recipes.md).
 - **Deployment footprint:** three variants (base 50M activated / 113M total, large 200M / 453M, ultra 1.1B / 2.4B); context length 4096; ultra runs inference within 8 GB VRAM and base/large are positioned for CPU inference.
 
 ## When to cite this paper
 Cite Time-MoE as the canonical reference for (i) the first billion-parameter TS foundation model, (ii) evidence that neural scaling laws transfer to time series when capacity is added sparsely, and (iii) the Time-300B pretraining corpus. It is the natural opposing data point to TTM in any efficiency-versus-capacity discussion.
 
 ## In the knowledge graph
-- **Cluster:** [Mixture-of-experts TS-FMs](../foundation-models/taxonomy.md#cluster-3-mixture-of-experts-ts-fms)
+- **Cluster:** [Mixture-of-experts TS-FMs](../foundation-models/taxonomy.md#cluster-3--mixture-of-experts-ts-fms)
 - **Architecture family:** [Mixture of experts](../architectures/mixture-of-experts.md)
 - **Related concepts:** [scaling laws](../concepts/scaling-laws.md), [patch tokenization](../concepts/patch-tokenization.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md)
 - **Dataset / corpus:** [Time-300B](../datasets-benchmarks/time-300b.md)

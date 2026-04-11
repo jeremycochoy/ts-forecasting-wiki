@@ -47,7 +47,7 @@ TOTEM and [Chronos](./chronos.md) are the two canonical answers to "how to discr
 Cite TOTEM as the canonical reference for a learned VQ-VAE codebook as the tokeniser of a TS foundation model, for the systematic specialist-versus-generalist comparison at scale, and as the direct point of comparison to Chronos whenever the question is learned versus uniform discretisation.
 
 ## In the knowledge graph
-- **Cluster:** [Multi-task / universal unified TS models](../foundation-models/taxonomy.md#cluster-6-multi-task--universal-unified-ts-models)
+- **Cluster:** [Multi-task / universal unified TS models](../foundation-models/taxonomy.md#cluster-6--multi-task--universal-unified-ts-models)
 - **Architecture family:** [Masked encoder](../architectures/masked-encoder.md)
 - **Related concepts:** [value quantization](../concepts/value-quantization.md), [patch tokenization](../concepts/patch-tokenization.md), [multi-task universal](../concepts/multi-task-universal.md), [revin normalization](../concepts/revin-normalization.md)
 - **See also:** [chronos](./chronos.md), [units](./units.md), [moment](./moment.md), [llmtime](./llmtime.md), [sundial](./sundial.md)

@@ -79,7 +79,7 @@ head options, and the parameter-count brackets that define "small."
   [../papers/moirai.md](../papers/moirai.md) and
   [../papers/moirai-moe.md](../papers/moirai-moe.md).
 - **MOMENT** — for multi-task work (forecast + classify + anomaly +
-  impute from the same encoder). The released Time Series Pile is an
+  impute from the same encoder). The released [Time Series Pile](../datasets-benchmarks/time-series-pile.md) is an
   independent bonus. See [../papers/moment.md](../papers/moment.md).
 - **Time-MoE** — if you specifically want to study billion-parameter
   sparse MoE on TS. It is the only credible open artifact at that

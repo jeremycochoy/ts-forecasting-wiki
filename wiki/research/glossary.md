@@ -128,6 +128,65 @@ sentences each, with cross-links to deeper pages where one exists.
 - **Zero-shot.** Using a pretrained model on a new dataset without any
   fine-tuning at all. See
   [../concepts/zero-shot-forecasting.md](../concepts/zero-shot-forecasting.md).
+- **BF16 / bfloat16.** 16-bit brain floating point. Used by Time-MoE,
+  Moirai-MoE and Timer-S1 for training at billion-parameter scale;
+  every other TS-FM in the wiki that discloses precision uses FP32.
+- **Channel independence.** Treating a `C`-channel multivariate
+  series as `C` univariate series sharing the same model weights.
+  Standard in PatchTST, MOMENT and TTM pretraining; gives up
+  cross-variate information in exchange for simplicity.
+- **Exposure bias.** The gap between teacher-forced training inputs
+  and rolled-out model-generated inputs at inference, which causes
+  autoregressive decoders to drift at long horizons. TimesFM's
+  `P_out > P_in` trick and Timer-S1's Serial-Token Prediction are
+  different mitigations.
+- **fev-bench.** A 98-task benchmark (32 univariate / 26 multivariate
+  / 42 covariate) introduced by Shchur et al. 2025 and featured in
+  [Chronos-2](../papers/chronos-2.md); the first TS-FM benchmark to
+  stress covariate-informed forecasting at scale.
+- **Group attention.** The attention pattern in Chronos-2 that lets
+  tokens at the same timestamp across series in a panel exchange
+  information while preserving temporal causality within each
+  series; memory is `O(V)` in the number of variates rather than
+  `O(V^2)`. See
+  [../concepts/in-context-learning.md](../concepts/in-context-learning.md).
+- **Huber loss.** A robust regression loss that is quadratic near
+  zero and linear in the tails; Time-MoE uses it as the
+  point-regression objective to tolerate outliers in Time-300B.
+- **Leakage.** A pretraining corpus containing datasets used for
+  downstream evaluation, which invalidates zero-shot claims. Flagged
+  explicitly by Moirai-MoE (Figure 3 asterisks) and by Chronos-2.
+- **NLL (Negative log-likelihood).** The training objective for
+  parametric probabilistic heads (Student-t, Gaussian, mixture); the
+  probabilistic analog of MSE.
+- **Pinball loss.** The quantile regression loss used to train
+  quantile heads such as Chronos-2's 9-quantile decoder and
+  Timer-S1's. See
+  [../evaluation/metrics.md#22-pinball--quantile-loss](../evaluation/metrics.md#22-pinball--quantile-loss).
+- **QK-Norm.** Per-head normalization of query and key vectors
+  before the attention softmax. Used by Timer-S1 for stability at
+  billion-parameter scale.
+- **RoPE (Rotary Position Embedding).** A position-encoding scheme
+  that rotates query and key vectors by angles proportional to their
+  positions. Used by Sundial and Timer-S1; routinely absent from
+  earlier TS-FMs.
+- **Serial-Token Prediction (STP).** Timer-S1's training objective:
+  a stack of shift-by-one prediction heads trained in parallel,
+  each attending to the original lookback plus the previous block's
+  hidden state. Replaces rolling next-token inference for multi-
+  horizon outputs.
+- **Skill score.** A normalized improvement metric,
+  `1 - metric(model) / metric(baseline)` or a geometric-mean variant.
+  GIFT-Eval and fev-bench report skill scores under WQL, MASE and
+  SQL. Higher is better.
+- **SQL (Scaled Quantile Loss).** The quantile-loss family used as
+  fev-bench's probabilistic headline metric (Chronos-2, Table 3).
+- **TiRex, TimesFM-2.5, Toto, Moirai-2.0.** 2025 successors or
+  competitors that appear in Chronos-2's GIFT-Eval and fev-bench
+  tables but do not yet have individual paper leaves in this wiki.
+  They are present in the
+  [leaderboard](../benchmarks/leaderboard.md) rows for
+  comparability.
 
 ## Related wiki pages
 

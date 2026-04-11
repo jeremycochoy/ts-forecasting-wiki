@@ -49,7 +49,7 @@ Timer-S1 is the direct successor to [timer](./timer.md), [timer-xl](./timer-xl.m
 Cite Timer-S1 (a) as the canonical reference for Serial-Token Prediction as an alternative to rolling next-token decoding in TS foundation models, (b) as the authoritative description of the TimeBench curation and augmentation pipeline (Sundial introduced the name; Timer-S1 documents how it is actually built), (c) for state-of-the-art pre-trained-model results on GIFT-Eval as of 2026, and (d) whenever the discussion concerns scaling TS-FMs to ~10B parameters with sparse MoE.
 
 ## In the knowledge graph
-- **Cluster:** [Decoder-only autoregressive TS-FMs](../foundation-models/taxonomy.md#cluster-1-decoder-only-autoregressive-ts-fms) with strong secondary membership in [Mixture-of-experts TS-FMs](../foundation-models/taxonomy.md#cluster-3-mixture-of-experts-ts-fms)
+- **Cluster:** [Decoder-only autoregressive TS-FMs](../foundation-models/taxonomy.md#cluster-1--decoder-only-autoregressive-ts-fms) with strong secondary membership in [Mixture-of-experts TS-FMs](../foundation-models/taxonomy.md#cluster-3--mixture-of-experts-ts-fms)
 - **Architecture family:** [Decoder-only autoregressive](../architectures/decoder-only-autoregressive.md), [Mixture-of-experts](../architectures/mixture-of-experts.md)
 - **Related concepts:** [patch tokenization](../concepts/patch-tokenization.md), [scaling laws](../concepts/scaling-laws.md), [synthetic data augmentation](../concepts/synthetic-data-augmentation.md), [probabilistic forecasting](../concepts/probabilistic-forecasting.md)
 - **Dataset / corpus:** [TimeBench](../datasets-benchmarks/timebench.md), [GIFT-Eval](../datasets-benchmarks/gift-eval.md)

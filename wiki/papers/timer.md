@@ -49,7 +49,7 @@ Timer is one of the clearest demonstrations that the LLM recipe — a large deco
 Cite Timer as the canonical reference for the Single-Series Sequence (S3) format and UTSD, and for the first clear demonstration that GPT-style next-token pretraining on a channel-independent univariate formulation yields a unified backbone usable across forecasting, imputation, and anomaly detection with strong few-shot behavior. For multivariate or probabilistic claims, prefer a successor such as [timer-xl](./timer-xl.md), [chronos](./chronos.md), or [sundial](./sundial.md).
 
 ## In the knowledge graph
-- **Cluster:** [Decoder-only autoregressive TS-FMs](../foundation-models/taxonomy.md#cluster-1-decoder-only-autoregressive-ts-fms)
+- **Cluster:** [Decoder-only autoregressive TS-FMs](../foundation-models/taxonomy.md#cluster-1--decoder-only-autoregressive-ts-fms)
 - **Architecture family:** [Decoder-only autoregressive](../architectures/decoder-only-autoregressive.md)
 - **Related concepts:** [patch tokenization](../concepts/patch-tokenization.md), [multi-task universal](../concepts/multi-task-universal.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md), [in-context learning](../concepts/in-context-learning.md)
 - **See also:** [timer-xl](./timer-xl.md), [timesfm](./timesfm.md), [time-moe](./time-moe.md)

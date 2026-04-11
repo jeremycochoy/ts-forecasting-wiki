@@ -48,7 +48,7 @@ LLMTime provided a provocative zero-shot baseline showing that language models t
 Cite LLMTime as the canonical reference for zero-shot time-series forecasting with an unmodified text LLM, for the digit-tokenisation-plus-change-of-variables recipe that converts next-token distributions into continuous densities, and for the specific observation that alignment/RLHF and BPE tokenisers degrade numerical forecasting.
 
 ## In the knowledge graph
-- **Cluster:** [LLM-adapted / reprogramming approaches](../foundation-models/taxonomy.md#cluster-4-llm-adapted--reprogramming-approaches)
+- **Cluster:** [LLM-adapted / reprogramming approaches](../foundation-models/taxonomy.md#cluster-4--llm-adapted--reprogramming-approaches)
 - **Architecture family:** [LLM reprogramming](../architectures/llm-reprogramming.md)
 - **Related concepts:** [value quantization](../concepts/value-quantization.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md), [probabilistic forecasting](../concepts/probabilistic-forecasting.md), [in-context learning](../concepts/in-context-learning.md)
 - **See also:** [time-llm](./time-llm.md), [gpt4ts](./gpt4ts.md), [chronos](./chronos.md), [sundial](./sundial.md)

@@ -49,7 +49,7 @@ TTM is the direct counterweight to [time-moe](./time-moe.md): billion-parameter 
 Cite TTM as the canonical reference for a sub-10M-parameter TS foundation model that matches much larger transformer-based models on zero/few-shot multivariate forecasting, and as the primary evidence that TS-specific inductive bias (adaptive patching, diverse resolution sampling, channel mixing) substitutes for raw scale. It is the obligatory baseline for any efficiency-versus-capacity claim.
 
 ## In the knowledge graph
-- **Cluster:** [Lightweight / non-transformer FMs](../foundation-models/taxonomy.md#cluster-5-lightweight--non-transformer-fms)
+- **Cluster:** [Lightweight / non-transformer FMs](../foundation-models/taxonomy.md#cluster-5--lightweight--non-transformer-fms)
 - **Architecture family:** [Lightweight non-transformer](../architectures/lightweight-non-transformer.md)
 - **Related concepts:** [patch tokenization](../concepts/patch-tokenization.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md), [multi-task universal](../concepts/multi-task-universal.md), [revin normalization](../concepts/revin-normalization.md)
 - **See also:** [mamba4cast](./mamba4cast.md), [moirai](./moirai.md), [time-moe](./time-moe.md), [chronos](./chronos.md)

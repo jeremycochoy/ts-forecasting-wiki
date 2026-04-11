@@ -29,37 +29,37 @@ This directory is the leaf layer of the wiki; each page summarizes one research 
 
 ## Grouped by cluster
 
-### [Cluster 1 — Decoder-only autoregressive TS-FMs](../foundation-models/taxonomy.md#cluster-1-decoder-only-autoregressive-ts-fms)
+### [Cluster 1 — Decoder-only autoregressive TS-FMs](../foundation-models/taxonomy.md#cluster-1--decoder-only-autoregressive-ts-fms)
 - [TimesFM](./timesfm.md)
 - [Timer](./timer.md)
 - [Timer-XL](./timer-xl.md)
 - [Timer-S1](./timer-s1.md)
 - [Lag-Llama](./lag-llama.md)
 
-### [Cluster 2 — Masked-encoder / encoder-decoder TS-FMs](../foundation-models/taxonomy.md#cluster-2-masked-encoder--encoder-decoder-ts-fms)
+### [Cluster 2 — Masked-encoder / encoder-decoder TS-FMs](../foundation-models/taxonomy.md#cluster-2--masked-encoder--encoder-decoder-ts-fms)
 - [Chronos](./chronos.md)
 - [Chronos-2](./chronos-2.md)
 - [MOMENT](./moment.md)
 - [MOIRAI](./moirai.md)
 - [TimeGPT-1](./timegpt.md)
 
-### [Cluster 3 — Mixture-of-experts TS-FMs](../foundation-models/taxonomy.md#cluster-3-mixture-of-experts-ts-fms)
+### [Cluster 3 — Mixture-of-experts TS-FMs](../foundation-models/taxonomy.md#cluster-3--mixture-of-experts-ts-fms)
 - [Moirai-MoE](./moirai-moe.md)
 - [Time-MoE](./time-moe.md)
 - Secondary: [Timer-S1](./timer-s1.md)
 
-### [Cluster 4 — LLM-adapted / reprogramming approaches](../foundation-models/taxonomy.md#cluster-4-llm-adapted--reprogramming-approaches)
+### [Cluster 4 — LLM-adapted / reprogramming approaches](../foundation-models/taxonomy.md#cluster-4--llm-adapted--reprogramming-approaches)
 - [Time-LLM](./time-llm.md)
 - [GPT4TS / OFA](./gpt4ts.md)
 - [LLMTime](./llmtime.md)
 
-### [Cluster 5 — Lightweight / non-transformer FMs](../foundation-models/taxonomy.md#cluster-5-lightweight--non-transformer-fms)
+### [Cluster 5 — Lightweight / non-transformer FMs](../foundation-models/taxonomy.md#cluster-5--lightweight--non-transformer-fms)
 - [Tiny Time Mixers](./ttm.md)
 - [Mamba4Cast](./mamba4cast.md)
 
-### [Cluster 6 — Multi-task / universal unified TS models](../foundation-models/taxonomy.md#cluster-6-multi-task--universal-unified-ts-models)
+### [Cluster 6 — Multi-task / universal unified TS models](../foundation-models/taxonomy.md#cluster-6--multi-task--universal-unified-ts-models)
 - [UniTS](./units.md)
 - [TOTEM](./totem.md)
 
-### [Cluster 7 — Continuous / flow-matching FMs](../foundation-models/taxonomy.md#cluster-7-continuous--flow-matching-fms)
+### [Cluster 7 — Continuous / flow-matching FMs](../foundation-models/taxonomy.md#cluster-7--continuous--flow-matching-fms)
 - [Sundial](./sundial.md)

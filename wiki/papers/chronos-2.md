@@ -48,7 +48,7 @@ Chronos-2 is the direct response to univariate limitations of [chronos](./chrono
 Cite Chronos-2 as the canonical reference for group attention as a mechanism for in-context multivariate and covariate-informed forecasting in a pretrained TS model, and for the "multivariatizer" class of synthetic data augmentation. It is also the right citation for the first clear demonstration that a single pretrained model can match or beat univariate foundation models on covariate-informed fev-bench tasks without fine-tuning.
 
 ## In the knowledge graph
-- **Cluster:** [Masked-encoder / encoder-decoder TS-FMs](../foundation-models/taxonomy.md#cluster-2-masked-encoder--encoder-decoder-ts-fms)
+- **Cluster:** [Masked-encoder / encoder-decoder TS-FMs](../foundation-models/taxonomy.md#cluster-2--masked-encoder--encoder-decoder-ts-fms)
 - **Architecture family:** [Masked encoder](../architectures/masked-encoder.md)
 - **Related concepts:** [patch tokenization](../concepts/patch-tokenization.md), [in-context learning](../concepts/in-context-learning.md), [probabilistic forecasting](../concepts/probabilistic-forecasting.md), [multi-task universal](../concepts/multi-task-universal.md)
 - **Dataset / corpus:** [GIFT-Eval](../datasets-benchmarks/gift-eval.md)

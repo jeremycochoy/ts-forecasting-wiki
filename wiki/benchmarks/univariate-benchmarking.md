@@ -211,7 +211,7 @@ also be defensible:
   Chronos-2 protocol. Resample series indices within each dataset.
 - **Friedman + Nemenyi** critical-difference diagrams across
   datasets — the convention inherited from the Monash competition
-  and used by Mamba4Cast.
+  and used by [Mamba4Cast](../papers/mamba4cast.md).
 - **Diebold–Mariano** pairwise tests when you make a specific
   same-dataset claim like "mine beats Chronos-Base on Australian
   electricity." This is the right test for one model-pair on one

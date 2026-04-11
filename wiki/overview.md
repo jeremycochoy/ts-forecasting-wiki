@@ -49,6 +49,17 @@ field — read these first, in order:
   — *"I want to train my own TS-FM."* Practical recommendation for
   which corpus to pretrain on, which small TS-FMs set the competitive
   ceiling, and the 2026 data-curation recipe.
+- [benchmarks/decision-guide.md](benchmarks/decision-guide.md) —
+  *"I have to ship something on Monday."* The 1–3-model
+  recommendation for each axis (univariate vs multivariate, point
+  vs probabilistic, CPU vs big GPU, short vs long horizon).
+- [research/timeline.md](research/timeline.md) — *"Who did what,
+  when?"* Chronological walk through the 20 papers, 2023 to 2026,
+  with the signature contribution of each.
+- [research/training-recipes.md](research/training-recipes.md) and
+  [research/failure-modes.md](research/failure-modes.md) — the
+  consolidated training hyperparameters and documented weaknesses
+  across the 20 papers, one table each.
 
 The full research corner, including the reproducibility table,
 contributing guide and glossary, is at

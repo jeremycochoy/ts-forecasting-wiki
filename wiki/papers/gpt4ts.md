@@ -46,7 +46,7 @@ GPT4TS and [Time-LLM](./time-llm.md) are the two canonical LLM-adaptation strate
 Cite GPT4TS as the canonical reference for the frozen-LLM-as-TS-backbone recipe (fine-tune only LayerNorm and positional embeddings), for the PCA-style interpretation of frozen self-attention, and as the baseline that every subsequent LLM-for-TS and TS-native foundation model compares against.
 
 ## In the knowledge graph
-- **Cluster:** [LLM-adapted / reprogramming approaches](../foundation-models/taxonomy.md#cluster-4-llm-adapted--reprogramming-approaches)
+- **Cluster:** [LLM-adapted / reprogramming approaches](../foundation-models/taxonomy.md#cluster-4--llm-adapted--reprogramming-approaches)
 - **Architecture family:** [LLM reprogramming](../architectures/llm-reprogramming.md)
 - **Related concepts:** [patch tokenization](../concepts/patch-tokenization.md), [multi-task universal](../concepts/multi-task-universal.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md), [revin normalization](../concepts/revin-normalization.md)
 - **See also:** [time-llm](./time-llm.md), [llmtime](./llmtime.md), [ttm](./ttm.md), [chronos](./chronos.md)

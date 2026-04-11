@@ -49,7 +49,7 @@ Lag-Llama sits in the decoder-only probabilistic line together with [timesfm](./
 Cite Lag-Llama as the canonical reference for frequency-agnostic lag-feature tokenization plus a Student-t output head in a decoder-only probabilistic TS foundation model. It is also the right citation for the first open, reproducible pretrained probabilistic forecaster on a small multi-domain corpus, and for early TS-specific scaling-law evidence on the data axis. For larger-scale or multivariate claims, prefer [chronos](./chronos.md), [moirai](./moirai.md), or [chronos-2](./chronos-2.md).
 
 ## In the knowledge graph
-- **Cluster:** [Decoder-only autoregressive TS-FMs](../foundation-models/taxonomy.md#cluster-1-decoder-only-autoregressive-ts-fms)
+- **Cluster:** [Decoder-only autoregressive TS-FMs](../foundation-models/taxonomy.md#cluster-1--decoder-only-autoregressive-ts-fms)
 - **Architecture family:** [Decoder-only autoregressive](../architectures/decoder-only-autoregressive.md)
 - **Related concepts:** [probabilistic forecasting](../concepts/probabilistic-forecasting.md), [scaling laws](../concepts/scaling-laws.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md)
 - **See also:** [timesfm](./timesfm.md), [timer](./timer.md), [time-moe](./time-moe.md)

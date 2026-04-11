@@ -46,7 +46,7 @@ TimesFM established the "decoder-only + patched + synthetic-augmented" recipe th
 Cite TimesFM as the canonical reference for the decoder-only patched TS foundation model and for the specific trick of making the output patch longer than the input patch to reduce autoregressive steps. It is also the right citation for the first clear zero-shot parity claim against supervised specialists on Monash/Darts/ETT; later papers should be preferred for probabilistic or multivariate claims.
 
 ## In the knowledge graph
-- **Cluster:** [Decoder-only autoregressive TS-FMs](../foundation-models/taxonomy.md#cluster-1-decoder-only-autoregressive-ts-fms)
+- **Cluster:** [Decoder-only autoregressive TS-FMs](../foundation-models/taxonomy.md#cluster-1--decoder-only-autoregressive-ts-fms)
 - **Architecture family:** [Decoder-only autoregressive](../architectures/decoder-only-autoregressive.md)
 - **Related concepts:** [patch tokenization](../concepts/patch-tokenization.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md), [scaling laws](../concepts/scaling-laws.md), [synthetic data augmentation](../concepts/synthetic-data-augmentation.md)
 - **See also:** [timer](./timer.md), [lag-llama](./lag-llama.md), [time-moe](./time-moe.md)

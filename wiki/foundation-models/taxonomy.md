@@ -51,8 +51,8 @@ Primary architecture page:
 - [../papers/timer-xl.md](../papers/timer-xl.md) — Timer's long-context,
   multivariate successor; doubles as a Cluster-6 unified model.
 - [../papers/timer-s1.md](../papers/timer-s1.md) — 8.3B sparse-MoE
-  decoder with Serial-Token Prediction, trained on TimeBench; state of
-  the art on GIFT-Eval among pre-trained models. Doubles as a Cluster-3
+  decoder with Serial-Token Prediction, trained on [TimeBench](../datasets-benchmarks/timebench.md); state of
+  the art on [GIFT-Eval](../datasets-benchmarks/gift-eval.md) among pre-trained models. Doubles as a Cluster-3
   MoE member.
 - [../papers/lag-llama.md](../papers/lag-llama.md) — a small
   Llama-style architecture that explicitly feeds lag features as

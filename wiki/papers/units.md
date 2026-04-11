@@ -48,7 +48,7 @@ UniTS and [MOMENT](./moment.md) are the two canonical approaches to multi-task T
 Cite UniTS as the canonical reference for the task-token multi-task recipe in time series — a single shared backbone steered by learnable GEN/CLS tokens that handles forecasting, classification, anomaly detection, and imputation with one set of weights. It is the natural counterpart to MOMENT whenever the question is how to unify predictive and generative TS tasks.
 
 ## In the knowledge graph
-- **Cluster:** [Multi-task / universal unified TS models](../foundation-models/taxonomy.md#cluster-6-multi-task--universal-unified-ts-models)
+- **Cluster:** [Multi-task / universal unified TS models](../foundation-models/taxonomy.md#cluster-6--multi-task--universal-unified-ts-models)
 - **Architecture family:** [Masked encoder](../architectures/masked-encoder.md)
 - **Related concepts:** [multi-task universal](../concepts/multi-task-universal.md), [patch tokenization](../concepts/patch-tokenization.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md)
 - **See also:** [moment](./moment.md), [totem](./totem.md), [timer](./timer.md), [chronos](./chronos.md)

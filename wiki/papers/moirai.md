@@ -41,14 +41,14 @@ MOIRAI was one of the first TS foundation models to fully commit to open, large-
 - **Open weights:** yes — `Salesforce/moirai-1.0-R-small`, `-base`, `-large` on HuggingFace.
 - **Code:** public at `SalesforceAIResearch/uni2ts`.
 - **Training data:** fully public — LOTSA is released on HuggingFace with per-dataset licenses documented.
-- **Compute to retrain:** not disclosed in the extracted sections; exact GPU-hours, FLOPs, and token count are not reported in the main text.
+- **Compute to retrain:** AdamW with peak learning rate 1e-3, weight decay 0.1, `β1=0.9`, `β2=0.98`, linear warmup of 10,000 steps followed by cosine annealing. MOIRAI-Small is trained for 100K steps; Base and Large for 1M steps; nominal batch size 256 with effective batch size increased via sequence packing, on NVIDIA A100 40GB GPUs (MOIRAI, Appendix). Exact GPU count and wall-clock are not reported. See [../research/training-recipes.md](../research/training-recipes.md).
 - **Deployment footprint:** 14M / 91M / 311M parameters; context and prediction lengths sampled during training so downstream length is flexible; inference demonstrated on standard GPUs.
 
 ## When to cite this paper
 Cite MOIRAI as the canonical reference for LOTSA and for the "any-variate attention + multi-patch-size + flexible mixture output" recipe of a universal masked-encoder TS foundation model. It is also the right citation for the first clear demonstration that a single open encoder can handle arbitrary frequency, arbitrary number of variates, and flexible probabilistic output without task-specific fine-tuning.
 
 ## In the knowledge graph
-- **Cluster:** [Masked-encoder / encoder-decoder TS-FMs](../foundation-models/taxonomy.md#cluster-2-masked-encoder--encoder-decoder-ts-fms)
+- **Cluster:** [Masked-encoder / encoder-decoder TS-FMs](../foundation-models/taxonomy.md#cluster-2--masked-encoder--encoder-decoder-ts-fms)
 - **Architecture family:** [Masked encoder](../architectures/masked-encoder.md)
 - **Related concepts:** [patch tokenization](../concepts/patch-tokenization.md), [probabilistic forecasting](../concepts/probabilistic-forecasting.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md), [multi-task universal](../concepts/multi-task-universal.md)
 - **Dataset / corpus:** [LOTSA](../datasets-benchmarks/lotsa.md)

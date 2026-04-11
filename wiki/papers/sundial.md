@@ -49,7 +49,7 @@ Sundial directly positions itself against [time-moe](./time-moe.md) (parametric 
 Cite Sundial as the canonical reference for flow-matching as a generative objective for TS foundation models, for the argument that continuous tokenisation and non-parametric probabilistic heads beat both MSE regression and discrete categorical decoding, and for the TimeBench trillion-point pretraining corpus. It is the obligatory citation whenever the discussion is about probabilistic TS foundation models beyond quantile regression.
 
 ## In the knowledge graph
-- **Cluster:** [Continuous / flow-matching FMs](../foundation-models/taxonomy.md#cluster-7-continuous--flow-matching-fms)
+- **Cluster:** [Continuous / flow-matching FMs](../foundation-models/taxonomy.md#cluster-7--continuous--flow-matching-fms)
 - **Architecture family:** [Flow matching continuous](../architectures/flow-matching-continuous.md)
 - **Related concepts:** [probabilistic forecasting](../concepts/probabilistic-forecasting.md), [patch tokenization](../concepts/patch-tokenization.md), [scaling laws](../concepts/scaling-laws.md)
 - **Dataset / corpus:** [TimeBench](../datasets-benchmarks/timebench.md)

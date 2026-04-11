@@ -46,7 +46,7 @@ Time-LLM and [GPT4TS](./gpt4ts.md) are the two canonical LLM-adaptation strategi
 Cite Time-LLM as the canonical reference for LLM reprogramming via a cross-attention bridge into text-prototype space and for Prompt-as-Prefix as a way to inject textual side information into a forecasting model. It is the natural counterpart to GPT4TS whenever the discussion is about how much of the LLM to touch.
 
 ## In the knowledge graph
-- **Cluster:** [LLM-adapted / reprogramming approaches](../foundation-models/taxonomy.md#cluster-4-llm-adapted--reprogramming-approaches)
+- **Cluster:** [LLM-adapted / reprogramming approaches](../foundation-models/taxonomy.md#cluster-4--llm-adapted--reprogramming-approaches)
 - **Architecture family:** [LLM reprogramming](../architectures/llm-reprogramming.md)
 - **Related concepts:** [patch tokenization](../concepts/patch-tokenization.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md), [in-context learning](../concepts/in-context-learning.md), [revin normalization](../concepts/revin-normalization.md)
 - **See also:** [gpt4ts](./gpt4ts.md), [llmtime](./llmtime.md), [chronos](./chronos.md), [time-moe](./time-moe.md)

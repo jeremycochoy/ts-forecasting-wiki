@@ -49,7 +49,7 @@ Timer-XL is the explicit multivariate successor to [timer](./timer.md), citing c
 Cite Timer-XL as the canonical reference for multivariate next-token prediction via a Kronecker-structured causal TimeAttention, and for the demonstration that decoder-only long-context pretraining is a viable route to unified univariate / multivariate / covariate-informed forecasting. It is also the right citation for the specific claim that encoder-only multivariate transformers degrade at long context while causal decoder-only transformers do not.
 
 ## In the knowledge graph
-- **Cluster:** [Decoder-only autoregressive TS-FMs](../foundation-models/taxonomy.md#cluster-1-decoder-only-autoregressive-ts-fms)
+- **Cluster:** [Decoder-only autoregressive TS-FMs](../foundation-models/taxonomy.md#cluster-1--decoder-only-autoregressive-ts-fms)
 - **Architecture family:** [Decoder-only autoregressive](../architectures/decoder-only-autoregressive.md)
 - **Related concepts:** [patch tokenization](../concepts/patch-tokenization.md), [multi-task universal](../concepts/multi-task-universal.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md)
 - **See also:** [timer](./timer.md), [chronos-2](./chronos-2.md), [sundial](./sundial.md)

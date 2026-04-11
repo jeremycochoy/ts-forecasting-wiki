@@ -31,14 +31,17 @@ rather than forcing a false ranking.
   want to pick the right suite to compare against 2024–2026 TS-FM
   SOTA.
 - [training-a-small-model.md](training-a-small-model.md) — the
-  training-side companion: which corpus to pretrain on (LOTSA by
+  training-side companion: which corpus to pretrain on ([LOTSA](../datasets-benchmarks/lotsa.md) by
   default), which small TS-FMs set the "ceiling of the smallest"
-  bracket, and the 2026 data-curation recipe from Timer-S1.
+  bracket, and the 2026 data-curation recipe from [Timer-S1](../papers/timer-s1.md).
 - [model-sizing-cheatsheet.md](model-sizing-cheatsheet.md) — the
   bracket table enriched with concrete `(hidden_dim, num_layers)`
   combinations for a decoder-only transformer, the `12·d²·L`
   parameter formula, and a grid mapping `(d, L)` to param count for
   `d ∈ {512, 768, 1024}`.
+- [decision-guide.md](decision-guide.md) — "which model should I
+  pick?" indexed by use-case axes (prediction type, compute
+  budget, horizon, deployment).
 
 ## How to interpret these numbers
 

@@ -48,7 +48,7 @@ MOMENT occupies the same "masked-encoder with patch tokens" design space as [moi
 Cite MOMENT as the canonical open-weight, open-corpus TS foundation model family for multi-task analysis (forecasting, classification, anomaly detection, imputation). It is also the right citation for the specific finding that random initialization outperforms language-model initialization for masked TS pretraining, and for the Time Series Pile as a reproducible public pretraining corpus.
 
 ## In the knowledge graph
-- **Cluster:** [Masked-encoder / encoder-decoder TS-FMs](../foundation-models/taxonomy.md#cluster-2-masked-encoder--encoder-decoder-ts-fms)
+- **Cluster:** [Masked-encoder / encoder-decoder TS-FMs](../foundation-models/taxonomy.md#cluster-2--masked-encoder--encoder-decoder-ts-fms)
 - **Architecture family:** [Masked encoder](../architectures/masked-encoder.md)
 - **Related concepts:** [patch tokenization](../concepts/patch-tokenization.md), [revin normalization](../concepts/revin-normalization.md), [multi-task universal](../concepts/multi-task-universal.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md)
 - **Dataset / corpus:** [Time Series Pile](../datasets-benchmarks/time-series-pile.md)

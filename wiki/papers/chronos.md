@@ -39,14 +39,14 @@ Chronos showed that minimal tokenization plus an existing language-model archite
 - **Open weights:** yes — T5-based checkpoints at 20M, 46M, 200M, 710M are released together with a GPT-2 90M variant.
 - **Code:** public at `amazon-science/chronos-forecasting` (cited in the paper).
 - **Training data:** partially public — 28 source datasets are public, and the HuggingFace dataset card redistributes them; TSMixup augmentations and KernelSynth synthetics are reproducible from the released code.
-- **Compute to retrain:** 200K optimizer steps, batch 256, on 8 A100 40GB GPUs per model; per-size wall-clock and USD cost are reported in Appendix Table 6 but exact FLOPs are not disclosed.
+- **Compute to retrain:** 200K optimizer steps with AdamW (weight decay 0.01, peak learning rate 1e-3 linearly annealed to 0), effective batch size 256 sequences via distributed data parallel and gradient accumulation, on 8 A100 40GB GPUs per model (Chronos, Section 5). Training windows are slices of TSMixup-augmented series plus synthetic KernelSynth draws at a 9:1 ratio. Per-size wall-clock and USD cost are reported in Appendix Table 6; exact FLOPs are not disclosed. See [../research/training-recipes.md](../research/training-recipes.md) for the consolidated recipe table.
 - **Deployment footprint:** 20M-710M parameters; context length 512, prediction length 64; inference demonstrated on standard GPUs, no CPU benchmark reported.
 
 ## When to cite this paper
 Cite Chronos as the canonical reference for the "regression via classification on a fixed vocabulary of binned values" recipe and for TSMixup/KernelSynth. It is also the right citation for the first clear demonstration that an unmodified T5 architecture, with only a retuned vocabulary, can serve as a probabilistic TS foundation model; later papers should be preferred for covariate-aware or multivariate claims.
 
 ## In the knowledge graph
-- **Cluster:** [Masked-encoder / encoder-decoder TS-FMs](../foundation-models/taxonomy.md#cluster-2-masked-encoder--encoder-decoder-ts-fms)
+- **Cluster:** [Masked-encoder / encoder-decoder TS-FMs](../foundation-models/taxonomy.md#cluster-2--masked-encoder--encoder-decoder-ts-fms)
 - **Architecture family:** [Encoder-decoder T5](../architectures/encoder-decoder-t5.md)
 - **Related concepts:** [value quantization](../concepts/value-quantization.md), [probabilistic forecasting](../concepts/probabilistic-forecasting.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md), [synthetic data augmentation](../concepts/synthetic-data-augmentation.md)
 - **See also:** [chronos-2](./chronos-2.md), [moirai](./moirai.md), [moment](./moment.md)

@@ -21,6 +21,14 @@ order when you first arrive.
   and how to contribute to the field itself.
 - [glossary.md](glossary.md) — 30-40 terms used across the wiki with
   short definitions and cross-links.
+- [training-recipes.md](training-recipes.md) — consolidated
+  optimizer, learning rate, batch, steps, precision and hardware
+  across the papers that disclose them.
+- [failure-modes.md](failure-modes.md) — per-paper weaknesses plus
+  five cross-cutting failure patterns (autoregressive compounding,
+  leakage, miscalibration, covariate-blindness, non-monotone scaling).
+- [timeline.md](timeline.md) — 2023-2026 chronology with the
+  signature contribution of each paper.
 
 ## Related wiki pages
 

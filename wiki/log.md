@@ -188,3 +188,119 @@ workflow references to `wiki/papers/README.md` updated to
 `wiki/papers/papers.md`. Prose references in this log file updated.
 
 Total: 10 renames, 109 link rewrites, 59 files scanned.
+
+## [2026-04-12] lint | Full health-check pass
+
+Full schema-driven lint pass under `CLAUDE.md`'s Lint workflow. Scanned
+80 `.md` files (repo root + `wiki/`, excluding `papers/`, `.git/`,
+`.obsidian/`). Built the inbound-link graph, walked every relative
+markdown link, ran the paper-leaf template check, verified cross-link
+minimums, re-ran the auto-linker, and spot-checked numeric claims,
+concept gaps, and known contradictions.
+
+**Counts.** Files scanned: 80. Broken relative links (hard): 0 fixed,
+0 flagged. Broken anchor fragments (soft): 28 fixed — all of them
+cluster-heading anchors in `foundation-models/taxonomy.md` that were
+missing the extra dash GitHub inserts where the em-dash `—` is
+stripped (the H2 `## Cluster 1 — Decoder-only ...` renders as
+`#cluster-1--decoder-only-...`, double dash). Rewrote via
+`/tmp/fix_cluster_anchors.py` across 21 files. Orphans: 0 in the
+baseline state; `wiki/research/training-recipes.md` and
+`wiki/research/failure-modes.md` appeared mid-pass from the sibling
+"best-wiki-possible" agent and are flagged as expected transient
+orphans for that agent to wire up into `research/research.md` and
+`index.md`. Paper-leaf
+template compliance: 20/20 leaves have all ten required H2 sections.
+Cross-link minimums: 0 violations for concepts (≥3 concepts + ≥2
+architectures) and 0 for architectures (≥3 concepts + ≥2 sibling
+architectures). Every non-hub page has a `## Related wiki pages` or
+`## In the knowledge graph` tail section.
+
+**Auto-linker.** Re-ran the canonical auto-linker (`/tmp/autolink_lint.py`)
+over the 20 model slugs, 6 dataset slugs, and 3 metric anchors, with
+the longest-first rule (Chronos-2 before Chronos, Timer-XL/Timer-S1
+before Timer, Moirai-MoE before Moirai) and the first-unlinked-occurrence-
+per-file policy. Added 8 links across 6 files:
+`benchmarks/benchmarks.md` (+2), `foundation-models/taxonomy.md` (+2),
+`benchmarks/univariate-benchmarking.md` (+1), `datasets-benchmarks/lotsa.md` (+1),
+`research/reading-roadmap.md` (+1), `research/reproducibility.md` (+1).
+That is well under the ~30-link "significant new prose" threshold, so
+the wiki was already well-linked before this pass.
+
+**README.** Repo-root `README.md` was extended with a new "Section hubs"
+block linking each wiki section's folder-note hub
+(`foundations/foundations.md`, `architectures/architectures.md`,
+`concepts/concepts.md`, `datasets-benchmarks/datasets-benchmarks.md`,
+`benchmarks/benchmarks.md`, `evaluation/evaluation.md`,
+`research/research.md`, `foundation-models/foundation-models.md`,
+`papers/papers.md`). Before this pass, seven of the nine section hubs
+had no inbound link from the repo-root README, which is a regression
+against the schema's "every hub is reachable from overview / index /
+README" rule.
+
+**Contradictions flagged (not fully fixed).** One real mismatch caught
+and patched in place: `benchmarks/efficiency-and-cost.md` listed
+"Chronos-Tiny 8M" rows sourced from TTM Table 3, but the Chronos paper
+itself only releases Mini (20M) / Small (46M) / Base (200M) / Large
+(710M) — there is no "Chronos-Tiny" in the official family. The rows
+were relabeled "Chronos-Tiny (TTM label)" with a footnote pointing at
+`model-sizing-cheatsheet.md` as the source of truth, so the TTM-sourced
+numbers are preserved without the implication that a Chronos-Tiny
+checkpoint exists. Two softer mismatches were flagged but not fixed:
+(1) the Chronos-2 / MOMENT / Timer-XL paper leaves list only their
+primary cluster, while `foundation-models/taxonomy.md` gives them a
+secondary cluster-6 (multi-task) tag — worth reconciling; (2) the
+phrase "biggest of the smallest" means different things in
+`benchmarks/training-a-small-model.md` (the base-tier ceiling: MOIRAI-Base
+91M / MOMENT-Base 125M) versus the "Small ceiling" row in
+`benchmarks/model-sizing-cheatsheet.md` (~40–50M, Chronos-Small /
+MOMENT-Small). These describe different brackets rather than outright
+disagreeing, but the shared vocabulary is confusing.
+
+**Concept-gap and numeric-claim spot checks.** Term frequencies above
+the 5-hits-in-3-files threshold: `ablation` (37 / 27), `pretraining
+corpus` (39 / 21), `context length` (18 / 17), `horizon` (163 / 49),
+`tokenization` (64 / 39), `fine-tuning` (35 / 21), `Student-t` (56 /
+23), `RoPE` (12 / 7), `LayerNorm` (10 / 5). Of these, `horizon`,
+`Student-t`, and `fine-tuning` already have glossary entries in
+`research/glossary.md`; the rest are plausible candidates for a
+dedicated concept page but nothing was created in this pass. No
+unattributed numeric claims jumped out in a ~30-sample spot check of
+`benchmarks/efficiency-and-cost.md`, `benchmarks/state-of-the-art.md`,
+`benchmarks/training-a-small-model.md` and `benchmarks/model-sizing-cheatsheet.md` —
+every ms/batch, GB, and parameter count was followed by a `(source,
+Table N / Section X)` citation.
+
+**Papers directory check.** `papers/` has 20 PDFs, `wiki/papers/` has
+20 leaves plus `papers.md`. 1:1 match, no stale PDFs, no orphan leaves.
+
+`wiki/index.md` not updated — no file names or one-line glosses
+changed in this pass.
+
+## [2026-04-12] refactor | Best-wiki-possible enrichment pass
+
+Intellectual enrichment pass: asked "what would a first-time reader
+still be missing given only the 20 PDFs in papers/?" and implemented
+the highest-leverage fixes. Created four new synthesis pages:
+`wiki/research/training-recipes.md` (consolidated optimizer / LR /
+batch / steps / hardware table with direct paper citations),
+`wiki/research/failure-modes.md` (per-paper documented weaknesses
+plus five cross-cutting failure patterns), `wiki/research/timeline.md`
+(2023-2026 chronological walk), and
+`wiki/benchmarks/decision-guide.md` ("which model should I pick?"
+indexed by use-case axes). Enriched three paper leaves with disclosed
+training-recipe numbers pulled from the PDFs: `chronos.md`
+(AdamW, wd 0.01, lr 1e-3, 200K steps, 8xA100-40GB), `moirai.md`
+(AdamW, wd 0.1, linear warmup 10K + cosine, Small 100K / Base+Large
+1M steps), and `time-moe.md` (full Appendix B recipe including
+128xA100-80G cluster and BF16 precision). Added 15 glossary entries
+for terms that appear across the wiki but had no definition (STP,
+fev-bench, group attention, SQL, skill score, pinball loss, RoPE,
+QK-Norm, Huber, NLL, BF16, channel independence, exposure bias,
+leakage, TiRex/TimesFM-2.5/Toto/Moirai-2.0 as "referenced but
+unleafed"). Updated `overview.md`, `index.md` and `scaling-laws.md`
+to cross-link the new pages. Flagged for a later pass: a dedicated
+"prior-art map" page tracing architecture choices back to NLP/CV
+origins, a shift-aware calibration benchmark, and leaf enrichments
+for TimesFM / MOMENT / Sundial with their training recipes (same
+shape as the Chronos / MOIRAI / Time-MoE edits done here).

@@ -6,6 +6,12 @@ knowledge graph.
 
 Last updated: 2026-04-12.
 
+(Enrichment pass on 2026-04-12 added four new pages:
+[benchmarks/decision-guide.md](benchmarks/decision-guide.md),
+[research/training-recipes.md](research/training-recipes.md),
+[research/failure-modes.md](research/failure-modes.md), and
+[research/timeline.md](research/timeline.md).)
+
 ## Orientation
 
 - [overview.md](overview.md) — entry point, reading paths, knowledge-graph sketch
@@ -68,6 +74,7 @@ Last updated: 2026-04-12.
 - [benchmarks/state-of-the-art.md](benchmarks/state-of-the-art.md) — which model wins where, partitioned by forecasting regime
 - [benchmarks/training-a-small-model.md](benchmarks/training-a-small-model.md) — where to train, the smallest competitors, the 2026 curation recipe
 - [benchmarks/univariate-benchmarking.md](benchmarks/univariate-benchmarking.md) — practical recommendation for univariate-only models vs TS-FM SOTA
+- [benchmarks/decision-guide.md](benchmarks/decision-guide.md) — "which model should I pick?" indexed by use-case axes (probabilistic, multivariate, compute budget, horizon)
 
 ## Evaluation (methodology)
 
@@ -88,6 +95,9 @@ Last updated: 2026-04-12.
 - [research/open-problems.md](research/open-problems.md) — frontier research questions as of 2026-04 with concrete directions
 - [research/reading-roadmap.md](research/reading-roadmap.md) — beginner / intermediate / advanced reading order through the papers
 - [research/reproducibility.md](research/reproducibility.md) — per-paper open weights, code, data, cost, deployment footprint
+- [research/training-recipes.md](research/training-recipes.md) — consolidated optimizer / LR / batch / steps / precision / hardware table for the 20 papers
+- [research/failure-modes.md](research/failure-modes.md) — per-paper documented weaknesses and cross-cutting failure patterns
+- [research/timeline.md](research/timeline.md) — chronological 2023-2026 walk through the 20 papers with each one's signature contribution
 
 ## Papers (leaves, 20)
 

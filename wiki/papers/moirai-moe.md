@@ -49,7 +49,7 @@ Moirai-MoE is a direct argument with [moirai](./moirai.md) (its own predecessor)
 Cite Moirai-MoE as the canonical reference for token-level sparse mixture-of-experts as a replacement for frequency-based input specialization in time series foundation models, and for the cluster-centroid gating function. It is also the right citation for the first clear demonstration that MoE routing beats hand-designed frequency heads at equal or lower activated compute on LOTSA-scale pretraining.
 
 ## In the knowledge graph
-- **Cluster:** [Mixture-of-experts TS-FMs](../foundation-models/taxonomy.md#cluster-3-mixture-of-experts-ts-fms)
+- **Cluster:** [Mixture-of-experts TS-FMs](../foundation-models/taxonomy.md#cluster-3--mixture-of-experts-ts-fms)
 - **Architecture family:** [Mixture of experts](../architectures/mixture-of-experts.md)
 - **Related concepts:** [patch tokenization](../concepts/patch-tokenization.md), [zero-shot forecasting](../concepts/zero-shot-forecasting.md), [scaling laws](../concepts/scaling-laws.md)
 - **Dataset / corpus:** [LOTSA](../datasets-benchmarks/lotsa.md)

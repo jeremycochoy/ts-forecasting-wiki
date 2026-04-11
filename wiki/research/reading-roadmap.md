@@ -93,7 +93,7 @@ set of ablations against the canonical recipes above.
 10. [../benchmarks/training-a-small-model.md](../benchmarks/training-a-small-model.md)
     — the training-side companion to the previous bullet, for readers
     who are not just evaluating but pretraining. Recommends LOTSA as
-    the default corpus, walks through the Timer-S1 curation pipeline,
+    the default corpus, walks through the [Timer-S1](../papers/timer-s1.md) curation pipeline,
     and names the "biggest of the smallest" TS-FMs you have to beat
     to sit in the small-model bracket.
 

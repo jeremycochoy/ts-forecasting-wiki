@@ -15,7 +15,7 @@ tell a 1M-parameter model from a 2.4B-parameter one at a glance.
 | TTM-Enhanced | 4M | 4M | TTM, Section 4.3 |
 | TTM-Advanced | 5M | 5M | TTM, Section 4.3 |
 | Moirai-Small | 14M | 14M | [Moirai-MoE](../papers/moirai-moe.md), Table 4 (arXiv:2410.10469) |
-| Chronos-Tiny | 8M | 8M | TTM, Table 3 |
+| Chronos-Tiny (TTM label) [^tt] | 8M | 8M | TTM, Table 3 |
 | Moirai-MoE-Small | 117M total / 11M act. | 11M | Moirai-MoE, Table 4 |
 | [Chronos-2](../papers/chronos-2.md) Small | 28M | 28M | Chronos-2, Section 5.4 (arXiv:2510.15821) |
 | MOMENT-Small | 40M | 40M | [MOMENT](../papers/moment.md), Table 8 (arXiv:2402.03885) |
@@ -34,6 +34,8 @@ tell a 1M-parameter model from a 2.4B-parameter one at a glance.
 | Time-MoE-Ultra | 2.4B total / 1.1B act. | 1.1B | Time-MoE, Section 3.2.3 |
 | Sundial-Large | ~130M class | — | [Sundial](../papers/sundial.md), Table 5 (inferred) |
 
+[^tt]: The Chronos paper releases only Mini (20M), Small (46M), Base (200M), and Large (710M) variants — there is no "Chronos-Tiny" model in the paper itself. TTM Table 3 uses "Chronos-Tiny" as its label for the smallest Chronos config they benchmarked (~8M); we preserve TTM's label here but the reader should not expect a matching checkpoint in the Chronos release. See [model-sizing-cheatsheet.md](model-sizing-cheatsheet.md) for the canonical Chronos size table.
+
 ## 2. Inference latency and memory (on the same task)
 
 TTM Table 3 gives one of the only apples-to-apples efficiency
@@ -49,7 +51,7 @@ benchmark batch, same hardware setup.
 | Moirai-Small | 205 | 1.4 | 0.1 | TTM, Table 3 |
 | Moirai-Base | 335 | 4.1 | 1 | TTM, Table 3 |
 | Moirai-Large | 693 | 10.5 | 2 | TTM, Table 3 |
-| Chronos-Tiny | 1,389 | 2,504 | 2 | TTM, Table 3 |
+| Chronos-Tiny (TTM label) [^tt] | 1,389 | 2,504 | 2 | TTM, Table 3 |
 | Chronos-Small | 1,386 | 2,349 | 6 | TTM, Table 3 |
 | Chronos-Base | 1,395 | 2,340 | 16 | TTM, Table 3 |
 | Chronos-Large | 1,393 | 2,352 | 41 | TTM, Table 3 |
