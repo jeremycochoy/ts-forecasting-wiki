@@ -25,6 +25,11 @@ rather than forcing a false ranking.
 - [efficiency-and-cost.md](efficiency-and-cost.md) — the second axis
   beyond accuracy: parameters, training compute, inference latency,
   memory, and CPU deployability.
+- [univariate-benchmarking.md](univariate-benchmarking.md) — a
+  practical recommendation page for readers who have built a
+  univariate-only model (one series per call, no covariates) and
+  want to pick the right suite to compare against 2024–2026 TS-FM
+  SOTA.
 
 ## How to interpret these numbers
 

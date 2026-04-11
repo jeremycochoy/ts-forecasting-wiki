@@ -84,6 +84,12 @@ set of ablations against the canonical recipes above.
    numbers. Read these before the advanced track so that the
    contrarian claims there (Moirai-MoE vs Chronos on [Monash](../datasets-benchmarks/monash-archive.md), Sundial
    vs Chronos-2 on [GIFT-Eval](../datasets-benchmarks/gift-eval.md)) are legible.
+9. [../benchmarks/univariate-benchmarking.md](../benchmarks/univariate-benchmarking.md)
+   — optional but recommended if you are also building a model of
+   your own. Translates the metric and protocol reading above into a
+   concrete "pick this suite, report these metrics, use this
+   protocol label" recipe for a univariate-only model that needs to
+   compare against 2024–2026 TS-FM SOTA.
 
 ## Advanced track — "what are people arguing about?"
 

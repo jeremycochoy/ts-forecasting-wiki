@@ -33,6 +33,10 @@ field — read these first, in order:
 - [evaluation/README.md](evaluation/README.md) — the methodology
   layer: metrics, baselines, protocols, and a per-paper summary of
   what each wiki paper actually evaluated.
+- [benchmarks/univariate-benchmarking.md](benchmarks/univariate-benchmarking.md)
+  — *"I want to benchmark my own model."* Practical recommendation
+  for picking a comparison suite when your model is univariate-only
+  (one series at a time, no covariates).
 
 The full research corner, including the reproducibility table,
 contributing guide and glossary, is at

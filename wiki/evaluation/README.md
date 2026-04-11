@@ -37,6 +37,11 @@ section teaches the procedure.
   actual numbers this section teaches you to read.
 - [../benchmarks/methodology-caveats.md](../benchmarks/methodology-caveats.md)
   — the asterisks hiding behind those numbers.
+- [../benchmarks/univariate-benchmarking.md](../benchmarks/univariate-benchmarking.md)
+  — practical recommendation for readers whose model is
+  univariate-only and who want a head-to-head comparison against
+  2024–2026 TS-FM SOTA under the same metric conventions this
+  section defines.
 - [../datasets-benchmarks/README.md](../datasets-benchmarks/README.md)
   — the corpora and evaluation suites themselves.
 - [../research/glossary.md](../research/glossary.md) — one-line
