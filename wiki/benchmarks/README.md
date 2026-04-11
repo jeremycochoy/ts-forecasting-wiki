@@ -34,6 +34,11 @@ rather than forcing a false ranking.
   training-side companion: which corpus to pretrain on (LOTSA by
   default), which small TS-FMs set the "ceiling of the smallest"
   bracket, and the 2026 data-curation recipe from Timer-S1.
+- [model-sizing-cheatsheet.md](model-sizing-cheatsheet.md) — the
+  bracket table enriched with concrete `(hidden_dim, num_layers)`
+  combinations for a decoder-only transformer, the `12·d²·L`
+  parameter formula, and a grid mapping `(d, L)` to param count for
+  `d ∈ {512, 768, 1024}`.
 
 ## How to interpret these numbers
 

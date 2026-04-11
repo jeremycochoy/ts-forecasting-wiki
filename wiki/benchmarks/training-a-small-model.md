@@ -62,6 +62,14 @@ depending on the T5 variant — the paper's table is authoritative.
 do not tabulate a single canonical parameter count; both are "small
 decoder / small SSM, well under 100M."
 
+For concrete `(hidden_dim, num_layers)` combinations that land a
+decoder-only transformer in each of these brackets — and for the
+`12·d²·L` formula that underlies them — see
+[model-sizing-cheatsheet.md](model-sizing-cheatsheet.md). The cheat
+sheet is the answer to "how many layers at `d=512` / `768` / `1024` do
+I need to match [Chronos-Mini](../papers/chronos.md) /
+[MOMENT-Base](../papers/moment.md) / [TimesFM](../papers/timesfm.md)?"
+
 ## "Biggest of the smallest" — the actual answer
 
 The user question this page is built around is: *what is the biggest
