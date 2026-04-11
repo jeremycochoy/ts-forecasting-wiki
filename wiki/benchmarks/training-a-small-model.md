@@ -24,7 +24,7 @@ conversation as [Chronos](../papers/chronos.md),
 > the bottom, **[MOIRAI-Small](../papers/moirai.md) (14M) /
 > [Lag-Llama](../papers/lag-llama.md) /
 > [Mamba4Cast](../papers/mamba4cast.md) /
-> [Chronos-Tiny-Mini](../papers/chronos.md) (20–46M)** in the tiny
+> [Chronos-Mini-Small](../papers/chronos.md) (20–46M)** in the tiny
 > transformer tier, and **[MOMENT-Small](../papers/moment.md) (40M) /
 > [MOIRAI-Base](../papers/moirai.md) (91M) /
 > [MOMENT-Base](../papers/moment.md) (125M)** at the upper end of
@@ -49,18 +49,20 @@ section; "—" means not disclosed in the extracted leaves.
 
 | Bracket | Parameter range | Representative models | Notes |
 |---|---|---|---|
-| Tiny | 1–10M | [TTM](../papers/ttm.md) (1M / 4M / 5M), [Lag-Llama](../papers/lag-llama.md) (small decoder, <100M, exact size not tabulated), [Mamba4Cast](../papers/mamba4cast.md) (small SSM, size not tabulated) | CPU inference is realistic here; single consumer GPU for training. |
-| Small | 10–50M | [Chronos-Tiny](../papers/chronos.md) (20M), [Chronos-Mini](../papers/chronos.md) (46M), [MOIRAI-Small](../papers/moirai.md) (14M), [MOMENT-Small](../papers/moment.md) (40M) | Single consumer GPU inference and training; the "interesting" regime for a solo researcher. |
-| Base | 50–200M | [Chronos-Small](../papers/chronos.md) (200M), [Chronos-2](../papers/chronos-2.md) (120M), [MOMENT-Base](../papers/moment.md) (125M), [MOIRAI-Base](../papers/moirai.md) (91M), [TimesFM](../papers/timesfm.md) (~200M), [Timer](../papers/timer.md) (—) | Single datacenter GPU or 2–4× consumer GPUs for training. |
-| Large | 200M–1B | [Chronos-Base](../papers/chronos.md) (200M) / [Chronos-Large](../papers/chronos.md) (710M), [MOMENT-Large](../papers/moment.md) (385M), [MOIRAI-Large](../papers/moirai.md) (311M), [Timer-XL](../papers/timer-xl.md) (—) | Multi-GPU training. |
-| Huge | 1B+ | [Time-MoE](../papers/time-moe.md) (2.4B total / 1.1B active), [Timer-S1](../papers/timer-s1.md) (8.3B total / 0.75B active) | Sparse MoE; no longer "small" by any definition. |
+| Tiny | 1–10M | [TTM](../papers/ttm.md) (1M / 4M / 5M, TSMixer), [Lag-Llama](../papers/lag-llama.md) (d=144, L=8, 2.4M), [Mamba4Cast](../papers/mamba4cast.md) (d=1024, 2 SSM blocks, 27M) | CPU inference is realistic here; single consumer GPU for training. |
+| Small | 10–50M | [Chronos-Mini](../papers/chronos.md) (d=384, L=4+4 enc-dec, 20M), [Chronos-Small](../papers/chronos.md) (d=512, L=6+6 enc-dec, 46M), [MOIRAI-Small](../papers/moirai.md) (d=384, L=6, 14M), [MOMENT-Small](../papers/moment.md) (d=512, L=6, 40M) | Single consumer GPU inference and training; the "interesting" regime for a solo researcher. |
+| Base | 50–200M | [Chronos-Base](../papers/chronos.md) (d=768, L=12+12 enc-dec, 200M), [Chronos-2](../papers/chronos-2.md) (120M, d/L not disclosed), [MOMENT-Base](../papers/moment.md) (d=768, L=12, 125M), [MOIRAI-Base](../papers/moirai.md) (d=768, L=12, 91M), [TimesFM](../papers/timesfm.md) (d=1280, L=20, 200M), [Timer](../papers/timer.md)/[Timer-XL](../papers/timer-xl.md) (d=1024, L=8, 84M) | Single datacenter GPU or 2–4× consumer GPUs for training. |
+| Large | 200M–1B | [Chronos-Large](../papers/chronos.md) (d=1024, L=24+24 enc-dec, 710M), [MOMENT-Large](../papers/moment.md) (d=1024, L=24, 385M), [MOIRAI-Large](../papers/moirai.md) (d=1024, L=24, 311M), [Sundial-Large](../papers/sundial.md) (d=1024, L=24, 444M) | Multi-GPU training. |
+| Huge | 1B+ | [Time-MoE](../papers/time-moe.md) Ultra (d=1024, L=36, 2.4B total / 1.1B active), [Timer-S1](../papers/timer-s1.md) (d=1024, L=24, 8.3B total / 0.75B active) | Sparse MoE; no longer "small" by any definition. |
 
-Two caveats: [Chronos](../papers/chronos.md)'s sizes (20M / 46M / 200M
-/ 710M) are split across names Tiny / Mini / Small / Base / Large
-depending on the T5 variant — the paper's table is authoritative.
-[Lag-Llama](../papers/lag-llama.md) and [Mamba4Cast](../papers/mamba4cast.md)
-do not tabulate a single canonical parameter count; both are "small
-decoder / small SSM, well under 100M."
+Two caveats: [Chronos](../papers/chronos.md)'s four sizes are named
+Mini 20M / Small 46M / Base 200M / Large 710M per §5.2 of the paper
+(not Tiny / Mini / Small / Base / Large as sometimes misreported),
+each mapping onto a `google/t5-efficient-{mini,small,base,large}`
+config. [Lag-Llama](../papers/lag-llama.md)'s published checkpoint
+has 2.45M params (`d=144, L=8, H=9`, Rasul et al. App. D);
+[Mamba4Cast](../papers/mamba4cast.md) is 27M (`d=1024`, 2 stacked
+Mamba2 encoder blocks, state N=128).
 
 For concrete `(hidden_dim, num_layers)` combinations that land a
 decoder-only transformer in each of these brackets — and for the
