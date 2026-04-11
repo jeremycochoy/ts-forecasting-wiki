@@ -83,7 +83,7 @@ still be "foundation" in the transfer sense.
   technical ideas (patching, VQ, zero-shot, probabilistic,
   [in-context learning](../concepts/in-context-learning.md), scaling laws, [RevIN](../concepts/revin-normalization.md), multi-task, synthetic
   data).
-- [../papers/README.md](../papers/README.md) — the 19 paper leaves.
+- [../papers/README.md](../papers/README.md) — the 20 paper leaves.
 
 ## Related wiki pages
 

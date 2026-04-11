@@ -25,6 +25,12 @@ at the current wave of time-series foundation models (TS-FMs).
 
 - [wiki/README.md](wiki/README.md) — the wiki entry point and map of the
   territory.
+- [wiki/index.md](wiki/index.md) — flat catalog of every wiki page with
+  a one-line gloss; the first stop when you know a topic but not where
+  it lives.
+- [wiki/log.md](wiki/log.md) — chronological append-only record of
+  ingests, queries-filed-back, lint passes, refactors, and schema
+  changes.
 - [wiki/foundation-models/taxonomy.md](wiki/foundation-models/taxonomy.md) —
   the seven-cluster taxonomy that most other pages anchor into.
 - [wiki/papers/README.md](wiki/papers/README.md) — index of the paper
@@ -32,7 +38,7 @@ at the current wave of time-series foundation models (TS-FMs).
 
 ## Scope (as of 2026-04)
 
-Version 0 of the wiki covers 19 foundation-model papers published between
+Version 0 of the wiki covers 20 foundation-model papers published between
 2023 and 2025, spanning decoder-only autoregressive models, masked and
 encoder-decoder models, mixture-of-experts variants, LLM-reprogramming
 approaches, lightweight non-transformer models, multi-task universal

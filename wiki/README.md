@@ -17,17 +17,25 @@ or concept page for context, and finally opens the corresponding leaf in
 `papers/` to read the paper itself. Cross-links are always relative paths,
 so the wiki is fully browsable on GitHub or offline.
 
+## First stop at query time
+
+- [index.md](index.md) — flat catalog of every wiki page with a
+  one-line gloss; the schema-mandated first stop when answering a
+  question.
+- [log.md](log.md) — chronological append-only record of ingests,
+  queries-filed-back, lint passes, refactors, and schema changes.
+
 ## Start here as a researcher
 
 If you arrived here wanting to contribute — to the wiki or to the
 field — read these first, in order:
 
 - [research/reading-roadmap.md](research/reading-roadmap.md) — a
-  beginner / intermediate / advanced path through the 19 papers.
+  beginner / intermediate / advanced path through the 20 papers.
 - [research/open-problems.md](research/open-problems.md) — the
   frontier questions as of 2026-04, with concrete directions.
 - [research/comparison-matrix.md](research/comparison-matrix.md) — all
-  19 papers side by side, plus cross-paper takeaways.
+  20 papers side by side, plus cross-paper takeaways.
 - [benchmarks/leaderboard.md](benchmarks/leaderboard.md) — current
   public numbers on the main evaluation suites.
 - [evaluation/README.md](evaluation/README.md) — the methodology
@@ -91,7 +99,7 @@ contributing guide and glossary, is at
   metric ([MASE](./evaluation/metrics.md#17-mase--mean-absolute-scaled-error), [CRPS](./evaluation/metrics.md#21-crps--continuous-ranked-probability-score), [WQL](./evaluation/metrics.md#23-wql--weighted-quantile-loss), MSE, pinball...), seasonal-period and
   baseline conventions, evaluation protocols, a per-paper summary
   of what each wiki paper evaluated, and a comparability checklist.
-- [papers/](papers/README.md) — the 19 leaf pages, one per paper.
+- [papers/](papers/README.md) — the 20 leaf pages, one per paper.
 
 ## Knowledge-graph sketch
 
@@ -118,7 +126,7 @@ ts-forecasting-wiki
 +-- architectures/   (one page per family above)
 +-- concepts/        (patching, VQ, zero-shot, CRPS, ICL, scaling, RevIN, ...)
 +-- datasets-benchmarks/ (Monash, LOTSA, TS-Pile, Time-300B, TimeBench, GIFT)
-+-- papers/          (19 leaves)
++-- papers/          (20 leaves)
 ```
 
 ## Related wiki pages

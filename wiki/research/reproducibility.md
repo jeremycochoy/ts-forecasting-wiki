@@ -1,6 +1,6 @@
 # Reproducibility and Buildability
 
-For each of the 19 papers on this wiki, the table below records what a
+For each of the 20 papers on this wiki, the table below records what a
 new researcher can actually get their hands on: open weights, training
 code, training corpus, disclosed training cost, and deployment
 footprint. Values are taken from the per-paper fact-sheet on this wiki;
@@ -34,6 +34,7 @@ known".
 | [TOTEM](../papers/totem.md) | Yes | Yes | — | — | Small VQ-VAE + small transformer |
 | [Sundial](../papers/sundial.md) | Yes (assumed, Tsinghua) | Yes | TimeBench ~1T points | — | Flow-matching decoder, single-pass horizon |
 | [Mamba4Cast](../papers/mamba4cast.md) | Yes | Yes | Synthetic only (no real corpus dependency) | Low (PFN-style training) | SSM backbone, linear-time inference |
+| [Timer-S1](../papers/timer-s1.md) | Partial (release claimed at Tsinghua/ByteDance) | Partial | Yes (TimeBench ~1T pts, curation pipeline documented) | — (multi-billion sparse MoE on ~1T pts, not publicly priced) | 8.3B total / 0.75B active, 11.5K context, single-pass multi-horizon via TimeSTP |
 
 ## Reading the table
 

@@ -1,6 +1,6 @@
 # Comparison Matrix
 
-This page puts the 19 papers side by side so that a researcher can see,
+This page puts the 20 papers side by side so that a researcher can see,
 in one screen, which design choices have been tried and which
 combinations are still empty. It is a map, not a ranking: the "Key
 claim" column is the paper's own stated contribution, not a verdict on
@@ -53,6 +53,7 @@ general knowledge.
 | [TOTEM](../papers/totem.md) | Cross-domain VQ-VAE + transformer | Reconstruction + downstream | VQ-VAE codebook | — | Cross-domain | Channel-independent | Point | Yes | A shared VQ codebook is a cross-domain tokenizer |
 | [Sundial](../papers/sundial.md) | Continuous / flow matching (TimeFlow) | Flow matching over horizon | Continuous | — | TimeBench (~1T points) | — | Generative (flow sampling) | Yes | Flow matching as the generative head for TS-FMs at scale |
 | [Mamba4Cast](../papers/mamba4cast.md) | SSM (Mamba) + PFN | Prior-fitted-network loss on synthetic priors | Continuous | Small / mid | Synthetic only | No | Yes (PFN predictive distribution) | Yes | Synthetic-only SSM backbone with single-pass horizon |
+| [Timer-S1](../papers/timer-s1.md) | Decoder-only sparse MoE + TimeSTP blocks | Serial-Token Prediction (stacked shift-by-one heads) | Continuous patches (P=16) | 8.3B total / 0.75B active | TimeBench (~1T pts) curated + augmented | No (primary) | Yes (9-quantile CRPS head) | Yes (Tsinghua/ByteDance) | Serial Scaling in architecture, data, and training beats autoregressive rollout |
 
 ## Derived takeaways
 
