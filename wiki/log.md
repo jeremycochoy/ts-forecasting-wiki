@@ -427,6 +427,17 @@ O(n^3)) and noted the spectral trade-off (fixed ARMA poles vs GP
 multi-scale composition). Updated the "Papers that exemplify this"
 bullet for TimesFM to match the expanded description.
 
+## [2026-04-19] refactor | Expand Timer-S1 tokenizer description
+
+Enriched `papers/timer-s1.md` "Architecture at a glance" with the
+patch-embedder details from the paper's §3.1 Eq. 3: each P=16 patch is
+concatenated with a P-length binary padding mask, and the embedder is
+a weight-tied residual network `R^{2P} → R^D` (32 → 1024), not a
+linear projection. Added that no additive positional embedding is
+used (relative position comes exclusively from RoPE inside attention,
+Eq. 5-6) and that `N = ⌈T/P⌉` gives N=180 at pretraining context
+T=2880 and N=720 after stage-2 RoPE context extension to T=11520.
+
 ## [2026-04-12] refactor | Add patch in/out sizes and forecast method to paper leaves
 
 Added input patch size, output patch size, and forecasting strategy
