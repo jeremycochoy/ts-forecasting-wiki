@@ -15,30 +15,37 @@ to a released TS-FM corpus (alongside Wikimedia pageviews; see
 
 ## 1. What Google Trends actually returns
 
-The canonical caveat every paper repeats: Google Trends does **not**
-return absolute search volumes. The platform returns a **normalized
-index** in `[0, 100]`, rounded to **integer precision**, where the
-normalization is:
+Google Trends does **not** return absolute search volumes. For any
+request, Google picks the largest value in the requested
+(query, time, region) window and calls that 100, then scales every
+other value as a percentage of that maximum and **rounds to integer
+precision** in `[0, 100]`. Two additional facts matter:
 
-1. Divide each data point by the total searches for the chosen
-   location + time range.
-2. Scale the resulting numbers from 0 to 100 based on the topic's
-   proportion of all searches.
+- **One request accepts at most 5 queries.** All 5 are normalized
+  together: their values are relative to the peak value across the
+  entire set of 5 in that time window.
+- **Each request is a fresh Bernoulli sample of the underlying
+  query logs.** Ask the same question again with the same inputs
+  and the returned numbers will differ, sometimes substantially
+  (Medeiros & Pires 2021, `gtrends-proper_2104.03065.pdf`, Abstract).
 
-Two consequences:
+The integer-rounding + "peak is 100" rules interact badly when one
+request mixes popular and unpopular queries. Concrete example: ask
+for `["coronavirus", "my-niche-hobby"]` over 2020-2022. Coronavirus
+peaks at 100 during the March 2020 spike. Every `my-niche-hobby`
+value, even if actually non-zero, is a small fraction of that
+coronavirus peak — so once it gets rounded to the integer grid it
+collapses to **all zeros**. You cannot recover the niche hobby's
+real time-series from this request at all. West 2020 states the
+consequence plainly: "entirely uninformative, all-zero time series
+may be returned for unpopular queries when requested together with
+more popular queries" (`gtab_2007.13861.pdf`, Abstract).
 
-- **Rounding destroys information for unpopular queries.** West 2020
-  (G-TAB) is explicit: "entirely uninformative, all-zero time series
-  may be returned for unpopular queries when requested together with
-  more popular queries" (`gtab_2007.13861.pdf`, Abstract).
-- **Each request is a fresh sample and the values vary.** Medeiros &
-  Pires 2021 is explicit: "each sample of Google search data is
-  different from the other, even if you set the same search term,
-  data and location" — so naive use leads to conclusions "by chance"
-  (`gtrends-proper_2104.03065.pdf`, Abstract).
-
-Any reliable use of Google Trends requires either repeated sampling
-with averaging, or calibration against an anchor query (G-TAB).
+The two fixes for reliable use are: (a) **repeated-sampling with
+averaging** to smooth out the Bernoulli noise (Medeiros-Pires
+recommendation) and (b) **calibration via chained requests** so
+that queries of very different popularity never end up in the same
+request — this is what G-TAB automates (§4 below).
 
 ## 2. Official Google channels
 
@@ -148,20 +155,53 @@ for anything beyond exploration.
 
 - **Repo.** `https://github.com/epfl-dlab/GoogleTrendsAnchorBank`.
 - **Paper.** Robert West, "Calibration of Google Trends Time Series",
-  CIKM 2020 (arXiv:2007.13861). PDF at
+  CIKM 2020 (arXiv:2007.13861). Local PDF:
   [../../papers/gtab_2007.13861.pdf](../../papers/gtab_2007.13861.pdf).
-- **What it does.** Calibrates arbitrarily many queries onto a
-  common scale *without rounding-loss collapse*. The method builds
-  an offline "anchor bank" — a set of queries spanning the full
-  popularity spectrum, all chained back to a common reference query.
-  At query time, any new query is calibrated against the anchor bank
-  via binary search (few requests).
-- **Why it matters.** Solves the West 2020 all-zero-series problem
-  for unpopular queries and the "5-queries-per-request" limit in a
-  principled way.
-- **Use this for.** Any Google-Trends-based pretraining corpus that
-  ranges over queries of wildly different popularity — which is
-  every realistic TS-FM use.
+
+**The problem G-TAB solves.** Directly from §1 of this page: if you
+want to compare a popular query (say "football") with an unpopular
+one (say "my local park's name") on a single scale, you cannot put
+them in the same Google Trends request — the unpopular one gets
+rounded to all-zeros. Asking them separately doesn't work either:
+each request normalizes its own peak to 100, so the two resulting
+series live on *different* scales that cannot be combined.
+
+**How G-TAB solves it.** Think of queries as needing a "ruler". If
+you cannot fit them all onto one ruler in a single request, **chain
+requests transitively**:
+
+- Request 1: `[A, B]` tells you A's peak relative to B's peak.
+- Request 2: `[B, C]` tells you B's peak relative to C's peak.
+- Combined: you now know A relative to C, even though A and C were
+  never in the same request.
+
+G-TAB industrializes this chaining in two phases:
+
+1. **Offline anchor-bank construction (done once).** Pick a set of
+   "anchor" queries spanning every popularity level — from ultra-
+   popular ("weather") through medium-popular ("taxi") down to
+   extremely-rare ("rare-scientific-term"). Chain them pairwise
+   through many requests so every anchor's peak is known on a
+   single common scale, relative to one master reference query.
+   The result — the **anchor bank** — is a lookup table of
+   absolute (uncalibrated-but-consistent) peak values for every
+   anchor.
+2. **Online calibration (for each new query at query time).**
+   Given a new query `Q`, binary-search the anchor bank for the
+   anchor closest to `Q`'s popularity. You only need a handful of
+   Google Trends requests (each comparing `Q` against one or two
+   anchors) to pin `Q` onto the common scale without rounding loss.
+
+**What you get.** Any number of queries — of any popularity level —
+placed onto one consistent scale, with the rounding-collapse
+problem eliminated. This is what "calibration" means in the G-TAB
+paper title.
+
+**Use this for.** Any Google-Trends-based pretraining corpus that
+covers queries of wildly different popularity — which is every
+realistic TS-FM use. If you only ever query a narrow popularity
+band, you can probably skip G-TAB. If you want a TimesFM-scale
+corpus over heterogeneous topics, you essentially cannot avoid it.
 
 ## 5. The TimesFM Google Trends contribution
 
