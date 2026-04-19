@@ -101,20 +101,21 @@ with averaging, or calibration against an anchor query (G-TAB).
 - **Use this for.** Small-to-mid-scale academic and research
   pipelines. Not for continuous production use.
 
-### Commercial / enterprise wrappers
+### Other scraper implementations
 
-- **`luminati-io/google-trends-api`**. Free lightweight scraper plus
-  Bright Data's paid API for scalable collection. Use when you need
-  more than pytrends's rate-limit ceiling.
-- **`scrapeless-ai/google-trends-scraper`**. Browser-automation based,
-  targets the production-quality use case.
-- **`oxylabs/how-to-scrape-google-trends`**. SERP-API-based, with
-  tutorial-style usage examples.
-- **`dballinari/GoogleTrends-Scraper`**. Splits long time ranges into
-  sub-periods and stitches the pieces — a partial solution to the
-  frequency-inconsistency problem solved more rigorously by
+Several open-source scrapers exist on GitHub with varying maintenance
+activity. Independent evaluation would be required before picking any
+of them for production use; the wiki does not endorse a specific
+choice. Representative examples at time of writing:
+
+- `dballinari/GoogleTrends-Scraper` — splits long time ranges into
+  sub-periods and stitches results, a lighter-weight partial fix for
+  the frequency-inconsistency problem more rigorously solved by
   `trendecon`.
-- **`clintonboys/trendy-scraper`**. Similar split-and-stitch approach.
+- `clintonboys/trendy-scraper` — similar split-and-stitch approach.
+- Commercial wrappers exist around paid SERP / proxy services
+  (luminati, scrapeless, oxylabs). They trade cost for rate-limit
+  headroom and are out of scope for research-only pipelines.
 
 ## 4. The academic calibration tools
 
@@ -200,10 +201,11 @@ Available alternatives:
 - **TimesFM internal corpus** — described but not released.
 - **Google Trends Datastore** (`googletrends.github.io/data/`) —
   small curated topical datasets only.
-- **HuggingFace `ronantakizawa/trending-words-google`.** The only
-  Google-Trends-derived dataset I could find on HuggingFace Hub
-  (searched 2026-04). Contents: top-ranked Google "Year in Search"
-  terms from 2001–2024, 93 categories, 2,784 entries. **Columns:**
+- **HuggingFace `ronantakizawa/trending-words-google`.** As of
+  2026-04, this is the only Google-Trends-derived dataset located on
+  the HuggingFace Hub via keyword search. Contents: top-ranked
+  Google "Year in Search" terms from 2001–2024, 93 categories, 2,784
+  entries. **Columns:**
   `word`, `year`, `tag` (category), `rank`. **Granularity is
   yearly**, and the dataset is a **ranked top-terms list**, not a
   search-interest time series. License: CC-BY-4.0. For TS-FM
@@ -259,9 +261,11 @@ Additional reading not fetched as PDF leaves:
 
 - Eichenauer, Indergand, Martínez, Sax, "Obtaining consistent time
   series from Google Trends", *Economic Inquiry* 60(2), 2022 —
-  `trendecon`'s canonical paper. There is a working-paper preprint
-  "Constructing Daily Economic Sentiment Indices Based on Google
-  Trends", KOF Working Paper 20-484 (2020).
+  `trendecon`'s canonical paper. A related earlier working paper by
+  the same team, "Constructing Daily Economic Sentiment Indices
+  Based on Google Trends", circulated as a KOF ETH Zürich working
+  paper in 2020 (identifier varies by index; cite the *Economic
+  Inquiry* version for stability).
 - Choi & Varian, "Predicting the Present with Google Trends",
   *Economic Record*, 2012 — foundational nowcasting paper.
 - Nowcasting-with-Google-Trends literature more broadly: applied
