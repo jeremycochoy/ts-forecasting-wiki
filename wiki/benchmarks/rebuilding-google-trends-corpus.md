@@ -241,74 +241,107 @@ topical space than any single published method.
 
 ### 3e. Cost comparison and start-small-then-grow recipe
 
-For TS-FM pretraining, not all methods above are equally good. The
-econometric methods (Ross backward induction, Scott-Varian BSTS,
-Kohns-Bhattacharjee BSTS, Ferrara-Simoni Lasso) share two features
-that make them a poor fit:
+Not all methods in §3d are equally suitable for TS-FM pretraining.
+The practical question is two-fold: **(a) which is cheap in GT
+requests and compute**, and **(b) which lets you ship a small v1
+today and grow to a larger v2 later without re-doing v1's work.**
 
-1. **They all require a target series** — "the keywords that best
-   predict unemployment". Pretraining does not have one target;
-   optimizing the seed pool against any specific target biases the
-   corpus toward that target's domain.
-2. **They do not extend incrementally.** Adding new candidate
-   keywords requires re-running the selection against the target
-   series. If you build v1, then want a bigger v2, you redo the
-   work.
+#### Why the econometric methods are the wrong tool here
 
-The top-down methods (GT verticals, Wikipedia top-pageview,
-`pytrends.related_queries`, LLM expansion) are both cheap per
-candidate *and* incrementally extensible.
+Ross 2013 backward induction, Scott-Varian BSTS, Kohns-Bhattacharjee
+BSTS, and Ferrara-Simoni Lasso all share two properties that make
+them a bad fit for TS-FM corpus construction:
 
-Cost × extensibility of each method (rough orders of magnitude):
+1. **They each require a target series.** The methods are designed
+   to answer "which keywords best predict *this* indicator", and
+   they do it well for single-target nowcasting. Pretraining does
+   not have one target — the corpus should be broad and topical,
+   not tuned to any specific series. Using these methods forces you
+   to pick a proxy target, which biases the whole corpus toward
+   that target's domain.
+2. **They do not extend incrementally.** Adding candidates to the
+   pool requires re-running the entire selection procedure against
+   the target series. v1 → v2 throws away v1's computations.
 
-| Method | GT requests per candidate | Compute cost | Needs target? | Extensible? |
+Backward induction shines when the *downstream task* is a single
+target. Use it **on top of** your finished corpus for a specific
+nowcasting problem, not at the corpus-construction layer.
+
+#### Cost × extensibility table for every §3d method
+
+| Method | GT requests per candidate | Compute cost | Needs a target? | Extends additively? |
 |---|---|---|---|---|
-| Backward induction (Ross 2013) | ~10 (N samples against target) | cheap regressions | yes, one per target | no — refit on expansion |
-| BSTS spike-slab (Scott-Varian) | ~10 | moderate MCMC | yes | no — refit |
-| BSTS horseshoe (Kohns) | ~10 | moderate MCMC | yes | no |
-| Lasso pre-screen (Ferrara-Simoni) | ~10 | cheap | yes | no |
-| GT verticals walk | few hundred total (not per candidate) | zero | no | yes — re-walk when Google adds |
-| Wikipedia top-N pageviews | 0 GT | zero (bulk download) | no | yes — raise N |
-| `pytrends.related_queries` expansion | ~1 per seed, ~25 yielded | zero | no | yes — more rounds |
-| LLM expansion (Meta RTTP) | 0 GT | moderate LLM API | no | yes — more seed topics |
-| G-TAB popularity filter (once) | ~5 per candidate (one-time) | zero extra | no | yes — cache and only run on new candidates |
+| Backward induction (Ross 2013) | ~10 (repeated samples vs target) | cheap regressions | yes, one per target | **no** — refit on expansion |
+| BSTS spike-and-slab (Scott & Varian) | ~10 | moderate MCMC | yes | **no** |
+| BSTS horseshoe (Kohns & Bhattacharjee) | ~10 | moderate MCMC | yes | **no** |
+| Lasso pre-screen (Ferrara & Simoni) | ~10 | cheap | yes | **no** |
+| GT verticals walk (Choi & Varian) | few hundred *total*, not per candidate | zero | no | yes — re-walk when Google adds categories |
+| Wikipedia top-N pageviews | **0 GT** | zero (bulk download) | no | yes — raise N |
+| `pytrends.related_queries` expansion | ~1 per seed, yields ~25 candidates | zero | no | yes — run more rounds |
+| LLM expansion (Meta RTTP) | 0 GT | moderate LLM API | no | yes — feed more seed topics |
+| G-TAB popularity filter (one-time) | ~5 per candidate | zero extra | no | yes — **cache and re-run on new candidates only** |
 
-**Recommended start-small-then-grow recipe:**
+The top-down methods — verticals, Wikipedia pageviews,
+related-queries, LLM expansion — are cheap **and** additively
+extensible. The G-TAB popularity filter is the one expensive step
+but it caches cleanly: once you have G-TAB's calibrated popularity
+for a keyword, you keep it and never re-query.
 
-1. **v1 seed pool (minimal GT cost).** Wikipedia top-100k English
-   pageview titles (free bulk download, zero GT) + full GT
-   verticals walk (few hundred GT requests) + one round of
-   `pytrends.related_queries` on the top 1k seeds (~1k GT
-   requests). Yield: 25-50k candidate queries for a few thousand
-   GT requests total. See §3a bullet points for the loader links.
-2. **One-time popularity filter via G-TAB (the expensive step).**
-   Calibrate each candidate; drop those below the sparsity
-   threshold at your target granularity. ~5 GT requests per
-   candidate, so ~200k GT requests for a 40k pool. **Cache the
-   calibration results on disk** — this is the reusable artifact.
-3. **Download + stitch series for survivors** (see §6-7). This is
-   the biggest line item, ~1-10M GT requests, but only for the
-   ~20-30k keywords that passed step 2.
-4. **v2 expansion (additive).** Raise Wikipedia pageview rank from
-   100k to 500k; run more `related_queries` rounds; walk new GT
-   verticals. Run the G-TAB filter **only on the new candidates**
-   — the cached v1 results are unchanged. Download + stitch the
-   new survivors. v2 cost scales with new candidates only, not the
-   union.
+#### Start-small-then-grow pipeline, stage by stage
 
-**On backward induction specifically.** Useful if your downstream
-task is a single target (say, nowcasting an economic indicator).
-Not useful for TS-FM pretraining, which needs broad topical
-coverage. Reference it to understand the econometric heritage, but
-do not run it for corpus construction.
+This is the pipeline the wiki recommends. Each row is a pipeline
+stage; the "v1 cost" and "v2 incremental cost" columns show what
+each stage costs the first time and on incremental extension.
 
-**On LLM-based expansion specifically.** The Meta RTTP paper shows
-LLMs can generate high-recall candidate queries from seed topics or
-documents. This is an effective v2-expansion tool — feed v1's
-top-performing queries back into an LLM and ask for related terms,
-then filter through G-TAB. Complementary to, not a replacement for,
-Wikipedia pageview seeds (which catch long-tail named entities the
-LLM may hallucinate).
+| Stage | Source / mechanism | v1 GT requests | v2 GT requests (incremental) | What it produces |
+|---|---|---|---|---|
+| **Seed — Wikipedia top-N** | Wikimedia Pageviews API bulk download; take top 100k article titles | 0 | 0 | ~100k raw candidate queries |
+| **Seed — GT verticals walk** | Walk Google Trends' ~25 top-level categories; harvest the "top queries" Google associates with each | a few hundred, total | same, if you re-walk after Google adds categories | ~5-15k curated candidates with category labels |
+| **Seed — related_queries expansion** | `pytrends.related_queries` on top-1k seeds from the two sources above | ~1k (1 per seed) | 1-2k per additional round | another ~25k candidates, tighter topical coherence |
+| **Optional seed — LLM expansion** | Feed v1 winners to an LLM, ask for related terms (Meta RTTP recipe) | 0 | 0 GT; moderate LLM API | tens of thousands of candidates, v1-tail-aware |
+| **Filter — G-TAB popularity + sparsity** | Calibrate each candidate against the G-TAB anchor bank; drop those below a sparsity threshold at the target granularity. **Cache the calibrated popularity per keyword.** | ~200k (~5 × ~40k candidates) | only on *new* candidates | ~20-30k survivors, each with a cached calibrated popularity |
+| **Download — per-query series** | §6: repeated-sample averaging; §7: stitch temporal sub-windows with a common anchor | ~1-10M (~50 × survivors) | only for new survivors | calibrated time series per (keyword, granularity) |
+| **Reconcile — Chow-Lin across frequencies** | §8: monthly → weekly → daily consistency | zero extra GT | zero extra GT | frequency-consistent series per keyword |
+| **Publish** | HuggingFace Datasets shard, dataset card, scrub-tools metadata | 0 | 0 | v1 (or v1+Δ = v2) corpus |
+
+The important structural property: **v2's incremental cost scales
+with the new candidates only, not the union**. The four additive
+expansion levers are (1) raise Wikipedia's top-N threshold, (2) add
+more `related_queries` rounds, (3) walk any new GT verticals, (4)
+run LLM expansion on v1's winners. Each of these yields new
+candidates that go through the filter-and-download stages without
+touching the cached v1 artifacts.
+
+#### Concrete numeric example
+
+A reasonable v0 → v1 → v2 trajectory:
+
+- **v0 (toy).** 1k hand-picked seeds + 1 round of
+  `related_queries` = ~25k candidates. G-TAB filter (~125k GT
+  requests) → ~10k survivors. Download hourly + daily for the last
+  3 years = ~500k requests. Total: ~625k GT requests,
+  ~few-weeks wall-clock on a single IP. Good for prototyping.
+- **v1 (publishable).** Wikipedia top-100k + verticals + 1 round
+  related_queries = ~40k candidates. Filter → ~25k survivors.
+  Full 2007-today mix (hourly last 5y + daily + weekly + monthly).
+  Total: ~3-5M GT requests, ~6-9 months wall-clock.
+- **v2 (extended).** Add Wikipedia top-500k (→ ~400k new
+  candidates), more related-queries rounds, LLM expansion.
+  Filter the new candidates only → maybe ~30k additional
+  survivors. Download only for the new survivors. Incremental
+  cost: ~3-5M more GT requests, ~6-9 months wall-clock **on top of
+  v1** — v1 remains usable and unchanged during v2 collection.
+
+#### One-paragraph summary
+
+For TS-FM pretraining, prefer **top-down seed generation
+(Wikipedia pageviews + GT verticals + `related_queries` expansion
+± LLM expansion)** over the econometric keyword-selection methods.
+The econometric methods (backward induction, BSTS, Lasso) are
+useful later, as *downstream-task* tooling on your finished corpus,
+not for building it. The one expensive step is G-TAB popularity
+filtering; cache its output per keyword so that v2 expansion only
+pays for the new candidates.
 
 ## 4. Plan the time range and granularities
 
