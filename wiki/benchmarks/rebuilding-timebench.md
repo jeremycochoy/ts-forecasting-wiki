@@ -228,7 +228,6 @@ zero-shot claims on [GIFT-Eval](../datasets-benchmarks/gift-eval.md).
 
 ## Related wiki pages
 
-- [rebuilding-google-trends-corpus.md](rebuilding-google-trends-corpus.md) — companion recipe for the Google-Trends-specific corpus (the other half of TimesFM's data mix).
 - [wikipedia-pageviews-leakage.md](wikipedia-pageviews-leakage.md) — concrete audit of Wikipedia data in GIFT-Eval (test has none; Pretrain has three datasets), with scrub procedure if you add raw Wikimedia pageviews on top.
 - [datasets-benchmarks/timebench.md](../datasets-benchmarks/timebench.md) — the target corpus description.
 - [datasets-benchmarks/lotsa.md](../datasets-benchmarks/lotsa.md) — base corpus and `GIFT-Eval Pretrain` provenance.

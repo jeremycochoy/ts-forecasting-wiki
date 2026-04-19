@@ -92,21 +92,25 @@ published-methodology references.
   Google Trends organizes queries under ~25 top-level categories
   (e.g., `All Categories > Jobs and Education > Jobs`, which
   includes "jobs", "resume", "careers"). Walking the vertical tree
-  is the canonical starting seed; see Ross (2013) in §3d.
+  is the canonical starting seed — see the Ross 2013 and
+  Choi & Varian 2011 references in §3d below.
 - **Google Trends' own top-charts.** "Year in Search" top lists per
-  year, 2001–present. HuggingFace redistribution
-  `ronantakizawa/trending-words-google` (see
-  [../datasets-benchmarks/google-trends-data.md](../datasets-benchmarks/google-trends-data.md))
+  year, 2001–present. The `ronantakizawa/trending-words-google`
+  HuggingFace dataset (described in
+  [../datasets-benchmarks/google-trends-data.md § 6](../datasets-benchmarks/google-trends-data.md))
   has 2,784 entries — a clean source of ~top-100-per-year queries.
 - **Wikipedia article titles, ranked by pageviews.** The top-100k
   English Wikipedia articles by pageview (via the Wikimedia
   Pageviews API) double as a high-recall "things people search
-  for" list. This is the trick TimesFM implicitly uses by pairing
-  Wikipedia Pageviews with Google Trends — the two corpora cover
-  overlapping topical space.
+  for" list. This is the trick [TimesFM](../papers/timesfm.md)
+  implicitly uses by pairing Wikipedia Pageviews with Google Trends —
+  the two corpora cover overlapping topical space. See
+  [wikipedia-pageviews-leakage.md](wikipedia-pageviews-leakage.md)
+  for how Wikipedia pageview data reaches pretraining corpora.
 - **Search-log head lists.** Kaggle's 2017 "Web Traffic Time Series
   Forecasting" competition dataset is a 145,063-article Wikipedia
-  snapshot that already encodes "what was searched in 2015-2017".
+  snapshot that already encodes "what was searched in 2015-2017"
+  (see [wikipedia-pageviews-leakage.md § 2](wikipedia-pageviews-leakage.md)).
   Useful as a coverage benchmark to check your seed list does not
   miss obvious categories.
 - **Domain seeds.** If you want good coverage on specific domains
@@ -116,16 +120,19 @@ published-methodology references.
 - **Programmatic expansion with `related_queries` / `suggestions`.**
   Once you have an initial seed of ~1k, use
   `pytrends.related_queries` and the autocomplete / `suggestions`
-  endpoint to discover terms Google itself considers related. Two
-  rounds of expansion usually saturate coverage per domain.
+  endpoint (see
+  [../datasets-benchmarks/google-trends-data.md § 3](../datasets-benchmarks/google-trends-data.md))
+  to discover terms Google itself considers related. Two rounds of
+  expansion usually saturate coverage per domain.
 - **LLM-based expansion (newer, 2024+ literature).** A recent line
   of work uses an LLM to generate candidate queries from a seed
-  topic or a document (e.g., Meta's RTTP "Real-Time Trend
-  Prediction via Continually-Aligned LLM Query Generation",
-  arXiv:2601.17567). For a pretraining corpus this is useful for
-  high-recall expansion but introduces LLM-specific biases; treat
-  LLM outputs as candidates to filter through the popularity filter
-  in §3b rather than as finished lists.
+  topic or a document — e.g., Meta's RTTP
+  ([rttp_2601.17567.pdf](../../papers/rttp_2601.17567.pdf)) "Real-Time
+  Trend Prediction via Continually-Aligned LLM Query Generation".
+  For a pretraining corpus this is useful for high-recall expansion
+  but introduces LLM-specific biases; treat LLM outputs as candidates
+  to filter through the popularity filter in §3b rather than as
+  finished lists.
 
 ### 3b. Popularity filter
 
@@ -161,43 +168,63 @@ The nowcasting-with-Google-Trends literature has been working on
 this exact problem since 2011. Key references:
 
 - **Ross (2013), "Nowcasting with Google Trends: a keyword
-  selection method."** *Fraser of Allander Institute Economic
-  Commentary*, 37(2). Introduces the **backward induction method**:
-  start from Google Trends verticals as coarse seeds, test each
-  candidate keyword's predictive power against a target series in
-  a simple autoregressive model, iteratively prune keywords whose
-  p-values fail a significance threshold. Retains only statistically
+  selection method"** — local PDF
+  [ross-backward-induction_2013.pdf](../../papers/ross-backward-induction_2013.pdf).
+  *Fraser of Allander Institute Economic Commentary*, 37(2).
+  Introduces the **backward induction method**: start from Google
+  Trends verticals as coarse seeds, test each candidate keyword's
+  predictive power against a target series in a simple
+  autoregressive model, iteratively prune keywords whose p-values
+  fail a significance threshold. Retains only statistically
   significant contributors. Simple, interpretable, reproducible —
   and it anticipates most modern sparsity-plus-variance filters.
-- **Choi & Varian (2012), "Predicting the Present with Google
-  Trends",** *Economic Record* — the foundational paper that
-  established verticals-as-seeds as the default entry point.
-- **Ferrara & Simoni (2019), "When are Google data useful to
-  nowcast GDP?",** uses correlation-with-target and Lasso-based
-  filtering on a large candidate pool.
-- **Scott & Varian (2014), "Predicting the Present with Bayesian
-  Structural Time Series",** introduces **spike-and-slab** priors
-  for automated keyword selection inside a BSTS nowcasting model —
-  the Bayesian formalization of "pick the ~20 most predictive
-  keywords from a larger candidate pool".
-- **Bock (2020), "Nowcasting Growth using Google Trends Data: A
-  Bayesian Structural Time Series Model",** arXiv:2011.00938.
-  Extends the spike-and-slab approach with **horseshoe** priors
-  for heavier-tailed sparsity. The paper's sensitivity analysis
-  shows keyword-selection protocol matters roughly as much as
-  model architecture for nowcasting accuracy.
-- **Medeiros & Pires (2021),** `gtrends-proper_2104.03065.pdf`
-  local copy. Warns that naïve keyword selection on a single GT
-  sample can produce "arbitrary conclusions by chance" because
-  of Bernoulli resampling noise; their §3 prescribes
+- **Choi & Varian (2011/2012), "Predicting the Present with Google
+  Trends"** — local PDF
+  [choi-varian_ptp.pdf](../../papers/choi-varian_ptp.pdf). The
+  foundational paper that established verticals-as-seeds as the
+  default entry point for GT-based nowcasting.
+- **Ferrara & Simoni (2019/2020), "When are Google data useful to
+  nowcast GDP? An approach via pre-selection and shrinkage"** —
+  local PDF
+  [ferrara-simoni_2007.00273.pdf](../../papers/ferrara-simoni_2007.00273.pdf)
+  (arXiv:2007.00273). Uses pre-screening (targeting methods) plus
+  shrunk bridge regressions to select a useful Google-Trends subset
+  from a large candidate pool.
+- **Scott & Varian (2013/2014), "Predicting the Present with
+  Bayesian Structural Time Series"** — local PDF
+  [scott-varian_2014_bsts.pdf](../../papers/scott-varian_2014_bsts.pdf).
+  Introduces **spike-and-slab** priors for automated keyword
+  selection inside a BSTS nowcasting model — the Bayesian
+  formalization of "pick the ~20 most predictive keywords from a
+  larger candidate pool".
+- **Kohns & Bhattacharjee (2022), "Nowcasting Growth using Google
+  Trends Data: A Bayesian Structural Time Series Model"** — local
+  PDF [kohns-nowcast_2011.00938.pdf](../../papers/kohns-nowcast_2011.00938.pdf)
+  (arXiv:2011.00938). Extends the Scott-Varian BSTS framework with
+  **horseshoe** priors for heavier-tailed sparsity. Sensitivity
+  analysis shows keyword-selection protocol matters roughly as much
+  as model architecture for nowcasting accuracy.
+- **Medeiros & Pires (2021), "The Proper Use of Google Trends in
+  Forecasting Models"** — local PDF
+  [gtrends-proper_2104.03065.pdf](../../papers/gtrends-proper_2104.03065.pdf)
+  (arXiv:2104.03065). Warns that naïve keyword selection on a
+  single GT sample can produce "arbitrary conclusions by chance"
+  because of Bernoulli resampling noise; their §3 prescribes
   repeated-sample averaging *before* any keyword-selection
   statistics are computed.
+- **Meta RTTP (Hui et al., 2024+), "Real-Time Trend Prediction via
+  Continually-Aligned LLM Query Generation"** — local PDF
+  [rttp_2601.17567.pdf](../../papers/rttp_2601.17567.pdf)
+  (arXiv:2601.17567). LLM-driven query generation from social-media
+  posts; scores candidates by engagement strength + creator
+  authority. The closest modern analog to Google Correlate for
+  discovering candidate queries that anticipate a target signal.
 - **Google Correlate (deprecated 2019-12-15).** Historically the
   canonical tool: you fed in a target series, Google returned
   queries whose time-series correlated with it. Shut down for low
   usage. No direct replacement exists today; the closest
   substitutes are Google Trends autocomplete, topical seed
-  expansion, and LLM-based query generation.
+  expansion, and LLM-based query generation (see Meta RTTP above).
 - **Topic-model–based coverage.** Seeded topic models (e.g.,
   `keyATM` in R) and embedding-based expansions (BERTopic) are
   standard NLP tools for ensuring a candidate pool has broad

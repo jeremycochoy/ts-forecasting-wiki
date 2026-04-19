@@ -427,6 +427,32 @@ O(n^3)) and noted the spectral trade-off (fixed ARMA poles vs GP
 multi-scale composition). Updated the "Papers that exemplify this"
 bullet for TimesFM to match the expanded description.
 
+## [2026-04-19] refactor | Link foundational GT-methodology papers into the rebuild guide
+
+Downloaded six foundational papers for Google-Trends-corpus
+methodology into `papers/` and cross-linked them from §3d of
+`benchmarks/rebuilding-google-trends-corpus.md`:
+
+- `choi-varian_ptp.pdf` — Choi & Varian 2011, the verticals-as-seeds
+  foundational paper.
+- `ross-backward-induction_2013.pdf` — Ross 2013, introduces the
+  backward-induction keyword-selection method.
+- `scott-varian_2014_bsts.pdf` — Scott & Varian 2013/2014, spike-
+  and-slab BSTS keyword selection.
+- `ferrara-simoni_2007.00273.pdf` — Ferrara & Simoni 2019/2020,
+  pre-selection + shrinkage for large candidate pools.
+- `kohns-nowcast_2011.00938.pdf` — Kohns & Bhattacharjee 2022,
+  horseshoe-prior BSTS extension (arXiv:2011.00938). Fixes the
+  earlier citation error (wrongly attributed to "Bock 2020").
+- `rttp_2601.17567.pdf` — Meta RTTP LLM-based query generation
+  (arXiv:2601.17567).
+
+The rebuild guide's §3a and §3d now link every paper reference to
+its local PDF and every concept reference to the appropriate wiki
+page. Per instruction, the wiki does not link back *to* the rebuild
+guide — removed the companion-recipe back-link from
+`rebuilding-timebench.md`.
+
 ## [2026-04-19] query-filed-back | Rebuilding-Google-Trends-corpus guide
 
 Added `benchmarks/rebuilding-google-trends-corpus.md`, a practical
