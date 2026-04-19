@@ -427,6 +427,44 @@ O(n^3)) and noted the spectral trade-off (fixed ARMA poles vs GP
 multi-scale composition). Updated the "Papers that exemplify this"
 bullet for TimesFM to match the expanded description.
 
+## [2026-04-19] query-filed-back | Data-section expansion + Google Trends page
+
+Expanded `datasets-benchmarks/` into a comprehensive "data section"
+covering every named TS-FM dataset, their types, usage, known leakage
+status, and scrub tooling. New pages created:
+
+- `datasets-benchmarks/datasets-benchmarks.md` — rewritten as the
+  data-section hub with summary tables for corpora and benchmarks.
+- `datasets-benchmarks/dataset-types.md` — 8-axis taxonomy
+  (pretraining vs eval, real vs synthetic, univariate vs
+  multivariate, domain, frequency, license, release form, deprecation).
+- `datasets-benchmarks/evaluation-benchmarks.md` — consolidated
+  catalog of active vs historical vs retired evaluation suites.
+- `datasets-benchmarks/leakage-map.md` — cross-reference matrix of
+  pretraining corpora × evaluation benchmarks, verified against
+  primary sources (GIFT-Eval Tables 13/14, Moirai-MoE Fig 3,
+  Chronos §5.1, Chronos-2 Table 3).
+- `datasets-benchmarks/scrub-tools.md` — catalog of public tooling:
+  GiftEvalPretrain, `uni2ts`, Timer-S1 pipeline (documented but
+  unreleased), pytrends, trendecon, G-TAB, reconstructable
+  ~50-line scrub recipe.
+- `datasets-benchmarks/google-trends-data.md` — every known way to
+  obtain Google Trends time-series data, including the TimesFM
+  corpus description, pytrends, BigQuery, G-TAB, trendecon, and
+  open contribution opportunities.
+
+Two new paper PDFs added to `papers/` as references for the Google
+Trends page:
+
+- `gtab_2007.13861.pdf` — Robert West, "Calibration of Google Trends
+  Time Series", CIKM 2020. G-TAB method.
+- `gtrends-proper_2104.03065.pdf` — Medeiros & Pires, "The Proper
+  Use of Google Trends in Forecasting Models", arXiv:2104.03065.
+
+Updated `index.md` with all new entries. This expansion was
+submitted via a PR branch (`data-section-expansion`) and merged
+after two self-review iterations.
+
 ## [2026-04-19] lint + audit | Leakage-claim verification against primary sources
 
 Full audit of leakage and overlap claims across the wiki, verified

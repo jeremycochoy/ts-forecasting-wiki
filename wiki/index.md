@@ -56,13 +56,18 @@ Last updated: 2026-04-12.
 - [concepts/hp-transfer-across-scales.md](concepts/hp-transfer-across-scales.md) — muP, poor man's muP, cross-shaped proxy search, and architectural stabilizers for scaling HPs
 - [concepts/zero-shot-forecasting.md](concepts/zero-shot-forecasting.md) — inference on unseen series with no gradient updates
 
-## Datasets and corpora
+## Datasets and corpora (the "data" section)
 
-- [datasets-benchmarks/datasets-benchmarks.md](datasets-benchmarks/datasets-benchmarks.md) — index of pretraining corpora and shared evaluation suites
-- [datasets-benchmarks/gift-eval.md](datasets-benchmarks/gift-eval.md) — cross-cutting zero-shot FM leaderboard used alongside Monash
+- [datasets-benchmarks/datasets-benchmarks.md](datasets-benchmarks/datasets-benchmarks.md) — data-section hub: summary tables of pretraining corpora, evaluation benchmarks, and cross-cutting pages
+- [datasets-benchmarks/dataset-types.md](datasets-benchmarks/dataset-types.md) — 8-axis taxonomy of TS datasets (pretraining vs evaluation, real vs synthetic, univariate vs multivariate, domain, frequency, license, release form, deprecation status)
+- [datasets-benchmarks/evaluation-benchmarks.md](datasets-benchmarks/evaluation-benchmarks.md) — consolidated catalog of evaluation suites in current use vs historical vs retired
+- [datasets-benchmarks/leakage-map.md](datasets-benchmarks/leakage-map.md) — cross-reference matrix of pretraining corpora × evaluation benchmarks with verified leakage status
+- [datasets-benchmarks/scrub-tools.md](datasets-benchmarks/scrub-tools.md) — catalog of public tooling for corpus curation and leakage removal
+- [datasets-benchmarks/google-trends-data.md](datasets-benchmarks/google-trends-data.md) — every known way to obtain Google Trends time series, with the TS-FM angle
+- [datasets-benchmarks/gift-eval.md](datasets-benchmarks/gift-eval.md) — 23-dataset zero-shot benchmark + `GiftEvalPretrain` pretraining subset
 - [datasets-benchmarks/lotsa.md](datasets-benchmarks/lotsa.md) — MOIRAI's ~27B-observation open 9-domain pretraining corpus
 - [datasets-benchmarks/monash-archive.md](datasets-benchmarks/monash-archive.md) — the canonical multi-domain forecasting benchmark archive
-- [datasets-benchmarks/time-300b.md](datasets-benchmarks/time-300b.md) — Time-MoE's ~300B-point 9-domain pretraining corpus
+- [datasets-benchmarks/time-300b.md](datasets-benchmarks/time-300b.md) — Time-MoE's ~309B-point 9-domain pretraining corpus (Nature 90.5%)
 - [datasets-benchmarks/time-series-pile.md](datasets-benchmarks/time-series-pile.md) — MOMENT's multi-task pretraining corpus (CMU Auton Lab)
 - [datasets-benchmarks/timebench.md](datasets-benchmarks/timebench.md) — Sundial/Timer-S1's ~1T-point curated and augmented corpus
 
