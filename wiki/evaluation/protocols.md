@@ -113,18 +113,58 @@ Pile. If your pretraining corpus includes the Monash archive and
 you evaluate on Monash, you are not zero-shot on Monash even if you
 have never seen the specific test window.
 
-**Known leakage cases in the wiki.**
+**Known leakage cases in the wiki (verified against primary sources).**
 
-- TimesFM's pretraining corpus includes Google Trends and Wikipedia
-  Pageviews, which overlap with Monash for several frequencies.
-  [Moirai-MoE](../papers/moirai-moe.md) Figure 3 asterisks TimesFM for this reason.
-- Chronos Small / Base / Large pretraining has Monash datasets.
-  Same asterisk.
-- Chronos-2 Section 5.1 acknowledges partial overlap with GIFT-Eval
-  training portions; test portions were explicitly scrubbed.
-- Timer-S1 explicitly removes GIFT-Eval leakage from TimeBench
-  during data curation, which is why its GIFT-Eval numbers are
-  unusually clean.
+- [Moirai-MoE](../papers/moirai-moe.md) Figure 3 **explicitly
+  asterisks** `TimesFM*`, `Chronos-Small*`, `Chronos-Base*`,
+  `Chronos-Large*` as having used Monash datasets in their pretraining
+  corpora. Table 2 caption (verbatim): "asterisks (*) to mark the
+  non-zero-shot datasets because they were used in the pretraining
+  corpus of TimesFM and Chronos."
+- [Chronos](../papers/chronos.md) v1 Benchmark I in-domain datasets
+  (M4 Daily/Hourly/Monthly/Weekly, Electricity, ETT, KDD Cup 2018,
+  Temperature-Rain, Pedestrian Counts, London Smart Meters, Uber TLC,
+  Rideshare, Taxi) **directly overlap with GIFT-Eval test**
+  (GIFT-Eval Table 13). Chronos v1's pretraining-only set also
+  includes `Wiki Daily (100k)`, 100,001 Wikipedia articles daily, but
+  GIFT-Eval test has **no** Wikipedia-derived series so that inclusion
+  does not leak against GIFT-Eval test.
+- [TimesFM](../papers/timesfm.md) pretraining uses ~22k Google Trends
+  head queries and all Wikimedia pageview data (~300B source points
+  per TimesFM §2), plus explicit real-dataset additions: M4 (all
+  granularities), Electricity, Traffic, Weather, Favorita Sales.
+  The M4 + Electricity + Traffic inclusions directly overlap
+  GIFT-Eval test.
+- [Chronos-2](../papers/chronos-2.md) §5.1 states its corpus "does
+  not overlap with test portions of any GIFT-Eval task at any
+  sampling frequency" but has "partial overlap with the training
+  portions of some GIFT-Eval datasets."
+- [Timer-S1](../papers/timer-s1.md) explicitly removes GIFT-Eval
+  leakage from TimeBench during data curation, which is why its
+  GIFT-Eval numbers are unusually clean (see
+  [../benchmarks/rebuilding-timebench.md](../benchmarks/rebuilding-timebench.md)).
+- GIFT-Eval §F.2 reports a renamed "Moirai-Leakage" variant to
+  demonstrate that Moirai-v1's original LOTSA corpus overlaps with
+  GIFT-Eval test; retraining Moirai on `GiftEvalPretrain` (the
+  LOTSA subset with test splits removed) gives a fair comparison.
+  Leakage effect is larger at longer prediction lengths.
+- [fev-bench](../benchmarks/leaderboard.md) is leakage-audited per
+  model and reports per-baseline leakage percentages in
+  [Chronos-2](../papers/chronos-2.md) Table 3: Chronos-2 0%, TiRex 1%,
+  TimesFM-2.5 8%, Toto-1.0 8%, Moirai-2.0 28%, COSMIC 0%,
+  Chronos-Bolt 0%, TabPFN-TS 0%, Sundial 1%.
+
+**Crucial clarification on "Wikipedia overlap."** Monash contains
+`Kaggle Web Traffic Weekly` / `Extended Web Traffic` (both 145,063
+Wikipedia articles from the 2017 Kaggle competition) and GluonTS
+contains `Wiki-Rolling` (47,675 articles) — so Wikipedia pageview
+data reaches many pretraining corpora via these redistributions.
+However, **GIFT-Eval test contains none of these** (GIFT-Eval
+Table 13 Web/CloudOps = BizITObs + Bitbrains only). Folding raw
+Wikimedia pageviews into a corpus does **not** produce GIFT-Eval
+test leakage directly; it does inflate overlap with the Monash
+web-traffic benchmark. See
+[../benchmarks/wikipedia-pageviews-leakage.md](../benchmarks/wikipedia-pageviews-leakage.md).
 
 This is why "zero-shot" in most TS-FM papers should be read as
 "zero-shot as defined by the paper's own corpus policy." The

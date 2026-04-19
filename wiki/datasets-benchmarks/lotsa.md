@@ -17,6 +17,27 @@ LOTSA's main contribution relative to older TS corpora is scale-per-domain: earl
 - Open and reproducible pretraining corpus.
 - Used to train MOIRAI and Moirai-MoE.
 
+## Wikipedia-derived entries
+
+Per MOIRAI Table 14 (Appendix), LOTSA's Web domain includes four
+Wikipedia-pageview datasets plus three CloudOps datasets. The
+Wikipedia entries:
+
+- `Kaggle Web Traffic Weekly` — 133,388 series / ~15M obs (Monash/Godahewa et al., 2021)
+- `Extended Web Traffic` — 161,890 series / ~333M obs (Monash)
+- `Wiki-Rolling` — 47,675 series / 40,619,100 obs (GluonTS/Alexandrov et al., 2020)
+- `Wiki Daily (100k)` — 100,001 series / ~274M obs (sourced from [Chronos](../papers/chronos.md)/Ansari et al., 2024)
+
+These are the same four Wikipedia-derived datasets that appear in
+[Time-300B](time-300b.md), and the same three (ex-`Wiki Daily`) that
+appear in [GIFT-Eval](gift-eval.md) Pretrain. GIFT-Eval **test**
+contains zero Wikipedia-derived series (GIFT-Eval Table 13), so
+LOTSA's Wikipedia content does not produce GIFT-Eval test leakage by
+itself; the leakage concern with original LOTSA is via shared Monash /
+M4 / ETT / Electricity entries that GIFT-Eval test does include —
+which is precisely what `GIFT-Eval Pretrain` scrubs out. See
+[../benchmarks/wikipedia-pageviews-leakage.md](../benchmarks/wikipedia-pageviews-leakage.md).
+
 ## Papers that exemplify this (or use this)
 
 - [MOIRAI](../papers/moirai.md) — created LOTSA and used it as the sole pretraining corpus.

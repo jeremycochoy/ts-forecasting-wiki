@@ -41,6 +41,23 @@ different aggregations — daily + weekly). Together they contribute
 ~428M observations to the pretraining corpus, ~0.2% of its 230B-point
 total.
 
+## 2b. Wikipedia data across the other major TS-FM corpora
+
+For context, Wikipedia pageview data is already present in most other
+large TS-FM corpora as well — verified against the papers' own tables:
+
+| Corpus | Wikipedia-derived entries |
+|---|---|
+| [LOTSA](../datasets-benchmarks/lotsa.md) (Moirai) | `Kaggle Web Traffic Weekly` (133,388 series), `Extended Web Traffic` (161,890 series), `Wiki-Rolling` (47,675 series), `Wiki Daily (100k)` (100,001 series; sourced from Chronos) — Moirai Table 14 |
+| [Time-300B](../datasets-benchmarks/time-300b.md) (Time-MoE) | Same four datasets as LOTSA — Time-MoE Table 10 |
+| [Chronos](../papers/chronos.md) v1 pretraining-only | `Wiki Daily (100k)` (100,001 series × 2,741 obs/series) — Chronos Table 3 / Appendix B |
+| [TimesFM](../papers/timesfm.md) v1 pretraining | "all Wikimedia pageview data" from Jan 2012 – Nov 2023, ~300B points before dataset-mixing; exact page list not released — TimesFM §2 |
+
+Consequence: Wikipedia pageview data is already in virtually every
+large public TS-FM pretraining corpus. Folding raw Wikimedia on top
+is primarily a *deduplication* concern (covered in section 3b), not a
+fresh leakage vector against GIFT-Eval test.
+
 ## 3. Practical implications
 
 ### 3a. If you use `Salesforce/GiftEvalPretrain` as-is

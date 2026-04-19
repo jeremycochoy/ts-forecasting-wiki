@@ -301,12 +301,17 @@ Chronos on Monash for exactly this reason.
 Mitigations: (1) apply the [Timer-S1](../papers/timer-s1.md)
 leakage-removal step — explicit deduplication against GIFT-Eval and
 Chronos Benchmark II — before training, and document what you
-removed; (2) for a clean zero-shot claim, train on LOTSA with
-Timer-S1 curation and evaluate on **Chronos Benchmark II** (held out
-by construction in the [Chronos](../papers/chronos.md) paper) and/or
-**[GIFT-Eval](../datasets-benchmarks/gift-eval.md) with the leakage
-filter applied**. Report Monash for historical continuity but label
-it as "in-corpus against in-corpus competitors."
+removed; (2) the simplest path to a clean GIFT-Eval claim is to train
+directly on **`Salesforce/GiftEvalPretrain`** (the LOTSA subset
+pre-scrubbed against GIFT-Eval test, 230B obs / 88 datasets / ~4.5M
+series — see [../datasets-benchmarks/lotsa.md](../datasets-benchmarks/lotsa.md)
+and [../datasets-benchmarks/gift-eval.md](../datasets-benchmarks/gift-eval.md));
+(3) evaluate on **Chronos Benchmark II** (zero-shot by construction
+in the [Chronos](../papers/chronos.md) paper, §5.1 footnote 5)
+and/or GIFT-Eval test. Report Monash for historical continuity but
+label it as "in-corpus against in-corpus competitors." See
+[rebuilding-timebench.md](rebuilding-timebench.md) for the full
+recipe if you are layering additional corpora on top.
 
 Licensing: each corpus is released under per-dataset licenses, not a
 single monolithic license — read the HuggingFace cards before

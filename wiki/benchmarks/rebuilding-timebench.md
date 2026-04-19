@@ -14,19 +14,31 @@ and wants the missing pieces plus the filters to apply before training.
 
 ## 1. TL;DR — the finished mix
 
-| Layer | Source | Approx. size (obs) | Leakage status | Action |
+| Layer | Source | Approx. size (obs) | Leakage status vs GIFT-Eval test | Action |
 |---|---|---|---|---|
-| Core (have it) | `GIFT-Eval Pretrain` (LOTSA subset) | 230B | clean | use as-is |
-| Real add-on | [Time-300B](../datasets-benchmarks/time-300b.md) | ~300B | unaudited | dedupe + GIFT-Eval scrub |
-| Real add-on | Chronos public corpus (28 datasets) | tens of B | high (Monash overlap) | dedupe + aggressive scrub |
-| Real add-on (optional) | [Time Series Pile](../datasets-benchmarks/time-series-pile.md) | smaller, multi-task | high (Monash) | skip for pure forecasting |
+| Core (have it) | `GIFT-Eval Pretrain` (LOTSA subset) | 230B obs / ~4.5M series | clean by construction (Salesforce curated) | use as-is |
+| Real add-on | [Time-300B](../datasets-benchmarks/time-300b.md) | ~309B obs / ~48M series | unaudited; contains Wiki-Rolling + Kaggle Web Traffic + Extended Web Traffic per Time-MoE Table 10 | dedup vs Pretrain + GIFT-Eval scrub |
+| Real add-on | Chronos public corpus (28 datasets) | ~84B obs / ~890K series (Chronos §5.1) | direct overlap: Chronos Benchmark I includes M4/ETT/Electricity/KDD Cup 2018/Temperature-Rain — all in GIFT-Eval test (Table 13) | dedup + scrub mandatory |
+| Real add-on (optional) | [Time Series Pile](../datasets-benchmarks/time-series-pile.md) | smaller, multi-task | inherits Monash overlap (M4, Electricity, ETT) | skip for pure forecasting |
 | Synthetic | KernelSynth (GP) | scale to taste | zero by construction | generate |
 | Synthetic | TSMix (convex mixup) | scale to taste | inherits from inputs | generate after scrubbing inputs |
 | Synthetic | Canonical signal families | scale to taste | zero by construction | generate |
 
-Expected real-data total after scrub/dedup: ~450–550B observations.
-Remaining gap to reach the 1T TimeBench headline is filled with
-synthetic generation.
+**Crucial finding for this recipe.** GIFT-Eval test contains **zero
+Wikipedia-derived series** (GIFT-Eval Table 13, arXiv:2410.10393) — all
+Web/CloudOps test datasets are CloudOps (BizITObs + Bitbrains). This
+means folding raw Wikimedia pageviews into your corpus does **not**
+leak w.r.t. GIFT-Eval test. The real leakage pathways against
+GIFT-Eval test are the Monash / M4 / ETT / Electricity entries that
+Chronos-v1 and LOTSA both inherit. See
+[wikipedia-pageviews-leakage.md](wikipedia-pageviews-leakage.md) for
+the specific scrub procedure.
+
+Expected real-data total after scrub/dedup: ~450–550B observations
+(heavy overlap between Time-300B, Chronos, and LOTSA; the three share
+M4, Electricity, Traffic, Weather, KDD Cup 2018, Wiki-Rolling,
+Kaggle Web Traffic, and more). Remaining gap to reach the 1T
+TimeBench headline is filled with synthetic generation.
 
 ## 2. Starting point — `GIFT-Eval Pretrain`
 
@@ -43,44 +55,71 @@ through the full pipeline in section 6.
 ## 3. Layer 1 — Time-300B
 
 [Time-300B](../datasets-benchmarks/time-300b.md) is [Time-MoE](../papers/time-moe.md)'s
-corpus, ~300B observations across 9 domains, released alongside
-Time-MoE's weights. It is the single biggest public addition.
+corpus, ~309B observations across 9 domains (Time-MoE Table 1),
+released alongside Time-MoE's weights. It is the single biggest
+public addition.
 
-Caveats:
+Caveats (verified against Time-MoE Tables 1 and 10):
 
 - **No published GIFT-Eval leakage audit.** Time-MoE was assembled
   before GIFT-Eval and is not part of the Timer-S1 scrub
   documentation. You must apply the scrub yourself.
-- **Skewed domain mix.** Per [training-a-small-model.md § 3](training-a-small-model.md),
-  "Nature" is ~90% of observations, so the effective diversity is
-  lower than the 300B headline.
-- **Overlap with LOTSA is likely.** Both corpora ingest Electricity,
-  Traffic, Weather and parts of Monash. A dataset-level dedup pass
-  against `GIFT-Eval Pretrain` is mandatory before counting
-  observations.
+- **Heavily skewed domain mix.** Nature is **90.50%** of observations
+  (279.7B / 309.1B) per Time-MoE Table 1, so the effective diversity
+  is much lower than the 309B headline.
+- **Overlap with LOTSA is substantial.** Time-MoE Table 10 lists
+  per-dataset sources; the overlap with LOTSA includes at least
+  `Alibaba Cluster Trace 2018`, `Azure VM Traces 2017`,
+  `Borg Cluster Data 2011`, `Kaggle Web Traffic Weekly`
+  (133,388 series), `Extended Web Traffic` (161,890 series),
+  `Wiki-Rolling` (47,675 series), and `Wiki Daily (100k)`
+  (100,001 series, sourced from Chronos/Ansari et al. 2024).
+  A dataset-level dedup pass against `GIFT-Eval Pretrain` is
+  mandatory before counting observations.
 
 Expected clean yield after dedup + scrub: **on the order of 200–280B
 observations**, depending on how aggressive the fuzzy dedup is.
 
 ## 4. Layer 2 — Chronos public corpus snapshot
 
-[Chronos](../papers/chronos.md)'s pretraining corpus is 28 public
-source datasets, redistributed via the HuggingFace dataset card at
-`amazon-science/chronos-forecasting` (see [papers/chronos.md § Reproducibility](../papers/chronos.md)).
+[Chronos](../papers/chronos.md)'s pretraining corpus is 28 datasets
+(13 pretraining-only + 15 Benchmark I in-domain), **~890K univariate
+series totaling ~84B observations** per Chronos §5.1. Distributed via
+the HuggingFace dataset card `autogluon/chronos_datasets`, plus the
+`amazon-science/chronos-forecasting` repo.
 [TimeBench](../datasets-benchmarks/timebench.md) explicitly reuses
 "public dataset snapshots from Chronos"
 (see [datasets-benchmarks/timebench.md § Overview](../datasets-benchmarks/timebench.md)).
 
-This is the **highest-leakage ingredient** in the rebuild:
-[Moirai-MoE](../papers/moirai-moe.md) Figure 3 asterisks Chronos on
-Monash for precisely this reason
-([evaluation/protocols.md § 5](../evaluation/protocols.md)), and the
-Chronos v1 paper itself acknowledges that Benchmark II datasets
-overlap non-trivially with training via [TSMix](../concepts/synthetic-data-augmentation.md).
+Leakage status against GIFT-Eval test (verified against Chronos
+Table 3 / Appendix B and GIFT-Eval Table 13):
 
-Expected clean yield after dedup + scrub: **single-digit billions to
-low tens of billions of observations**. Much of the raw content is
-Monash-adjacent and disappears in the GIFT-Eval leakage pass.
+- **Chronos Benchmark II (27 datasets) is zero-shot by Chronos's own
+  design** — the paper's footnote 5 says the leakage risk is "minimal
+  given that the datasets bear no overlap beyond high-level conceptual
+  categorization." So Benchmark II is not the leakage source.
+- **Chronos Benchmark I (15 in-domain datasets) is the leakage
+  source.** It includes `M4 (Daily/Hourly/Monthly/Weekly)`,
+  `Electricity (15 Min/Hourly/Weekly)`, `ETT (15 Min/Hourly)`,
+  `KDD Cup 2018`, `London Smart Meters`, `Pedestrian Counts`,
+  `Rideshare`, `Taxi (30 Min)`, `Temperature-Rain`, and
+  `Uber TLC (Daily/Hourly)`. Several of these are in **GIFT-Eval test**
+  (GIFT-Eval Table 13): `M4 Yearly/Quarterly/Monthly/Weekly/Daily/Hourly`,
+  `Electricity` (UCI), `ETT1/ETT2`, `KDD Cup 2018`,
+  `Temperature Rain`.
+- Chronos pretraining-only set also includes `Wiki Daily (100k)` —
+  100,001 Wikipedia articles daily — but this does not leak against
+  GIFT-Eval test, which has no Wikipedia data. See
+  [wikipedia-pageviews-leakage.md](wikipedia-pageviews-leakage.md).
+
+Expected clean yield after dedup + scrub: **a non-trivial fraction of
+the 84B** — the 13 pretraining-only datasets + the Benchmark II
+datasets (zero-shot for Chronos, but most of those overlap GIFT-Eval
+via common Monash sources, so the scrub still removes them). The
+remaining clean content is dominated by the pretraining-only set
+(Brazilian Cities Temperature, Mexico City Bikes, Solar, Spanish
+Energy and Weather, Taxi, USHCN, Weatherbench, Wiki Daily, Wind
+Farms) minus whatever overlaps with Pretrain's existing entries.
 
 ## 5. Layer 3 — Synthetic generators
 
@@ -139,13 +178,15 @@ steps 5–6 as a final augmentation pass across the whole corpus.
 ## 7. Size budget worksheet
 
 Cumulative observations at each stage, assuming typical dedup /
-scrub overheads:
+scrub overheads. Source numbers: GIFT-Eval Pretrain §3 / Table 14
+(230B); Time-MoE Table 1 (309B); Chronos §5.1 (84B); paper-stated
+augmentation counts for KernelSynth/TSMix.
 
 | Stage | Cumulative real obs | Synthetic budget to add | Notes |
 |---|---|---|---|
 | After `GIFT-Eval Pretrain` | 230B | 0 | already clean |
-| + Time-300B (post-scrub) | ~450–510B | 0 | dedup vs LOTSA required |
-| + Chronos corpus (post-scrub) | ~460–530B | 0 | most is Monash-adjacent → dropped |
+| + Time-300B (post-scrub) | ~450–510B | 0 | dedup vs Pretrain drops shared LOTSA/Monash entries; ~90% of Time-300B is Nature-domain |
+| + Chronos corpus (post-scrub) | ~460–530B | 0 | Benchmark I overlaps GIFT-Eval test directly; after scrub only the 13 pretraining-only datasets + Wiki Daily + synthetic-incompatible entries remain |
 | + KernelSynth | same | ~100–300B | generate to any target |
 | + TSMix | same | ~100–300B | inputs must be already scrubbed |
 | + Canonical signal families | same | ~50–200B | cheap, composable |

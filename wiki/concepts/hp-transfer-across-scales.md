@@ -250,10 +250,16 @@ man's muP rule and the cross-shaped proxy search both more reliable.
 
 - [Scaling laws](scaling-laws.md) — the empirical evidence on how loss
   scales with params, data, and compute.
+- [Data normalization](data-normalization.md) — the preprocessing
+  decision that interacts with the RevIN / RMSNorm placement choices
+  this page discusses.
+- [Patch tokenization](patch-tokenization.md) — patch size P affects
+  effective sequence length and therefore HP tuning at scale.
 - [Model sizing cheat sheet](../benchmarks/model-sizing-cheatsheet.md) —
   the `(d, L)` configs this page helps you tune HPs for.
 - [Training a small model](../benchmarks/training-a-small-model.md) —
   where to train and what size to target.
 - [Training recipes](../research/training-recipes.md) — the optimizer and
   schedule choices each published model made.
-- [Decoder-only autoregressive](../architectures/decoder-only-autoregressive.md)
+- [Decoder-only autoregressive](../architectures/decoder-only-autoregressive.md) — the dominant architecture family where HP transfer has been studied most.
+- [Mixture-of-experts](../architectures/mixture-of-experts.md) — sparse-MoE adds routing / aux-loss HPs that compound the transfer problem.

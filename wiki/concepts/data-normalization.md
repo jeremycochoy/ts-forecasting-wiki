@@ -213,3 +213,9 @@ first-differences.
   the differencing tradition this page contrasts with
 - [HP transfer across scales](hp-transfer-across-scales.md) — another
   preprocessing-level design decision that affects the whole pipeline
+- [Decoder-only autoregressive](../architectures/decoder-only-autoregressive.md)
+  — normalization choice interacts with the patch-level autoregressive
+  loss used by this family
+- [Masked encoder](../architectures/masked-encoder.md) — the masked
+  reconstruction objective has its own normalization-vs-output-space
+  subtlety (MOMENT uses RevIN, MOIRAI uses per-context standardization)

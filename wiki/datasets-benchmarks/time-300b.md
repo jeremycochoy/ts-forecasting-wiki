@@ -12,10 +12,34 @@ Time-300B is one of four named large TS pretraining corpora alongside [LOTSA](./
 
 ## Key ideas / variants
 
-- ~300B observations across 9 domains.
+- ~309B observations across 9 domains (Time-MoE Table 1). Domain mix is
+  heavily skewed: **Nature is 90.50% of observations** (279.7B),
+  Energy 5.17%, Synthetic 2.98%, Transport 0.69%, Web 0.58%, and
+  the remainder < 0.02% each.
 - Paired with Time-MoE's 2.4B-parameter sparse MoE decoder.
 - Enables billion-parameter TS scaling-law measurements.
 - The largest-to-date observation count among named TS corpora aside from TimeBench.
+
+## Contents and overlap
+
+Per Time-MoE Table 10, Time-300B's Web domain consists of public
+LOTSA-derived + Chronos-derived entries, including Wikipedia-derived
+data:
+
+- `Alibaba Cluster Trace 2018`, `Azure VM Traces 2017`,
+  `Borg Cluster Data 2011` (CloudOps).
+- `Kaggle Web Traffic Weekly` (133,388 series / ~15M obs),
+  `Extended Web Traffic` (161,890 series / ~333M obs),
+  `Wiki-Rolling` (47,675 series / 40.6M obs) — all Wikipedia pageviews.
+- `Wiki Daily (100k)` (100,001 series, sourced from Chronos/Ansari
+  et al. 2024) — Wikipedia daily pageviews.
+- `TSMixup 10M` and `KernelSynth 1M` under the Synthetic domain.
+
+Overlap with [LOTSA](lotsa.md), the [Chronos](../papers/chronos.md)
+corpus, and [GIFT-Eval](gift-eval.md) Pretrain is substantial because
+all four ingest many of the same public Monash / GluonTS / Chronos
+datasets. No published GIFT-Eval leakage audit exists for Time-300B;
+the Time-MoE paper pre-dates GIFT-Eval.
 
 ## Papers that exemplify this (or use this)
 

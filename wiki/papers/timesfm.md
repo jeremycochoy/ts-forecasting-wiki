@@ -38,7 +38,7 @@ TimesFM established the "decoder-only + patched + synthetic-augmented" recipe th
 ## Reproducibility
 - **Open weights:** partial — the paper states weights would be released; a checkpoint has since been published on HuggingFace (`google/timesfm-1.0-200m`), but the paper itself does not pin a hub URL.
 - **Code:** referenced in paper but URL not extracted.
-- **Training data:** partially public — M4, Electricity, Traffic, Weather, LibCity and Favorita are public; Google Trends and Wiki Pageviews are redistributable as raw counts but the exact 22k-query / ~68M-series slices used are not released.
+- **Training data:** partially public — M4 (all granularities, ~100k series), Electricity (15min + Hourly), Traffic (hourly + 15min), Weather (10-min), LibCity and Favorita Sales are public and listed in TimesFM Table 1. Google Trends is sourced from ~22k "head queries" across four granularities (~0.5B points total per the paper); Wiki Pageviews is "all Wikimedia pages" aggregated into four granularities with excessive-zero filtering (~300B points in the source corpus per TimesFM §2 "Wiki Pageviews"). Synthetic component is 3M series × 2048 points = 6.1B points. The exact Google Trends head-query list and the exact Wiki Pageviews page list used are not released.
 - **Compute to retrain:** 2 days to complete 1.5M iterations at batch 4096 on a TPUv5e pod with 16 tensor cores for the 200M model; exact FLOPs not disclosed.
 - **Deployment footprint:** 200M parameters; configurable context length up to 512 patches; inference demonstrated at standard-GPU scale; no explicit CPU benchmark.
 
