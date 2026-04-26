@@ -664,3 +664,50 @@ Mamba4Cast does single-pass direct full-horizon with no patch
 tokenization. TTM uses adaptive patch sizes with direct multi-step
 output. 6 leaves skipped (info already present): moment, moirai,
 moirai-moe, moirai-2, timer-s1, timegpt.
+
+## [2026-04-26] ingest | TiDE (arXiv:2304.08424) + scope-widen to representation learning
+
+User asked whether TimesFM, TiDE, and a "GRU/LSTM contrastive
+representation" paper were in the wiki. TimesFM was already covered;
+TiDE and the contrastive lineage were not. Hybrid filing per user's
+direction: TiDE as a paper leaf (it's a forecasting model, repeatedly
+benchmarked), CPC + TS2Vec as a unified concept page since
+representation-learning architectures don't fit the seven-cluster
+taxonomy and shouldn't bury readers under per-paper leaves.
+
+Added:
+
+- `papers/tide_2304.08424.pdf`, `papers/cpc_1807.03748.pdf`,
+  `papers/ts2vec_2106.10466.pdf` — three new source PDFs.
+- `wiki/papers/tide.md` — full paper leaf, marked "Pre-FM long-horizon
+  baseline" instead of mapping to a TS-FM cluster. Cross-links to
+  TimesFM (lineage), to lightweight non-transformer family (closest TS-FM
+  cousins), and to the LTSF baseline references in benchmarks/evaluation.
+- `wiki/concepts/contrastive-representation-learning.md` — new concept
+  page covering CPC (van den Oord 2018; GRU + InfoNCE), TS2Vec (Yue
+  2022; hierarchical dilated CNN), TNC (2021), T-Loss (2019), TS-TCC
+  (2021). Pseudocode for both CPC and TS2Vec, mutual-information bound,
+  trade-offs against the masked / autoregressive pretraining tracks
+  used by the in-wiki TS-FMs.
+
+Updates:
+
+- `wiki/concepts/concepts.md` — added the new concept link, broadened
+  the section description from "TS foundation model architectures" to
+  "TS foundation models and the broader representation-learning
+  literature they build on."
+- `wiki/foundations/deep-learning-era.md` — appended a TiDE section
+  (covariate highway, M5 result, lineage to TimesFM) and a contrastive
+  representation-learning section (CPC → TS2Vec → eclipsed by 2024
+  TS-FMs on zero-shot forecasting, still strong on UCR/UEA).
+- `wiki/papers/papers.md` — added a "Pre-FM precursors and baselines"
+  section with TiDE.
+- `wiki/index.md` — added entries for the new concept page, the new
+  TiDE leaf under "Pre-FM precursors and baselines"; bumped Last
+  updated to 2026-04-26.
+
+Scope note: this is the first wiki page that explicitly treats
+representation learning as a first-class topic. The schema in
+`CLAUDE.md` should probably grow a sentence acknowledging this, but
+the change was deferred until a few more representation-learning
+sources land — single page is not yet a critical mass.

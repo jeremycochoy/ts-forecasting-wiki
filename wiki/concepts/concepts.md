@@ -1,6 +1,6 @@
 # Concepts
 
-This section collects the recurring design ideas and training recipes that cut across time-series foundation model architectures. Most concern how raw numeric series are turned into something a transformer can consume (patch tokenization, value quantization, RevIN), how the model expresses uncertainty (probabilistic forecasting), how it is evaluated without task-specific fine-tuning (zero-shot, in-context learning), and how it is scaled (scaling laws, synthetic data, multi-task heads).
+This section collects the recurring design ideas and training recipes that cut across time-series foundation models and the broader representation-learning literature they build on. Most concern how raw numeric series are turned into something a transformer can consume (patch tokenization, value quantization, RevIN), how the model expresses uncertainty (probabilistic forecasting), how it is evaluated without task-specific fine-tuning (zero-shot, in-context learning), how it is scaled (scaling laws, synthetic data, multi-task heads), and how feature representations are pretrained without a forecasting objective (contrastive representation learning).
 
 ## Sub-pages
 
@@ -15,3 +15,4 @@ This section collects the recurring design ideas and training recipes that cut a
 - [Multi-task universal](multi-task-universal.md) — one model for forecast, classify, impute, anomaly.
 - [Synthetic data augmentation](synthetic-data-augmentation.md) — KernelSynth, TSMix, PFN priors, and friends.
 - [HP transfer across scales](hp-transfer-across-scales.md) — muP, poor man's muP, cross-shaped proxy search, and architectural stabilizers for tuning HPs once at small size and scaling up.
+- [Contrastive representation learning](contrastive-representation-learning.md) — InfoNCE-style pretraining via positive/negative discrimination (CPC, TS2Vec, TNC, T-Loss); the representation-learning track that runs parallel to forecasting-only TS-FMs.

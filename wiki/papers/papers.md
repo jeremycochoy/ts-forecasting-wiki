@@ -70,3 +70,11 @@ This directory is the leaf layer of the wiki; each page summarizes one research 
 
 ### [Cluster 7 — Continuous / flow-matching FMs](../foundation-models/taxonomy.md#cluster-7--continuous--flow-matching-fms)
 - [Sundial](./sundial.md)
+
+## Pre-FM precursors and baselines
+
+Papers that pre-date the TS-FM wave but are repeatedly cited as design ancestors or full-shot baselines. They do not map to the seven-cluster taxonomy.
+
+| Paper | arXiv | Date | Venue | Role | Link |
+| --- | --- | --- | --- | --- | --- |
+| TiDE | [2304.08424](https://arxiv.org/abs/2304.08424) | 2023-04 | TMLR 2023 | MLP encoder-decoder; design ancestor of [TimesFM](./timesfm.md), full-shot baseline in [MOIRAI](./moirai.md) and [GIFT-Eval](../datasets-benchmarks/gift-eval.md) | [tide](./tide.md) |

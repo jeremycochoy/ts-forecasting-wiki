@@ -67,6 +67,37 @@ are not enormous — a thread that reappears later in lightweight
 foundation models like TTM (see
 [../papers/ttm.md](../papers/ttm.md)).
 
+## TiDE (2023)
+
+[TiDE](../papers/tide.md) (Das, Kong, Leach, Mathur, Sen, Yu, TMLR 2023)
+formalized the post-DLinear consensus: a pure-MLP encoder-decoder with a
+covariate "feature projection" path, a per-step "temporal decoder" that
+re-injects future covariates, and a global linear residual that
+subsumes DLinear as a degenerate sub-model. On the seven canonical LTSF
+benchmarks (ETT ×4, Weather, Traffic, Electricity) TiDE matches or beats
+PatchTST while being 5–10× faster, and on the M5 retail competition it
+beats DeepAR by 20% on WRMSSE thanks to its covariate-aware design.
+TiDE is a per-dataset supervised model, not a foundation model — but
+the same Google team (Das, Kong, Sen) carried channel independence,
+covariate handling, and the linear residual into [TimesFM](../papers/timesfm.md)
+the following year, so it sits directly on the lineage from DLinear to
+the first TS-FM cohort.
+
+## Contrastive representation learning (2018–2022)
+
+A parallel track to the forecasting-first lineage above is
+self-supervised representation learning, which trains an encoder to
+discriminate "related" segments from "unrelated" ones rather than to
+forecast or reconstruct. CPC (van den Oord et al., 2018) introduced
+the InfoNCE recipe with a strided-CNN encoder and a GRU autoregressive
+aggregator; T-Loss, TNC, TS-TCC, and especially TS2Vec (AAAI 2022)
+adapted it for time series with hierarchical and timestamp-level
+contrasts. These methods dominate the UCR/UEA classification
+leaderboards and the Yahoo / KPI anomaly-detection benchmarks but were
+overtaken on zero-shot forecasting by the 2024 TS-FM wave.
+See [../concepts/contrastive-representation-learning.md](../concepts/contrastive-representation-learning.md)
+for the full treatment.
+
 ## Why these fell short of being foundation models
 
 - **Per-dataset training.** With the partial exception of DeepAR's
