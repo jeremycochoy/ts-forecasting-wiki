@@ -936,3 +936,35 @@ Updates:
 representation-learning + 8 Google Trends methodology = **37 leaves**,
 matching the 37 PDFs in `papers/`. Every PDF now has at least one
 leaf; every leaf points at exactly one PDF; slugs are frozen.
+
+## [2026-04-27] schema | Promote leaf convention into llm-wiki.md generic pattern
+
+User asked whether the "every raw source has at least one markdown
+leaf, internal links target leaves not raw sources" convention is
+explicitly mentioned in `llm-wiki.md`. It was not — `llm-wiki.md`'s
+Architecture section described raw sources as immutable but did not
+articulate the leaf-per-source rule, the "long sources get multiple
+leaves" pattern (one per chapter of a book, one per section of a
+long report), or the LLM-readability motivation.
+
+Added one paragraph to `llm-wiki.md` (after the three-layer
+description in §Architecture) stating:
+
+- Every raw source should have at least one markdown leaf in the
+  wiki layer.
+- Long sources warrant multiple leaves.
+- Internal cross-references target leaves, not raw sources.
+- Motivation: LLMs are bad at re-reading raw documents on every
+  query; the leaf compiles facts once.
+
+This is a structural clarification of the *generic* pattern (true
+of any LLM-built wiki, not just this TS-FM one), so it belongs in
+`llm-wiki.md` rather than `CLAUDE.md`.
+
+Softened the corresponding `CLAUDE.md` anti-pattern from a flat
+"Do not edit `llm-wiki.md`" to "Do not edit as part of routine
+ingest / query-filed-back / lint work; structural clarifications
+to the generic pattern itself may go in only with explicit user
+direction and should be logged here under a `schema` op." That
+matches the rule's actual intent and acknowledges the user is the
+ultimate rule-setter.
