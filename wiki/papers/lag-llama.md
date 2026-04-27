@@ -1,6 +1,6 @@
 # Lag-Llama: Towards Foundation Models for Probabilistic Time Series Forecasting
 
-> **Short name:** `lag-llama` · **arXiv:** [2310.08278](https://arxiv.org/abs/2310.08278) · **PDF:** [local](../../papers/lagllama_2310.08278.pdf) · **Date:** 2023-10 · **Venue:** NeurIPS 2023 TSALM workshop
+> **Short name:** `lag-llama` · **arXiv:** [2310.08278](https://arxiv.org/abs/2310.08278) · **PDF:** [local](../../papers/lag-llama_2310.08278.pdf) · **Date:** 2023-10 · **Venue:** NeurIPS 2023 TSALM workshop
 
 **Authors:** Kashif Rasul, Arjun Ashok, Andrew Robert Williams et al. (Morgan Stanley, ServiceNow, Mila, Universite de Montreal)
 

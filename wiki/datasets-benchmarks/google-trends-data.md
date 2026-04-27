@@ -27,7 +27,7 @@ precision** in `[0, 100]`. Two additional facts matter:
 - **Each request is a fresh Bernoulli sample of the underlying
   query logs.** Ask the same question again with the same inputs
   and the returned numbers will differ, sometimes substantially
-  (Medeiros & Pires 2021, `gtrends-proper_2104.03065.pdf`, Abstract).
+  ([Medeiros & Pires 2021](../papers/gtrends-proper.md), Abstract).
 
 The integer-rounding + "peak is 100" rules interact badly when one
 request mixes popular and unpopular queries. Concrete example: ask
@@ -39,7 +39,7 @@ collapses to **all zeros**. You cannot recover the niche hobby's
 real time-series from this request at all. West 2020 states the
 consequence plainly: "entirely uninformative, all-zero time series
 may be returned for unpopular queries when requested together with
-more popular queries" (`gtab_2007.13861.pdf`, Abstract).
+more popular queries" ([West 2020](../papers/gtab.md), Abstract).
 
 The two fixes for reliable use are: (a) **repeated-sampling with
 averaging** to smooth out the Bernoulli noise (Medeiros-Pires
@@ -154,7 +154,7 @@ for anything beyond exploration.
 ### Google Trends Anchor Bank (G-TAB)
 
 - **Repo.** `https://github.com/epfl-dlab/GoogleTrendsAnchorBank`.
-- **Paper.** Robert West, "Calibration of Google Trends Time Series",
+- **Paper.** [Robert West, "Calibration of Google Trends Time Series"](../papers/gtab.md),
   CIKM 2020 (arXiv:2007.13861). Local PDF:
   [../../papers/gtab_2007.13861.pdf](../../papers/gtab_2007.13861.pdf).
 
@@ -255,8 +255,8 @@ Available alternatives:
   vocabularies.
 - **Per-paper microcorpora** — numerous economics / epidemiology
   papers publish small Google Trends datasets alongside their
-  replication code. Examples: Choi & Varian 2011 "Predicting the
-  Present", Medeiros & Pires 2021 (`gtrends-proper_2104.03065`),
+  replication code. Examples: [Choi & Varian 2011](../papers/choi-varian.md) "Predicting the
+  Present", [Medeiros & Pires 2021](../papers/gtrends-proper.md),
   nowcasting literature.
 
 Building a new, releasable Google Trends corpus at TimesFM scale is
@@ -288,16 +288,31 @@ benchmark matrix.
 
 ## 8. Reference papers (in `papers/`)
 
-The two canonical methodology papers are downloaded into this wiki's
-paper folder for reference:
+The methodology papers below are ingested into this wiki as paper
+leaves under `wiki/papers/`; the leaves carry the per-paper detail
+that this section uses inline:
 
-- [gtab_2007.13861.pdf](../../papers/gtab_2007.13861.pdf) — West,
-  "Calibration of Google Trends Time Series" (CIKM 2020).
-- [gtrends-proper_2104.03065.pdf](../../papers/gtrends-proper_2104.03065.pdf) —
-  Medeiros & Pires, "The Proper Use of Google Trends in Forecasting
-  Models" (arXiv:2104.03065).
+- [GTAB](../papers/gtab.md) (West, CIKM 2020) — anchor-bank
+  cross-batch calibration.
+- [Medeiros-Pires "Proper Use of Google Trends"](../papers/gtrends-proper.md)
+  (PUC-Rio, 2021) — per-request sampling-noise documentation and
+  repeated-sampling stitching procedure.
+- [Choi-Varian "Predicting the Present"](../papers/choi-varian.md)
+  (Google, *Economic Record* 2012) — foundational nowcasting paper.
+- [Scott-Varian BSTS](../papers/scott-varian.md) (Google, 2014) —
+  Bayesian Structural Time Series + spike-and-slab on GT predictors.
+- [Ferrara-Simoni](../papers/ferrara-simoni.md) (SKEMA / CREST, 2020)
+  — preselection-and-shrinkage theoretical framework.
+- [Kohns-Bhattacharjee](../papers/kohns-nowcast.md) (Heriot-Watt,
+  2022) — COVID-era BSTS extension with mixed-frequency variable
+  selection.
+- [Ross "keyword selection"](../papers/ross-backward-induction.md)
+  (Strathclyde, 2013) — game-theoretic backward-reasoning algorithm
+  for selecting GT keywords.
+- [RTTP](../papers/rttp.md) (Meta, 2026) — continually-aligned LLM
+  query generation for cold-start trend detection.
 
-Additional reading not fetched as PDF leaves:
+Additional reading not yet ingested as paper leaves:
 
 - Eichenauer, Indergand, Martínez, Sax, "Obtaining consistent time
   series from Google Trends", *Economic Inquiry* 60(2), 2022 —
@@ -306,8 +321,6 @@ Additional reading not fetched as PDF leaves:
   Based on Google Trends", circulated as a KOF ETH Zürich working
   paper in 2020 (identifier varies by index; cite the *Economic
   Inquiry* version for stability).
-- Choi & Varian, "Predicting the Present with Google Trends",
-  *Economic Record*, 2012 — foundational nowcasting paper.
 - Nowcasting-with-Google-Trends literature more broadly: applied
   macro / epidemiology papers that use GT as exogenous features.
 

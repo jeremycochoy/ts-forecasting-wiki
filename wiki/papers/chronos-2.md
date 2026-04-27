@@ -1,6 +1,6 @@
 # Chronos-2: From Univariate to Universal Forecasting
 
-> **Short name:** `chronos-2` · **arXiv:** [2510.15821](https://arxiv.org/abs/2510.15821) · **PDF:** [local](../../papers/chronos2_2510.15821.pdf) · **Date:** 2025-10 · **Venue:** preprint
+> **Short name:** `chronos-2` · **arXiv:** [2510.15821](https://arxiv.org/abs/2510.15821) · **PDF:** [local](../../papers/chronos-2_2510.15821.pdf) · **Date:** 2025-10 · **Venue:** preprint
 
 **Authors:** Abdul Fatir Ansari, Oleksandr Shchur, Jaris Küken et al. (AWS)
 

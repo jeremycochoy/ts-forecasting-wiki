@@ -859,3 +859,80 @@ advanced track to the new §10.
 broken-link instances inside `wiki/log.md` (historical entries
 from a prior README → folder-note refactor) are left in place per
 the append-only log rule.
+
+## [2026-04-27] ingest + lint | 10 missing leaves + freeze naming convention
+
+User audit found that 10 PDFs in `papers/` had no matching leaf in
+`wiki/papers/`, and that 8 TS-FM PDF filenames drifted from the
+hyphenated leaf-slug convention (e.g. `chronos2_2510.15821.pdf`
+↔ `chronos-2.md`). Two coordinated changes:
+
+**1. Naming convention frozen.** Renamed 8 PDFs to match their
+hyphenated leaf slugs: `chronos2 → chronos-2`, `lagllama → lag-llama`,
+`moirai2 → moirai-2`, `moiraimoe → moirai-moe`, `timellm → time-llm`,
+`timemoe → time-moe`, `timers1 → timer-s1`, `timerxl → timer-xl`.
+Updated each leaf's `**PDF:** [local](...)` link. CLAUDE.md slug
+list now declares the convention frozen: every PDF in `papers/`
+matches its leaf slug exactly.
+
+**2. 10 new paper leaves written by parallel Opus 4.7 sub-agents.**
+One agent per paper, all in parallel, each given the full
+paper-leaf template, paper-specific cross-link list, and a 700-1100
+word target. All 10 reported back with paper-cited numbers and
+required cross-links. Word counts 992-1376 (mean ~1185).
+
+New paper leaves:
+
+- **Pre-FM representation learning (concept hub:
+  [contrastive-representation-learning.md](concepts/contrastive-representation-learning.md)):**
+  - [cpc.md](papers/cpc.md) — DeepMind Contrastive Predictive Coding
+    (van den Oord et al., 2018); strided CNN encoder + GRU
+    aggregator + InfoNCE.
+  - [ts2vec.md](papers/ts2vec.md) — Yue et al., AAAI 2022;
+    hierarchical contrastive over a 10-block dilated CNN.
+
+- **Google Trends methodology and nowcasting (hubs:
+  [google-trends-data.md](datasets-benchmarks/google-trends-data.md),
+  [rebuilding-google-trends-corpus.md](benchmarks/rebuilding-google-trends-corpus.md)):**
+  - [choi-varian.md](papers/choi-varian.md) — Choi & Varian "Predicting
+    the Present", *Economic Record* 2012.
+  - [scott-varian.md](papers/scott-varian.md) — Scott & Varian BSTS
+    + spike-and-slab, 2013/2014.
+  - [ross-backward-induction.md](papers/ross-backward-induction.md)
+    — Andrew Ross 2013 keyword-selection method (game-theoretic
+    backward reasoning, not statistical backward elimination — the
+    agent caught and fixed this misreading from the prompt brief).
+  - [gtab.md](papers/gtab.md) — Robert West "Google Trends Anchor
+    Bank", CIKM 2020.
+  - [ferrara-simoni.md](papers/ferrara-simoni.md) — Ferrara & Simoni
+    preselection-and-shrinkage framework, 2020.
+  - [kohns-nowcast.md](papers/kohns-nowcast.md) — Kohns &
+    Bhattacharjee BSTS-COVID extension, 2022.
+  - [gtrends-proper.md](papers/gtrends-proper.md) — Medeiros & Pires
+    "Proper Use of Google Trends", 2021.
+  - [rttp.md](papers/rttp.md) — Meta Real-Time Trend Prediction with
+    continually-aligned LLM query generation, 2026.
+
+Updates:
+
+- `papers/papers.md` — three new H2 sections: "Pre-FM representation
+  learning", "Google Trends methodology and nowcasting references",
+  with metadata tables matching the existing TS-FM cluster grouping.
+- `index.md` — three new sub-sections under "Papers (leaves...)"
+  for the new leaves.
+- `CLAUDE.md` — canonical slug list now organized by cluster +
+  category, declares the naming convention frozen, lists 26 TS-FM
+  + 11 pre-FM / methodology slugs.
+- `concepts/contrastive-representation-learning.md` — direct PDF
+  references converted to leaf links to cpc.md and ts2vec.md.
+- `datasets-benchmarks/google-trends-data.md` — methodology
+  references converted to leaf links (Medeiros & Pires, West, Choi
+  & Varian, plus a new bullet list pointing at all 8 GT leaves).
+- `benchmarks/rebuilding-google-trends-corpus.md` — §3d "Published
+  keyword-selection methodology" PDF references converted to leaf
+  links across all 7 cited papers.
+
+**Total wiki leaf count:** 26 TS-FMs + 1 pre-FM precursor + 2
+representation-learning + 8 Google Trends methodology = **37 leaves**,
+matching the 37 PDFs in `papers/`. Every PDF now has at least one
+leaf; every leaf points at exactly one PDF; slugs are frozen.

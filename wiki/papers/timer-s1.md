@@ -1,6 +1,6 @@
 # Timer-S1: A Billion-Scale Time Series Foundation Model with Serial Scaling
 
-> **Short name:** `timer-s1` · **arXiv:** [2603.04791](https://arxiv.org/abs/2603.04791) · **PDF:** [local](../../papers/timers1_2603.04791.pdf) · **Date:** 2026-03 · **Venue:** preprint
+> **Short name:** `timer-s1` · **arXiv:** [2603.04791](https://arxiv.org/abs/2603.04791) · **PDF:** [local](../../papers/timer-s1_2603.04791.pdf) · **Date:** 2026-03 · **Venue:** preprint
 
 **Authors:** Yong Liu, Xingjian Su, Shiyu Wang et al. (Tsinghua University and ByteDance; corresponding author Mingsheng Long)
 

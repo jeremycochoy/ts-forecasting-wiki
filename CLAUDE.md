@@ -432,8 +432,11 @@ Run when asked, or after a batch of ingests. A full lint pass checks:
 
 ## Canonical paper slugs (as of 2026-04-27)
 
-26 TS-FM paper leaves plus one pre-FM precursor. Use these slugs in
-all cross-links:
+26 TS-FM paper leaves plus 11 pre-FM / methodology references. Use
+these slugs in all cross-links. Naming convention: lowercase,
+hyphen-separated; arXiv ID (when present) follows underscore in PDF
+filenames, e.g. `papers/<slug>_<arxiv>.pdf`. The convention is now
+**frozen**: every PDF in `papers/` matches its leaf slug exactly.
 
 ```
 # Cluster 1 — Decoder-only autoregressive
@@ -463,6 +466,13 @@ lat-pfn       ts-jepa        mts-jepa
 
 # Pre-FM precursors and baselines (no cluster)
 tide
+
+# Pre-FM representation learning (no cluster)
+cpc           ts2vec
+
+# Google Trends methodology and nowcasting (no cluster)
+choi-varian   scott-varian   ross-backward-induction   gtab
+ferrara-simoni   kohns-nowcast   gtrends-proper   rttp
 ```
 
 When ingesting a new paper, pick a slug by lowercasing the model short
