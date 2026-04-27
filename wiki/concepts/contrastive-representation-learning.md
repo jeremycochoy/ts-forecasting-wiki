@@ -59,7 +59,7 @@ For TS specifically, the choice of *positive pair* encodes the inductive bias. S
 
 ## Open questions
 
-- Is contrastive pretraining complementary to or substitutable for masked reconstruction in a billion-scale TS-FM? No paper in the current 23-leaf cohort runs a clean head-to-head ablation.
+- Is contrastive pretraining complementary to or substitutable for masked reconstruction in a billion-scale TS-FM? No paper in the current 26-leaf TS-FM cohort runs a clean head-to-head ablation, though [TS-JEPA](../papers/ts-jepa.md) does it at small scale (matched encoder capacity, classification benchmarks).
 - Can the InfoNCE bound be tightened with a learned negative-sampling distribution that adapts per-domain? CPC's ablation hints at large headroom but no follow-up has been published in the TS literature.
 - For multivariate panels, should the contrastive loss operate per channel (instance contrast) or jointly across channels (cross-variate contrast)? TS2Vec defaults to per-instance; the channel-independence trade-off is open.
 - What is the minimum batch size at which InfoNCE-style losses still give competitive representations on long-context (`T > 4096`) TS? Audio CPC uses 8 GPUs × 8 examples per minibatch; TS analogues are smaller, and the floor is uncharted.
@@ -71,6 +71,7 @@ For TS specifically, the choice of *positive pair* encodes the inductive bias. S
 - **[TS2Vec](../../papers/ts2vec_2106.10466.pdf)** — top-cited TS-specific contrastive paper, hierarchical and timestamp-level; the standard reference for representation-learning baselines in TS classification leaderboards (UCR/UEA).
 - TNC, T-Loss, TS-TCC — the three TS-specific predecessors that TS2Vec critiques and outperforms; cited here for completeness, not yet ingested as paper leaves.
 - [TOTEM](../papers/totem.md) — uses a VQ-VAE codebook rather than a contrastive loss, but addresses the same underlying problem (one universal encoder for many downstream tasks). Useful contrast point.
+- [TS-JEPA](../papers/ts-jepa.md) — the head-to-head reference: TS-JEPA's [paper Table 1](../papers/ts-jepa.md) compares JEPA against TS2Vec at matched encoder capacity on UCR-style classification. JEPA wins on noisy benchmarks (FordA 91.5% vs TS2Vec 86.4%), TS2Vec wins where the signal is clean. The two methods sit on opposite sides of the "negative samples vs EMA target" choice for non-reconstructive self-supervision.
 
 ## Related wiki pages
 

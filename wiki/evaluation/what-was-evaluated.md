@@ -1,6 +1,6 @@
 # What Each Paper Actually Evaluated
 
-This page is a per-paper cross-reference: for each of the 23 papers
+This page is a per-paper cross-reference: for each of the 26 TS-FM papers (plus the pre-FM TiDE row)
 in the wiki, what metrics did the authors report, on which datasets,
 under what protocol, against which baselines, and did the paper
 produce probabilistic forecasts? Rows are sourced from the paper

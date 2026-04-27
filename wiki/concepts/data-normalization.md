@@ -172,12 +172,12 @@ first-differences.
 
 | Method | Inverse | Error accumulation | Used by |
 |---|---|---|---|
-| RevIN (mean + std) | Exact, pointwise | None | [MOMENT](../papers/moment.md), [Timer](../papers/timer.md), [Timer-XL](../papers/timer-xl.md), [SEMPO](../papers/sempo.md), [TimesFM](../papers/timesfm.md), [TTM](../papers/ttm.md) |
+| RevIN (mean + std) | Exact, pointwise | None | [MOMENT](../papers/moment.md), [Timer](../papers/timer.md), [Timer-XL](../papers/timer-xl.md), [SEMPO](../papers/sempo.md), [TimesFM](../papers/timesfm.md), [TTM](../papers/ttm.md), [MTS-JEPA](../papers/mts-jepa.md) |
 | Mean-scaling | Exact, pointwise | None | [Chronos](../papers/chronos.md), [Chronos-2](../papers/chronos-2.md) |
 | Partial-window norm | Exact, pointwise | None | [Moirai 2.0](../papers/moirai-2.md) |
 | Any-variate learned | Exact, pointwise | None | [MOIRAI](../papers/moirai.md) |
 | Raw text (none) | N/A | N/A | [LLMTime](../papers/llmtime.md) |
-| Z-score (non-reversed) | Not reversed | N/A (eval in norm space) | LTSF baselines (not TS-FMs) |
+| Z-score (non-reversed) | Not reversed | N/A (eval in norm space) | LTSF baselines incl. [TiDE](../papers/tide.md) (not TS-FMs) |
 | Differencing + cumsum | Cumsum (lossy) | O(sqrt(T)) to O(T) | **No TS-FM uses this** |
 
 ## Open questions

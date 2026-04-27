@@ -1,4 +1,4 @@
-# TS-FM Taxonomy — Seven Clusters
+# TS-FM Taxonomy — Eight Clusters
 
 This page is the canonical taxonomy the rest of the wiki anchors into.
 Each cluster has its own H2 heading (do not rename them — other pages
@@ -6,6 +6,14 @@ link directly to the emitted GitHub anchors shown in the section
 index), a two-sentence description, a pointer to the primary
 architecture page, and a bullet list of member papers with a one-line
 hook each.
+
+The first seven clusters cover the 2023–2026 wave of forecasting-first
+TS-FMs. Cluster 8, added in April 2026, captures the parallel
+JEPA-style line of work in which the pretraining objective targets
+*latent embeddings* of masked or future windows rather than the values
+themselves — a different inductive bias that specializes for
+representation quality and noise-robustness rather than for raw
+forecast accuracy.
 
 ## Summary table
 

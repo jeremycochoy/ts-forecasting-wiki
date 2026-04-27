@@ -20,7 +20,7 @@ context window) and present the two canonical recipes.
    *Why next:* without this the rest reads like NLP with extra steps.
 2. [../foundation-models/foundation-models.md](../foundation-models/foundation-models.md)
    and [../foundation-models/taxonomy.md](../foundation-models/taxonomy.md).
-   *Why next:* the seven-cluster map lets you place every later paper
+   *Why next:* the eight-cluster map lets you place every later paper
    in context instead of reading them as independent systems.
 3. [../papers/timesfm.md](../papers/timesfm.md) — Google's decoder-only
    TimesFM.
@@ -124,10 +124,34 @@ direction. Each one is best read with the counter-argument in mind.
    [../papers/llmtime.md](../papers/llmtime.md).
    *Why next:* the "LLM reprogramming" cluster, read as a single debate
    about whether text LLMs have transferable temporal priors at all.
-6. [open-problems.md](open-problems.md) and
+6. [../papers/lat-pfn.md](../papers/lat-pfn.md),
+   [../papers/ts-jepa.md](../papers/ts-jepa.md),
+   [../papers/mts-jepa.md](../papers/mts-jepa.md), then
+   [../concepts/joint-embedding-predictive-architecture.md](../concepts/joint-embedding-predictive-architecture.md).
+   *Why next:* the [Cluster 8](../foundation-models/taxonomy.md#cluster-8--jepa--latent-space-prediction)
+   "predict in latent space, not in input space" branch. Read in
+   order — LaT-PFN frames the JEPA + PFN combination, TS-JEPA gives
+   the cleanest matched-capacity ablation against MAE / TS2Vec /
+   autoregressive, MTS-JEPA shows the recipe extends to
+   anomaly-prediction with multi-resolution targets and a
+   collapse-preventing soft codebook. The concept page closes the
+   loop by contrasting JEPA against masked reconstruction and
+   contrastive learning.
+7. [../papers/sempo.md](../papers/sempo.md) and
+   [../papers/moirai-2.md](../papers/moirai-2.md) and
+   [../papers/tspulse.md](../papers/tspulse.md).
+   *Why next:* three "less is more" papers — SEMPO at 6.5M beats
+   100–700M baselines, Moirai-2 documents *negative* scaling on
+   GIFT-Eval with the 11.4M variant beating its 87M and 305M
+   siblings, TSPulse at 1.06M wins TSB-AD against multi-task
+   competitors. Together they make the case that the 2025–2026
+   frontier is not raw parameter count.
+8. [open-problems.md](open-problems.md) and
    [comparison-matrix.md](comparison-matrix.md).
    *Why next:* with every paper in head, go back and look at where the
-   map still has holes.
+   map still has holes — including [§10 latent-space pretraining vs
+   forecast-loss pretraining](open-problems.md#10-latent-space-pretraining-vs-forecast-loss-pretraining), the cleanest
+   open question for Cluster 8.
 
 ## Related wiki pages
 

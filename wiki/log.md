@@ -773,3 +773,89 @@ to 8 clusters.
 `llm-wiki.md` was deliberately not edited (CLAUDE.md anti-pattern:
 "Do not edit `llm-wiki.md`; it is the reference copy of the generic
 pattern").
+
+## [2026-04-27] lint + refactor | Stale-counts sweep, JEPA cross-links, research-corner backfill
+
+Comprehensive lint pass triggered by user request to "see if there
+isn't anything missing and if it's very natural / easy to read for
+humans." Tier-by-tier punch list:
+
+**Tier 1 — stale paper / cluster counts.** Search across all wiki
+pages, README, and CLAUDE for `23 paper`, `20 paper`, `seven-cluster`
+patterns. Updated `taxonomy.md` H1 (`Seven Clusters → Eight
+Clusters` plus a one-paragraph note framing Cluster 8's distinct
+inductive bias), `papers/papers.md` ("seven-cluster → eight-cluster"
+in the Pre-FM precursors section), `overview.md` (5 instances:
+"23 papers" → "26 TS-FMs", knowledge-graph sketch updated to
+include all 26 papers + Cluster 8 + TiDE precursor + new concepts),
+`index.md` (6 instances), `foundation-models/foundation-models.md`
+("23 paper leaves" → "26 TS-FM paper leaves plus 1 pre-FM
+precursor", added Cluster 8 paragraph to brief history),
+`research/research.md`, `research/comparison-matrix.md`,
+`research/reading-roadmap.md`, `research/reproducibility.md`,
+`evaluation/what-was-evaluated.md`, `papers/tide.md` (own cluster
+note), `benchmarks/decision-guide.md` (2 instances). README.md
+similarly updated. `wiki/log.md` left as-is — historical entries
+are immutable.
+
+**Tier 2 — concept / architecture cross-links to new papers.** The
+new Cluster 8 papers and TiDE were under-referenced from existing
+concept pages. Added cross-references to:
+
+- `concepts/zero-shot-forecasting.md` — LaT-PFN as the second
+  synthetic-only zero-shot data point alongside Mamba4Cast.
+- `concepts/in-context-learning.md` — LaT-PFN as the explicit
+  Bayesian-amortization formulation of TS in-context learning.
+- `concepts/synthetic-data-augmentation.md` — LaT-PFN's
+  context-aware triple-sampling prior.
+- `concepts/patch-tokenization.md` — TS-JEPA (patches into a JEPA
+  loop), LaT-PFN (emergent patches in latent space, no input
+  patches), TiDE (deliberate patch-free counter-example).
+- `concepts/value-quantization.md` — MTS-JEPA's soft codebook as a
+  geometric *constraint* rather than an output vocabulary.
+- `concepts/data-normalization.md` — MTS-JEPA on RevIN, TiDE on
+  Z-score in the summary table.
+- `concepts/probabilistic-forecasting.md` — TiDE / LaT-PFN /
+  TS-JEPA / MTS-JEPA as the point-only counter-examples.
+- `concepts/contrastive-representation-learning.md` — TS-JEPA as
+  the head-to-head reference for "EMA target vs negative samples"
+  on UCR-style classification.
+- `architectures/lightweight-non-transformer.md` — LaT-PFN's
+  dilated MobileNet1D embedder, TiDE as the design ancestor.
+- `architectures/masked-encoder.md` — TS-JEPA / MTS-JEPA as the
+  latent-space sibling family with explicit comparison paragraph.
+
+**Tier 3 — research-corner backfill.** Added 8 missing entries to
+`research/timeline.md` (TiDE, LaT-PFN, TS-JEPA, MTS-JEPA, plus
+SEMPO, Moirai-2, TSPulse which were also missing from earlier
+ingests), expanded the "How to read the trajectory" section with
+two new patterns (JEPA / latent-target, less-is-more counter-thread).
+Added LaT-PFN, TS-JEPA, MTS-JEPA rows to `research/training-recipes.md`.
+Added 10 new failure-mode rows + 1 cross-cutting Cluster-8 row to
+`research/failure-modes.md`. Added a new §10 "Latent-space
+pretraining vs forecast-loss pretraining" to `research/open-problems.md`
+with three concrete research directions. Added EMA target encoder,
+JEPA, and Latent-space prediction entries to `research/glossary.md`,
+plus expanded the PFN entry to mention LaT-PFN.
+
+**Tier 4 — benchmark + decision guidance.** Added a new "JEPA /
+latent-space prediction (Cluster 8)" section to
+`benchmarks/state-of-the-art.md` framing Cluster 8 as a
+non-overlapping evaluation regime (UCR / UEA / anomaly prediction
+rather than Monash / GIFT-Eval). Updated
+`benchmarks/decision-guide.md` "Anomaly detection, imputation,
+classification" branch with TSPulse, MTS-JEPA, and TS-JEPA as
+context-appropriate picks alongside the existing MOMENT and UniTS
+recommendations.
+
+**Reading roadmap.** Added two new advanced-track items: the JEPA
+cluster (LaT-PFN → TS-JEPA → MTS-JEPA → JEPA concept page) as item
+6, and the "less is more" thread (SEMPO + Moirai-2 + TSPulse) as
+item 7. Forwarded the open-problems pointer at the end of the
+advanced track to the new §10.
+
+**Lint sweep results:** zero remaining `23 paper` / `20 paper` /
+`seven-cluster` / `7-cluster` references in the wiki body. Two
+broken-link instances inside `wiki/log.md` (historical entries
+from a prior README → folder-note refactor) are left in place per
+the append-only log rule.

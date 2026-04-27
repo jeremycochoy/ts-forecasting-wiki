@@ -72,6 +72,20 @@ situation does not match any regime below, fall back to
   [../concepts/multi-task-universal.md](../concepts/multi-task-universal.md).
 - **Task-token alternative:** [UniTS](../papers/units.md) for
   generative-plus-predictive joint training across 38 datasets.
+- **Analysis-only (1.06M, CPU):** [TSPulse](../papers/tspulse.md) for
+  classification (UEA-29), imputation (LTSF), anomaly detection (TSB-AD)
+  and similarity search; explicitly *not* a forecaster.
+- **For multivariate anomaly *prediction* (early warning, not
+  reactive detection):** [MTS-JEPA](../papers/mts-jepa.md) leads
+  F1 and AUC across MSL / SMAP / SWaT / PSM, beating nine baselines
+  including PatchTST, TS2Vec, TimesNet and TS-JEPA. The use case is
+  industrial control / cloud-server precursor detection — different
+  from MOMENT's reactive anomaly head.
+- **For a representation encoder pretrained on noisy classification
+  signals:** [TS-JEPA](../papers/ts-jepa.md) beats input-space MAE on
+  noisy benchmarks (FordA, FaultDetectionA) at matched encoder
+  capacity. Worth trying when downstream task has heavy
+  measurement noise.
 
 ## Step 2 — How tight is your compute budget?
 
@@ -144,7 +158,7 @@ situation does not match any regime below, fall back to
 
 See [training-a-small-model.md](training-a-small-model.md) and
 [../research/training-recipes.md](../research/training-recipes.md)
-for the disclosed pretraining hyperparameters of the 20 papers.
+for the disclosed pretraining hyperparameters of the 26 papers.
 Short answer: LOTSA is the default open corpus, AdamW lr=1e-3 with
 10K-step linear warmup plus cosine annealing is the majority recipe,
 and Time-MoE's 128x A100 80GB cluster is the upper reference point
@@ -162,4 +176,4 @@ for what "full scale" currently costs.
 - [../research/failure-modes.md](../research/failure-modes.md) —
   the documented weakness of each model in one table.
 - [../foundation-models/taxonomy.md](../foundation-models/taxonomy.md)
-  — the seven-cluster map this guide draws from.
+  — the eight-cluster map this guide draws from.

@@ -32,6 +32,9 @@ open questions around them, see
 | [TTM](../papers/ttm.md) | — (TSMixer training) | — | — | 4500 | 20 epochs | — | 6x A100, 24–30 hours total | TTM, Sec 4.3 and App (arXiv:2401.03955) |
 | [Lag-Llama](../papers/lag-llama.md) | — (see Appendix D search) | 1e-4 | — | 256 | 100 windows/epoch | — | 1x Tesla P100 12GB | Lag-Llama, App D (arXiv:2310.08278) |
 | [Mamba4Cast](../papers/mamba4cast.md) | AdamW | 1e-5 peak / 1e-7 final | Cosine | 64 (synthetic samples) | 420K batches (3 days) | — | 1x RTX 2080 Ti | Mamba4Cast, App (arXiv:2410.09385) |
+| [LaT-PFN](../papers/lat-pfn.md) | — (linear warmup on weight decay and target-encoder EMA decay; µ-parametrization for stability) | — | Linear warmup on schedule parameters | — | — (24h wall-clock per seed) | — | 1x NVIDIA A10G per seed | LaT-PFN, Sec 4 (arXiv:2405.10093) |
+| [TS-JEPA](../papers/ts-jepa.md) | AdamW | Tuned ∈ {1e-3, 1e-4, 1e-5, 1e-6} | — | 32 | — | — | 1x NVIDIA V100 | TS-JEPA, App (arXiv:2509.25449) |
+| [MTS-JEPA](../papers/mts-jepa.md) | — (5-seed averaging for main results) | — | — | — | — | — | — | MTS-JEPA, Sec 4 (arXiv:2602.04643) |
 
 A few rows in this table are striking on their own:
 

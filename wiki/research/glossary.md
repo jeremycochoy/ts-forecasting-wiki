@@ -31,6 +31,13 @@ sentences each, with cross-links to deeper pages where one exists.
 - **Encoder-only.** A transformer whose training signal is over the
   whole input, typically via masked reconstruction. [MOMENT](../papers/moment.md), [MOIRAI](../papers/moirai.md)
   and [Chronos-2](../papers/chronos-2.md) are encoder-only.
+- **EMA target encoder.** A copy of the online encoder whose weights
+  follow a slow exponential moving average of the gradient-trained
+  encoder, with the gradient blocked. The standard collapse-prevention
+  recipe in self-distillation methods (BYOL, DINO, JEPA). Used by
+  [TS-JEPA](../papers/ts-jepa.md) (m=0.998), [MTS-JEPA](../papers/mts-jepa.md)
+  and [LaT-PFN](../papers/lat-pfn.md). See
+  [../concepts/joint-embedding-predictive-architecture.md](../concepts/joint-embedding-predictive-architecture.md).
 - **Exogenous variable.** A covariate that is known into the forecast
   horizon (a calendar, a pricing schedule). [TTM](../papers/ttm.md) explicitly supports
   exogenous heads.
@@ -52,6 +59,13 @@ sentences each, with cross-links to deeper pages where one exists.
   at inference time from examples provided in its context, without
   gradient updates. Chronos-2 pushes this for TS. See
   [../concepts/in-context-learning.md](../concepts/in-context-learning.md).
+- **JEPA (Joint-Embedding Predictive Architecture).** A
+  self-supervised pretraining recipe that predicts the *latent*
+  embedding of a masked or future input under an EMA target encoder,
+  rather than reconstructing the input itself. LeCun's 2022
+  formulation; ported to time series by [LaT-PFN](../papers/lat-pfn.md),
+  [TS-JEPA](../papers/ts-jepa.md) and [MTS-JEPA](../papers/mts-jepa.md).
+  See [../concepts/joint-embedding-predictive-architecture.md](../concepts/joint-embedding-predictive-architecture.md).
 - **LoRA.** Low-rank adaptation: a parameter-efficient fine-tuning
   scheme that trains a small low-rank delta on top of frozen weights.
 - **LOTSA.** Large-scale Open Time Series Archive, ~27B observations,
@@ -81,7 +95,14 @@ sentences each, with cross-links to deeper pages where one exists.
   [../concepts/patch-tokenization.md](../concepts/patch-tokenization.md).
 - **PFN (Prior-Fitted Network).** A model trained only on samples
   from a Bayesian prior, so that its forward pass approximates
-  posterior inference. Mamba4Cast is the TS PFN.
+  posterior inference. [Mamba4Cast](../papers/mamba4cast.md) and
+  [LaT-PFN](../papers/lat-pfn.md) are the TS PFNs in this wiki;
+  ForecastPFN and TabPFN are the precursors they cite.
+- **Latent-space prediction.** The pretraining target of a [JEPA](../concepts/joint-embedding-predictive-architecture.md)
+  model — predict the embedding of a masked input under a target
+  encoder, not the values themselves. Sometimes called "latent
+  reconstruction." Contrast with input-space masked reconstruction
+  (MOMENT, MOIRAI) and contrastive learning ([CPC, TS2Vec](../concepts/contrastive-representation-learning.md)).
 - **Probabilistic forecast.** A forecast that outputs a predictive
   distribution (samples, quantiles, or a parametric family) rather
   than a single point. See

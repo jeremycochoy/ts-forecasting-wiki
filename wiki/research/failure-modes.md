@@ -49,6 +49,16 @@ below.
 | [Mamba4Cast](../papers/mamba4cast.md) | Synthetic-only pretraining: no real time series touched. Real-world distribution shift coverage depends entirely on the sampling prior. | Mamba4Cast, Sec 3. |
 | [Mamba4Cast](../papers/mamba4cast.md) | Point output; compares to probabilistic Chronos only on MASE, not on CRPS. | Mamba4Cast, Sec 4 evaluation. |
 | [TimeGPT](../papers/timegpt.md) | Closed API, undisclosed size, undisclosed training data; "scaling laws" prose in the paper has no accompanying curve. | TimeGPT leaf; [what-was-evaluated.md](../evaluation/what-was-evaluated.md). |
+| [LaT-PFN](../papers/lat-pfn.md) | Univariate only, no covariate handling; emergent-patch finding is qualitative (Figures 9–10) without an ablation linking it to a specific architectural choice. | LaT-PFN, Sec 2 scope; Sec 5 (qualitative observation). |
+| [LaT-PFN](../papers/lat-pfn.md) | 100-bin categorical decoder; not a calibrated quantile family. CRPS / coverage analysis not reported. | LaT-PFN, Sec 3.3 (decoder description). |
+| [LaT-PFN](../papers/lat-pfn.md) | Heavily-tuned hyperparameters reported with extreme precision (`λ_latent = 3.77e-3`, `λ_si = 1e-7`); robustness to these choices not characterized. | LaT-PFN, Sec 3.3 loss. |
+| [TS-JEPA](../papers/ts-jepa.md) | Tiny experimental footprint: 2 attention heads, embedding dim 128, 10 patches per series, 5 datasets total. No scaling study. | TS-JEPA, Sec 3 (Architecture). |
+| [TS-JEPA](../papers/ts-jepa.md) | Loses to autoregressive on short-term forecasting on all 3 forecasting datasets — the regime forecasting-trained TS-FMs optimize for. | TS-JEPA, Table 2 (short-term MSE). |
+| [TS-JEPA](../papers/ts-jepa.md) | No ablation of 70% mask ratio, L1 vs L2 loss, EMA decay m=0.998, or predictor depth/width. | TS-JEPA, Sec 5 conclusion. |
+| [MTS-JEPA](../papers/mts-jepa.md) | Anomaly-prediction-only; cannot be placed alongside the rest of the TS-FM cohort on Monash / GIFT-Eval / fev-bench. | MTS-JEPA, Sec 4 evaluation. |
+| [MTS-JEPA](../papers/mts-jepa.md) | High hyperparameter complexity (K codebook size, τ temperature, λ_f, λ_c, γ, λ_r, two EMA decays); sensitivity not characterized. | MTS-JEPA, Sec 3.4 loss. |
+| [MTS-JEPA](../papers/mts-jepa.md) | Without the soft codebook bottleneck, performance collapses to near-random (paper Table 3 ablation), suggesting JEPA on continuous TS may not be stable on EMA + stop-gradient alone. | MTS-JEPA, Table 3 (`w/o Codebook Module`). |
+| **Cross-cutting (Cluster 8)** | None of the three JEPA papers reports on Monash, GIFT-Eval, Chronos Benchmark II or fev-bench, so head-to-head comparison with the dominant forecasting-first TS-FM lineage remains indirect. Closing this benchmark gap is the cleanest 2026 follow-up. | LaT-PFN / TS-JEPA / MTS-JEPA evaluation sections. |
 
 ## Cross-cutting failure modes
 
