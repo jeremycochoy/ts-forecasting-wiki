@@ -65,6 +65,7 @@ Supervised fine-tuning on a target dataset still typically beats zero-shot by 5�
 - `[LLMTime](../papers/llmtime.md)` — vanilla LLM as a zero-shot forecaster via ASCII tokenization.
 - `[Moirai 2.0](../papers/moirai-2.md)` — 11.4M decoder-only small variant, evaluated zero-shot on [GIFT-Eval](../datasets-benchmarks/gift-eval.md) only, ranks 5th by MASE and 6th by CRPS among pretrained foundation models; multivariate/covariate inputs are dropped entirely.
 - `[SEMPO](../papers/sempo.md)` — 6.5M transformer, 23.1% MSE / 10.8% MAE reduction on TSLib zero-shot versus billion-parameter baselines at 10x-100x fewer params and 10x-3000x fewer pretraining points (Table 1).
+- `[LaT-PFN](../papers/lat-pfn.md)` — JEPA + PFN trained on synthetic data only, with related-series in-context examples curating zero-shot inference; beats ARIMA / FBProphet / ForecastPFN on 5 LTSF datasets (Table 1) without ever seeing real data during training. The "synthetic-only zero-shot" branch alongside Mamba4Cast.
 
 ## Related wiki pages
 

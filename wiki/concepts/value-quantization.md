@@ -46,6 +46,7 @@ VQ-VAE codebooks face the classic problem of *codebook collapse*: a few codes do
 - `[Chronos-2](../papers/chronos-2.md)` drops the vocabulary entirely in favor of a quantile decoder, arguing that direct quantile regression removes the precision ceiling while keeping the probabilistic interface.
 - `[TOTEM](../papers/totem.md)` learns a *cross-domain* VQ-VAE codebook and compares "specialist" (one codebook per domain) vs "generalist" (one shared codebook) settings — directly probing whether tokenization should be domain-conditional.
 - `[LLMTime](../papers/llmtime.md)` uses the base LLM's BPE as the implicit quantizer and converts the token-level distribution over digit strings back to a continuous density for calibrated intervals.
+- `[MTS-JEPA](../papers/mts-jepa.md)` introduces a **soft codebook** that maps continuous encoder features to a probability distribution over `K` learnable prototypes via temperature-scaled cosine similarity. Unlike Chronos / TOTEM, the codebook is not used as the *output* token vocabulary — it is an internal bottleneck that turns latent prediction into KL alignment between simplex distributions, and the bounded convex-hull geometry doubles as an analytical non-collapse certificate for JEPA self-distillation. Useful contrast: a codebook can be a *latent geometric constraint* rather than a tokenizer.
 
 ## Open questions
 
@@ -61,6 +62,7 @@ VQ-VAE codebooks face the classic problem of *codebook collapse*: a few codes do
 - `[Chronos-2](../papers/chronos-2.md)` — abandons vocabulary tokens in favor of direct quantile decoding, a refined position in the same design space.
 - `[TOTEM](../papers/totem.md)` — VQ-VAE cross-domain codebook, explicit specialist-vs-generalist comparison.
 - `[LLMTime](../papers/llmtime.md)` — numbers-as-text tokenization with discrete-to-continuous density, zero-shot via vanilla LLMs.
+- `[MTS-JEPA](../papers/mts-jepa.md)` — soft-codebook bottleneck inside a JEPA loop; discrete geometry doubles as a non-collapse certificate (paper Appendix A.3). Codebook as *constraint*, not as output vocabulary.
 
 ## Related wiki pages
 

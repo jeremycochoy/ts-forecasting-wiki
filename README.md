@@ -71,7 +71,7 @@ is documented in [CLAUDE.md](CLAUDE.md).
   ingests, queries-filed-back, lint passes, refactors, and schema
   changes.
 - [wiki/foundation-models/taxonomy.md](wiki/foundation-models/taxonomy.md) —
-  the seven-cluster taxonomy that most other pages anchor into.
+  the eight-cluster taxonomy that most other pages anchor into.
 - [wiki/papers/papers.md](wiki/papers/papers.md) — index of the paper
   leaves, with one short page per paper.
 
@@ -83,11 +83,12 @@ The full set, in reading order:
 - [wiki/foundations/foundations.md](wiki/foundations/foundations.md) — classical and
   deep-learning precursors to TS-FMs.
 - [wiki/foundation-models/foundation-models.md](wiki/foundation-models/foundation-models.md) —
-  the TS-FM paradigm, its brief history, and the canonical seven-cluster
+  the TS-FM paradigm, its brief history, and the canonical eight-cluster
   taxonomy.
 - [wiki/architectures/architectures.md](wiki/architectures/architectures.md) — the
   architecture-family pages (decoder-only, masked encoder, encoder-decoder,
-  MoE, LLM reprogramming, lightweight, flow matching).
+  MoE, LLM reprogramming, lightweight, flow matching, JEPA / latent-target
+  prediction).
 - [wiki/concepts/concepts.md](wiki/concepts/concepts.md) — cross-cutting
   technical ideas shared across papers.
 - [wiki/datasets-benchmarks/datasets-benchmarks.md](wiki/datasets-benchmarks/datasets-benchmarks.md) —
@@ -99,17 +100,22 @@ The full set, in reading order:
 - [wiki/research/research.md](wiki/research/research.md) — the research
   corner: reading roadmap, open problems, comparison matrix,
   reproducibility table, contributing guide, glossary.
-- [wiki/papers/papers.md](wiki/papers/papers.md) — the 23 paper leaves.
+- [wiki/papers/papers.md](wiki/papers/papers.md) — the 26 TS-FM paper
+  leaves plus 1 pre-FM precursor (TiDE).
 
 ## Scope (as of 2026-04)
 
-Version 0 of the wiki covers 23 foundation-model papers published between
-2023 and early 2026, spanning decoder-only autoregressive models, masked and
-encoder-decoder models, mixture-of-experts variants, LLM-reprogramming
-approaches, lightweight non-transformer models, multi-task universal
-models, and the first continuous / flow-matching entrants. Additions and
-corrections are welcome via pull request; please follow the existing page
-layout and link conventions.
+The wiki covers 26 foundation-model papers published between 2023 and
+early 2026, plus 1 pre-FM precursor (TiDE) that is repeatedly cited
+as a design ancestor and full-shot baseline. The eight clusters in
+[wiki/foundation-models/taxonomy.md](wiki/foundation-models/taxonomy.md)
+span decoder-only autoregressive models, masked and encoder-decoder
+models, mixture-of-experts variants, LLM-reprogramming approaches,
+lightweight non-transformer models, multi-task universal models,
+continuous / flow-matching forecasters, and the JEPA / latent-target
+prediction family added in April 2026. Additions and corrections are
+welcome via pull request; please follow the existing page layout and
+link conventions.
 
 ## Credits and license
 

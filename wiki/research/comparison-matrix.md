@@ -1,6 +1,6 @@
 # Comparison Matrix
 
-This page puts the 23 papers side by side so that a researcher can see,
+This page puts the 26 TS-FM papers (plus the pre-FM TiDE row) side by side so that a researcher can see,
 in one screen, which design choices have been tried and which
 combinations are still empty. It is a map, not a ranking: the "Key
 claim" column is the paper's own stated contribution, not a verdict on

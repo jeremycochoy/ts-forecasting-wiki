@@ -46,7 +46,7 @@ TiDE serves two roles in the post-2023 literature. First, as a strong supervised
 Cite TiDE as the canonical reference for the claim that a pure MLP encoder-decoder with a covariate highway and a linear residual matches transformer self-attention on long-horizon benchmarks, at a 5–10× speed advantage. It is also the right citation for the lineage from DLinear to TimesFM (same lead author, same engineering DNA), and for the M5-with-covariates result that singles out covariate handling as a real axis where PatchTST-style channel-independent transformers underperform.
 
 ## In the knowledge graph
-- **Cluster:** Pre-FM long-horizon baseline (not part of the seven-cluster TS-FM taxonomy). See [foundations/deep-learning-era](../foundations/deep-learning-era.md).
+- **Cluster:** Pre-FM long-horizon baseline (not part of the eight-cluster TS-FM taxonomy). See [foundations/deep-learning-era](../foundations/deep-learning-era.md).
 - **Architecture family:** MLP encoder-decoder; closest TS-FM cousins are the [lightweight non-transformer](../architectures/lightweight-non-transformer.md) family ([TTM](./ttm.md), [TSPulse](./tspulse.md)).
 - **Related concepts:** [patch tokenization](../concepts/patch-tokenization.md) (counter-example: TiDE deliberately avoids patches), [data normalization](../concepts/data-normalization.md), [probabilistic forecasting](../concepts/probabilistic-forecasting.md) (counter-example: TiDE is point-only).
 - **Used as a baseline in:** [moirai](./moirai.md), [GIFT-Eval](../datasets-benchmarks/gift-eval.md) full-shot reference; see [evaluation/what-was-evaluated.md](../evaluation/what-was-evaluated.md).

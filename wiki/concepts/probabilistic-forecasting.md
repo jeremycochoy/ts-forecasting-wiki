@@ -63,6 +63,7 @@ A subtle failure mode across all approaches is *miscalibration*: a model can hav
 - `[Sundial](../papers/sundial.md)` — flow-matching velocity field, continuous-valued probabilistic output via ODE integration.
 - `[TimeGPT-1](../papers/timegpt.md)` — conformal intervals on top of a point forecaster, guaranteed coverage independent of the backbone.
 - `[Moirai 2.0](../papers/moirai-2.md)` — 9-level pinball quantile head on a decoder-only backbone, aligned with GIFT-Eval's CRPS metric; uses a depth-2 expand-collapse decoding procedure to autoregress a quantile *vector* without committing to the median or mismatching dimensions.
+- *Counter-examples.* [TiDE](../papers/tide.md) (pre-FM MLP encoder-decoder) and [LaT-PFN](../papers/lat-pfn.md) / [TS-JEPA](../papers/ts-jepa.md) / [MTS-JEPA](../papers/mts-jepa.md) (the JEPA cluster) are deliberately *point-only* — a useful reminder that probabilistic output is not free for every paradigm. JEPA's latent-target loss has no probability head built in; LaT-PFN approximates a posterior predictive but emits 100-bin categorical decode, not a calibrated quantile family; TiDE optimizes pure MSE.
 
 ## Open questions
 

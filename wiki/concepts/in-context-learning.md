@@ -51,6 +51,7 @@ The training objective matters a lot. If pretraining only sees single series, th
 - `[Timer-XL](../papers/timer-xl.md)` — flattens the multivariate panel into one causal sequence and uses universal TimeAttention with 2D positional embeddings, generalizing to unseen variate layouts.
 - `[Moirai](../papers/moirai.md)` any-variate attention is a spiritual predecessor: a masked encoder that accepts variable variate counts without architectural changes, but without explicit sibling-context training.
 - `[UniTS](../papers/units.md)` — task tokens prepended to the input implement a different flavor of ICL at the *task* axis rather than the *series* axis.
+- `[LaT-PFN](../papers/lat-pfn.md)` — the Bayesian-amortization formulation explicitly: the predictor is a PFN transformer that approximates the posterior predictive `p(y|x, D)` over a context dataset `D` of related synthetic series, and the model is trained on heterogeneous synthetic contexts so the in-context circuit emerges by design rather than by accident. Context curation is treated as the test-time analog of LLM prompt engineering.
 
 ## Open questions
 
@@ -66,6 +67,7 @@ The training objective matters a lot. If pretraining only sees single series, th
 - `[Timer-XL](../papers/timer-xl.md)` — decoder-only ICL via flattened multivariate sequences and 2D causal position embeddings, with emergent generalization to new variate layouts.
 - `[MOIRAI](../papers/moirai.md)` — any-variate attention as a predecessor that supports variable variate counts without dedicated ICL training.
 - `[UniTS](../papers/units.md)` — task-token conditioning as a different ICL axis.
+- `[LaT-PFN](../papers/lat-pfn.md)` — the Bayesian-amortized formulation, with PFN cross-attention from the target prompt to a learned average-pooled summary of related context series; "context curation" framed as TS-side prompt engineering.
 
 ## Related wiki pages
 

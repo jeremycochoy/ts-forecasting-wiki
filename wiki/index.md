@@ -28,7 +28,7 @@ Last updated: 2026-04-27.
 ## Foundation models
 
 - [foundation-models/foundation-models.md](foundation-models/foundation-models.md) — definition of the TS-FM paradigm, motivation, brief history
-- [foundation-models/taxonomy.md](foundation-models/taxonomy.md) — the canonical seven-cluster taxonomy with the 23-paper summary table
+- [foundation-models/taxonomy.md](foundation-models/taxonomy.md) — the canonical eight-cluster taxonomy with the 26-paper TS-FM summary table
 
 ## Architectures
 
@@ -97,7 +97,7 @@ Last updated: 2026-04-27.
 - [evaluation/probabilistic-evaluation.md](evaluation/probabilistic-evaluation.md) — CRPS, WQL, quantile loss, calibration vs sharpness
 - [evaluation/protocols.md](evaluation/protocols.md) — splits, rolling-origin, horizon and context conventions, what "zero-shot" means
 - [evaluation/seasonality-and-baselines.md](evaluation/seasonality-and-baselines.md) — seasonal period `m`, Seasonal Naive, classical and deep baselines
-- [evaluation/what-was-evaluated.md](evaluation/what-was-evaluated.md) — per-paper cross-reference of metrics, datasets, protocol, baselines (23 papers)
+- [evaluation/what-was-evaluated.md](evaluation/what-was-evaluated.md) — per-paper cross-reference of metrics, datasets, protocol, baselines (26 TS-FMs + JEPA cluster + TiDE)
 
 ## Research / frontier
 
@@ -108,15 +108,15 @@ Last updated: 2026-04-27.
 - [research/open-problems.md](research/open-problems.md) — frontier research questions as of 2026-04 with concrete directions
 - [research/reading-roadmap.md](research/reading-roadmap.md) — beginner / intermediate / advanced reading order through the papers
 - [research/reproducibility.md](research/reproducibility.md) — per-paper open weights, code, data, cost, deployment footprint
-- [research/training-recipes.md](research/training-recipes.md) — consolidated optimizer / LR / batch / steps / precision / hardware table for the 20 papers
+- [research/training-recipes.md](research/training-recipes.md) — consolidated optimizer / LR / batch / steps / precision / hardware table for the 26 papers
 - [research/failure-modes.md](research/failure-modes.md) — per-paper documented weaknesses and cross-cutting failure patterns
-- [research/timeline.md](research/timeline.md) — chronological 2023-2026 walk through the 20 papers with each one's signature contribution
+- [research/timeline.md](research/timeline.md) — chronological 2023-2026 walk through the 26 papers with each one's signature contribution
 
-## Papers (leaves, 23)
+## Papers (leaves, 26 TS-FMs + 1 pre-FM precursor)
 
 Papers are listed in chronological order by the date on the arXiv metadata, oldest first.
 
-- [papers/papers.md](papers/papers.md) — paper-leaf index with cluster grouping and the full 23-paper metadata table
+- [papers/papers.md](papers/papers.md) — paper-leaf index with cluster grouping and the full 26-paper metadata table (plus pre-FM precursors)
 - [papers/gpt4ts.md](papers/gpt4ts.md) — frozen GPT-2/BERT/BEiT TS adapter (OFA/FPT), Alibaba, ~GPT-2 base (2023-02)
 - [papers/time-llm.md](papers/time-llm.md) — frozen Llama reprogrammed via patch-to-prototype cross-attention (2023-10)
 - [papers/timegpt.md](papers/timegpt.md) — Nixtla's closed encoder-decoder commercial API, conformal intervals, undisclosed size (2023-10)

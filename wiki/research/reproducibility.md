@@ -1,6 +1,6 @@
 # Reproducibility and Buildability
 
-For each of the 23 papers on this wiki, the table below records what a
+For each of the 26 TS-FM papers on this wiki (plus the pre-FM TiDE row), the table below records what a
 new researcher can actually get their hands on: open weights, training
 code, training corpus, disclosed training cost, and deployment
 footprint. Values are taken from the per-paper fact-sheet on this wiki;

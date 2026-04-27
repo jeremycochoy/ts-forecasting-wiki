@@ -7,13 +7,13 @@ pages below are narrative and opinionated, and are meant to be read in
 order when you first arrive.
 
 - [reading-roadmap.md](reading-roadmap.md) — a beginner / intermediate /
-  advanced reading order through the 23 papers, with one-line "why next"
+  advanced reading order through the 26 papers, with one-line "why next"
   notes.
 - [open-problems.md](open-problems.md) — the frontier research questions
   as of 2026-04, grouped by theme, each with background, prior work, and
   concrete directions.
 - [comparison-matrix.md](comparison-matrix.md) — a dense side-by-side
-  table of all 23 papers and derived cross-paper takeaways.
+  table of all 26 TS-FM papers (plus the pre-FM TiDE row) and derived cross-paper takeaways.
 - [reproducibility.md](reproducibility.md) — per-paper weights, code,
   data, training cost and deployment footprint, plus a "build on this
   today" shortlist.

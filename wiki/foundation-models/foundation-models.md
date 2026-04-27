@@ -29,7 +29,7 @@ NLP downstream tasks.
   precisely to measure cross-domain transfer, making the foundation
   model paradigm both tractable and falsifiable.
 
-## A brief history (2023–2025)
+## A brief history (2023–2026)
 
 - **Early 2024 cohort.** [TimesFM](../papers/timesfm.md) (Google), [Chronos](../papers/chronos.md) (Amazon), [MOMENT](../papers/moment.md)
   (CMU), [MOIRAI](../papers/moirai.md) (Salesforce) and [Timer](../papers/timer.md) (Tsinghua) appeared within a
@@ -47,6 +47,15 @@ NLP downstream tasks.
 - **Continuous / generative (2025).** [Sundial](../papers/sundial.md) introduced flow-matching
   on continuous tokens, breaking with the value-quantization lineage
   and reframing forecasting as continuous generative modeling.
+- **JEPA / latent-target prediction (2024–2026).** A parallel line of
+  work — [LaT-PFN](../papers/lat-pfn.md), [TS-JEPA](../papers/ts-jepa.md),
+  [MTS-JEPA](../papers/mts-jepa.md) — ports LeCun's joint-embedding
+  predictive architecture to time series, replacing input-space
+  reconstruction with latent-space prediction under an EMA target
+  encoder. The objective specializes for representation quality and
+  noise-robustness rather than raw forecast accuracy, and currently
+  dominates UCR / UEA classification and multivariate anomaly
+  prediction more than forecasting leaderboards.
 
 Alongside these "forecast-first" models, a parallel thread repurposed
 frozen LLMs for time series ([Time-LLM](../papers/time-llm.md), [GPT4TS](../papers/gpt4ts.md), [LLMTime](../papers/llmtime.md)), and a
@@ -74,16 +83,18 @@ still be "foundation" in the transfer sense.
 
 ## Navigating the rest of the wiki
 
-- [taxonomy.md](taxonomy.md) — the canonical seven-cluster taxonomy,
+- [taxonomy.md](taxonomy.md) — the canonical eight-cluster taxonomy,
   which every other page anchors into.
 - [../architectures/architectures.md](../architectures/architectures.md) — one page
   per architecture family, each linked from its matching cluster in
   the taxonomy.
 - [../concepts/concepts.md](../concepts/concepts.md) — cross-cutting
   technical ideas (patching, VQ, zero-shot, probabilistic,
-  [in-context learning](../concepts/in-context-learning.md), scaling laws, [RevIN](../concepts/revin-normalization.md), multi-task, synthetic
-  data).
-- [../papers/papers.md](../papers/papers.md) — the 23 paper leaves.
+  [in-context learning](../concepts/in-context-learning.md), scaling
+  laws, [RevIN](../concepts/revin-normalization.md), multi-task,
+  synthetic data, contrastive and JEPA-style self-supervision).
+- [../papers/papers.md](../papers/papers.md) — the 26 TS-FM paper
+  leaves plus 1 pre-FM precursor (TiDE).
 
 ## Related wiki pages
 

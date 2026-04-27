@@ -95,6 +95,7 @@ Finally, synthetic data augmentation does not solve the *covariate* problem. Rea
 - `[Chronos-2](../papers/chronos-2.md)` — relies heavily on synthetic augmentation to construct the *sibling panels* needed to train its group-attention in-context mechanism — you cannot train ICL without sibling context, and synthetic data is the only scalable source of it.
 - `[Mamba4Cast](../papers/mamba4cast.md)` — synthetic-only PFN pretraining, zero real series used; the model is an amortized Bayesian forecaster whose only reference is the prior.
 - `[Sundial](../papers/sundial.md)` — [TimeBench](../datasets-benchmarks/timebench.md) (~1T points) combines real and synthetic components as part of its diverse mixture, enabling flow-matching training at scale.
+- `[LaT-PFN](../papers/lat-pfn.md)` — synthetic-only PFN pretraining like Mamba4Cast, but with a *context-aware* prior: a triple-sampling scheme (`hyperprior → context → sub-context → series`) generates each batch as a small panel of mutually related synthetic series, so the model learns in-context posterior approximation rather than per-series fitting. Adapts the ForecastPFN prior with a normalized abstract time axis.
 
 ## Open questions
 
@@ -111,6 +112,7 @@ Finally, synthetic data augmentation does not solve the *covariate* problem. Rea
 - `[Chronos-2](../papers/chronos-2.md)` — heavy synthetic augmentation to generate sibling panels for in-context group-attention training.
 - `[Mamba4Cast](../papers/mamba4cast.md)` — PFN pretraining from a rich TS prior, no real data, amortized Bayesian forecasting.
 - `[Sundial](../papers/sundial.md)` — synthetic components within the ~1T-point TimeBench mixture, enabling flow-matching at scale.
+- `[LaT-PFN](../papers/lat-pfn.md)` — context-aware synthetic prior with triple-sampling, generating per-batch panels of related series for in-context posterior approximation under a JEPA latent objective.
 
 ## Related wiki pages
 

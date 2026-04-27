@@ -31,11 +31,12 @@ If you arrived here wanting to contribute — to the wiki or to the
 field — read these first, in order:
 
 - [research/reading-roadmap.md](research/reading-roadmap.md) — a
-  beginner / intermediate / advanced path through the 23 papers.
+  beginner / intermediate / advanced path through the 26 TS-FM papers.
 - [research/open-problems.md](research/open-problems.md) — the
   frontier questions as of 2026-04, with concrete directions.
 - [research/comparison-matrix.md](research/comparison-matrix.md) — all
-  23 papers side by side, plus cross-paper takeaways.
+  26 TS-FMs (plus the JEPA cluster and pre-FM precursors) side by
+  side, with cross-paper takeaways.
 - [benchmarks/leaderboard.md](benchmarks/leaderboard.md) — current
   public numbers on the main evaluation suites.
 - [evaluation/evaluation.md](evaluation/evaluation.md) — the methodology
@@ -54,12 +55,12 @@ field — read these first, in order:
   recommendation for each axis (univariate vs multivariate, point
   vs probabilistic, CPU vs big GPU, short vs long horizon).
 - [research/timeline.md](research/timeline.md) — *"Who did what,
-  when?"* Chronological walk through the 23 papers, 2023 to 2026,
-  with the signature contribution of each.
+  when?"* Chronological walk through the 26 TS-FM papers, 2023 to
+  2026, with the signature contribution of each.
 - [research/training-recipes.md](research/training-recipes.md) and
   [research/failure-modes.md](research/failure-modes.md) — the
   consolidated training hyperparameters and documented weaknesses
-  across the 23 papers, one table each.
+  across the 26 papers, one table each.
 
 The full research corner, including the reproducibility table,
 contributing guide and glossary, is at
@@ -88,15 +89,19 @@ contributing guide and glossary, is at
 - [foundations/](foundations/foundations.md) — the classical and deep-learning
   precursors that set the stage for TS-FMs.
 - [foundation-models/](foundation-models/foundation-models.md) — the TS-FM paradigm,
-  its brief history, and the seven-cluster taxonomy.
+  its brief history, and the eight-cluster taxonomy.
 - [architectures/](architectures/architectures.md) — architecture families:
   decoder-only autoregressive, masked encoder, encoder-decoder, MoE,
   LLM reprogramming, lightweight non-transformer, continuous / flow
-  matching.
+  matching, and JEPA / latent-target prediction.
 - [concepts/](concepts/concepts.md) — cross-cutting technical ideas: patch
-  tokenization, [value quantization](./concepts/value-quantization.md), zero-shot forecasting, probabilistic
-  forecasting, [in-context learning](./concepts/in-context-learning.md), scaling laws, [RevIN](./concepts/revin-normalization.md), multi-task
-  universal models, synthetic data.
+  tokenization, [value quantization](./concepts/value-quantization.md), zero-shot forecasting,
+  probabilistic forecasting, [in-context learning](./concepts/in-context-learning.md),
+  scaling laws, [RevIN](./concepts/revin-normalization.md), multi-task universal
+  models, synthetic data, and the two non-reconstructive
+  self-supervision families:
+  [contrastive representation learning](./concepts/contrastive-representation-learning.md)
+  and [JEPA](./concepts/joint-embedding-predictive-architecture.md).
 - [datasets-benchmarks/](datasets-benchmarks/datasets-benchmarks.md) — the corpora and
   evaluation suites that TS-FMs are trained and judged on ([Monash](./datasets-benchmarks/monash-archive.md), [LOTSA](./datasets-benchmarks/lotsa.md),
   [Time-Series Pile](./datasets-benchmarks/time-series-pile.md), [Time-300B](./datasets-benchmarks/time-300b.md), [TimeBench](./datasets-benchmarks/timebench.md), [GIFT-Eval](./datasets-benchmarks/gift-eval.md)).
@@ -110,7 +115,8 @@ contributing guide and glossary, is at
   metric ([MASE](./evaluation/metrics.md#17-mase--mean-absolute-scaled-error), [CRPS](./evaluation/metrics.md#21-crps--continuous-ranked-probability-score), [WQL](./evaluation/metrics.md#23-wql--weighted-quantile-loss), MSE, pinball...), seasonal-period and
   baseline conventions, evaluation protocols, a per-paper summary
   of what each wiki paper evaluated, and a comparability checklist.
-- [papers/](papers/papers.md) — the 20 leaf pages, one per paper.
+- [papers/](papers/papers.md) — the 26 TS-FM leaf pages plus 1 pre-FM
+  precursor (TiDE), one per paper.
 
 ## Knowledge-graph sketch
 
@@ -125,19 +131,25 @@ ts-forecasting-wiki
 +-- foundation-models/
 |   +-- taxonomy
 |       +-- Cluster 1 decoder-only AR ---> TimesFM, Timer, Timer-XL,
-|       |                                  Lag-Llama, TimeGPT
+|       |                                  Timer-S1, Lag-Llama, TimeGPT, Moirai-2
 |       +-- Cluster 2 masked / enc-dec --> Chronos, Chronos-2, MOMENT, MOIRAI
 |       +-- Cluster 3 mixture-of-experts-> Time-MoE, Moirai-MoE
+|       |                                  (+ Timer-S1 secondary)
 |       +-- Cluster 4 LLM reprogramming -> Time-LLM, GPT4TS, LLMTime
-|       +-- Cluster 5 lightweight / SSM -> TTM, Mamba4Cast
-|       +-- Cluster 6 multi-task unified-> UniTS, TOTEM (+ MOMENT, Timer-XL,
-|       |                                  Chronos-2 secondary)
+|       +-- Cluster 5 lightweight / SSM -> TTM, Mamba4Cast, SEMPO
+|       |                                  (+ TSPulse secondary)
+|       +-- Cluster 6 multi-task unified-> UniTS, TOTEM, TSPulse
+|       |                                  (+ MOMENT, Timer-XL, Chronos-2 secondary)
 |       +-- Cluster 7 continuous / flow -> Sundial
+|       +-- Cluster 8 JEPA / latent --->   LaT-PFN, TS-JEPA, MTS-JEPA
+|       +-- Pre-FM precursor ----------->  TiDE
 |
-+-- architectures/   (one page per family above)
-+-- concepts/        (patching, VQ, zero-shot, CRPS, ICL, scaling, RevIN, ...)
++-- architectures/   (one page per family above; jepa-latent-prediction
+|                     mirrors Cluster 8)
++-- concepts/        (patching, VQ, zero-shot, CRPS, ICL, scaling, RevIN,
+|                     contrastive learning, JEPA, ...)
 +-- datasets-benchmarks/ (Monash, LOTSA, TS-Pile, Time-300B, TimeBench, GIFT)
-+-- papers/          (20 leaves)
++-- papers/          (26 TS-FM leaves + 1 pre-FM precursor)
 ```
 
 ## Related wiki pages

@@ -81,7 +81,7 @@ This directory is the leaf layer of the wiki; each page summarizes one research 
 
 ## Pre-FM precursors and baselines
 
-Papers that pre-date the TS-FM wave but are repeatedly cited as design ancestors or full-shot baselines. They do not map to the seven-cluster taxonomy.
+Papers that pre-date the TS-FM wave but are repeatedly cited as design ancestors or full-shot baselines. They do not map to the eight-cluster taxonomy.
 
 | Paper | arXiv | Date | Venue | Role | Link |
 | --- | --- | --- | --- | --- | --- |

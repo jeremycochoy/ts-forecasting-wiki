@@ -104,6 +104,37 @@ problem under a strict CPU / 10M-param budget, any of these three are
 reasonable first picks; the choice depends more on the backbone you
 want (TSMixer, transformer, SSM) than on accuracy ordering.
 
+## JEPA / latent-space prediction (Cluster 8)
+
+[LaT-PFN](../papers/lat-pfn.md), [TS-JEPA](../papers/ts-jepa.md) and
+[MTS-JEPA](../papers/mts-jepa.md) are the three current members of
+[Cluster 8](../foundation-models/taxonomy.md#cluster-8--jepa--latent-space-prediction).
+None reports on Monash, GIFT-Eval, Chronos Benchmark II or fev-bench,
+so they cannot be ranked alongside the forecasting-first cohort
+above. Their evaluation lives on different axes:
+
+- **Classification (UCR / UEA).** [LaT-PFN](../papers/lat-pfn.md)
+  posts 47.9% mean accuracy on UCR-128 with a frozen-encoder + SVM
+  probe, beating TS2Vec (44.8%) zero-shot. [TS-JEPA](../papers/ts-jepa.md)
+  reaches 91.5% on FordA, 73.8% on FordB, 89.5% on ECG5000 — within
+  2 points of fully supervised transformers (TS-JEPA, Table 1).
+- **Forecasting.** [LaT-PFN](../papers/lat-pfn.md) beats
+  ARIMA / FBProphet / ForecastPFN on 5 LTSF datasets zero-shot, but
+  is not benchmarked against modern TS-FMs. [TS-JEPA](../papers/ts-jepa.md)
+  loses short-term to autoregressive on all 3 forecasting datasets
+  (next-patch MSE) but wins long-term on 2 of 3 (cumulative MSE).
+- **Anomaly *prediction*.** [MTS-JEPA](../papers/mts-jepa.md)
+  posts top F1 + AUC across MSL / SMAP / SWaT / PSM, beating nine
+  baselines including PatchTST, TS2Vec, iTransformer, TimesNet and
+  TS-JEPA itself.
+
+If your use case is *not* zero-shot point or quantile forecasting on
+Monash / GIFT-Eval — particularly if you want a representation
+encoder for downstream classification or anomaly prediction — the
+JEPA cluster is competitive. For headline forecasting accuracy on
+the dominant benchmarks, the forecasting-first cohort still wins
+because Cluster 8 has not been benchmarked there.
+
 ## Non-forecasters in the multi-task cluster
 
 [TSPulse](../papers/tspulse.md) (ICLR 2026, 1.06M-parameter TSMixer)

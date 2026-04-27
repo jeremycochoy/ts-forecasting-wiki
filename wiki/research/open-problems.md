@@ -295,6 +295,54 @@ this prediction"?
 - Study whether flow-matching models (Sundial) produce naturally
   calibrated uncertainty that can drive anomaly scores.
 
+## 10. Latent-space pretraining vs forecast-loss pretraining
+
+**Background.** [Cluster 8](../foundation-models/taxonomy.md#cluster-8--jepa--latent-space-prediction)
+— [LaT-PFN](../papers/lat-pfn.md), [TS-JEPA](../papers/ts-jepa.md),
+[MTS-JEPA](../papers/mts-jepa.md) — replaces input-space
+reconstruction with latent-space prediction under an EMA target
+encoder, and reports gains on classification and anomaly prediction
+benchmarks. The forecasting-first TS-FMs ([TimesFM](../papers/timesfm.md),
+[Chronos](../papers/chronos.md), [MOIRAI](../papers/moirai.md),
+[Sundial](../papers/sundial.md)) optimize a forecasting loss
+directly. Whether the JEPA recipe wins, loses, or ties on Monash /
+GIFT-Eval / Chronos Benchmark II at matched compute is the single
+biggest open question for Cluster 8 and arguably for the whole
+self-supervised TS literature.
+
+**What has been tried.** TS-JEPA gives a small-scale matched-capacity
+ablation against MAE, TS2Vec, and autoregressive (paper Table 1 / 2,
+single V100), but only on 5 classification and 3 forecasting datasets
+and only with a transformer of 2 heads / 128 dim. MTS-JEPA shows that
+on continuous TS the EMA + stop-gradient bookkeeping is sometimes
+insufficient to prevent representation collapse, and adds a soft
+codebook bottleneck as backup (paper Appendix A.3 derives an
+analytical non-collapse bound).
+
+**What is still open.** Does latent-space prediction scale to
+billion parameters the way [Time-MoE](../papers/time-moe.md) and
+[Timer-S1](../papers/timer-s1.md) do? Can a JEPA-pretrained backbone
+beat a forecast-loss-pretrained backbone on GIFT-Eval after a
+forecasting-head finetune? What is the right asymmetry between
+encoder and predictor capacity for time series — I-JEPA uses small
+predictors, the TS papers use roughly symmetric architectures? And
+is the codebook bottleneck specific to anomaly prediction's
+discrete-regime structure, or is it a general stability fix for
+JEPA on continuous TS?
+
+**Directions.**
+- Pretrain a 1B-parameter JEPA backbone on [LOTSA](../datasets-benchmarks/lotsa.md) or
+  [TimeBench](../datasets-benchmarks/timebench.md), attach a Chronos-2-style quantile decoder, and
+  compare against Moirai-2 / Timer-S1 head-to-head on GIFT-Eval.
+- Replicate MTS-JEPA's codebook ablation on TS-JEPA's classification
+  and forecasting benchmarks: is the codebook strictly necessary or
+  is the EMA decay schedule enough?
+- Sweep encoder/predictor size ratio at fixed total params, on a
+  TS-JEPA-style classification benchmark, to fix the right asymmetry.
+- Run a head-to-head latent-loss vs MAE-loss vs InfoNCE-loss
+  experiment on a single backbone and corpus, to settle which of the
+  three non-reconstructive self-supervision families is best for TS.
+
 ## Related wiki pages
 
 - [reading-roadmap.md](reading-roadmap.md)
