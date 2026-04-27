@@ -86,3 +86,27 @@ Papers that pre-date the TS-FM wave but are repeatedly cited as design ancestors
 | Paper | arXiv | Date | Venue | Role | Link |
 | --- | --- | --- | --- | --- | --- |
 | TiDE | [2304.08424](https://arxiv.org/abs/2304.08424) | 2023-04 | TMLR 2023 | MLP encoder-decoder; design ancestor of [TimesFM](./timesfm.md), full-shot baseline in [MOIRAI](./moirai.md) and [GIFT-Eval](../datasets-benchmarks/gift-eval.md) | [tide](./tide.md) |
+
+## Pre-FM representation learning
+
+Foundational self-supervised representation learning for sequences and time series, predating the JEPA cluster but in the same intellectual lineage. The concept hub is [contrastive representation learning](../concepts/contrastive-representation-learning.md).
+
+| Paper | arXiv | Date | Venue | Role | Link |
+| --- | --- | --- | --- | --- | --- |
+| CPC | [1807.03748](https://arxiv.org/abs/1807.03748) | 2018-07 | preprint | Foundational sequential contrastive learning; CNN encoder + GRU aggregator + InfoNCE loss; the "GRU + contrastive loss" reference | [cpc](./cpc.md) |
+| TS2Vec | [2106.10466](https://arxiv.org/abs/2106.10466) | 2021-06 | AAAI 2022 | Top-cited TS-specific contrastive paper; hierarchical instance + temporal contrast over a dilated CNN; UCR/UEA classification SOTA | [ts2vec](./ts2vec.md) |
+
+## Google Trends methodology and nowcasting references
+
+Foundational and follow-up methodology papers for using Google Trends data for nowcasting and trend prediction. These underpin the [Google Trends data](../datasets-benchmarks/google-trends-data.md) page and the [rebuilding-google-trends-corpus](../benchmarks/rebuilding-google-trends-corpus.md) practical recipe; cited by [TimesFM](./timesfm.md), which uses Google Trends as its primary pretraining corpus. They do not map to the eight-cluster TS-FM taxonomy.
+
+| Paper | arXiv | Date | Venue | Role | Link |
+| --- | --- | --- | --- | --- | --- |
+| Choi-Varian (PTP) | — | 2011-12 | Economic Record 2012 | Coined "predicting the present"; the foundational paper for Google-Trends-as-leading-indicator nowcasting | [choi-varian](./choi-varian.md) |
+| Scott-Varian (BSTS) | — | 2013-06 | IJMMNO 2014 | BSTS — Bayesian Structural Time Series — with spike-and-slab regression on Google Trends predictors; canonical methodological successor to Choi-Varian | [scott-varian](./scott-varian.md) |
+| Ross (keyword selection) | — | 2013 | Fraser of Allander working paper | Game-theoretic backward-reasoning algorithm for selecting Google Trends keywords; small-data alternative to spike-and-slab | [ross-backward-induction](./ross-backward-induction.md) |
+| GTAB (West) | [2007.13861](https://arxiv.org/abs/2007.13861) | 2020-07 | CIKM 2020 | Calibration tooling — anchor-bank methodology for putting Google Trends queries on a common scale across batches | [gtab](./gtab.md) |
+| Ferrara-Simoni | [2007.00273](https://arxiv.org/abs/2007.00273) | 2020-07 | JBES (forthcoming) | Theoretical preselection-and-shrinkage framework for Google Trends nowcasting of GDP; rigorous frequentist counterpart to BSTS spike-and-slab | [ferrara-simoni](./ferrara-simoni.md) |
+| Kohns-Bhattacharjee | [2011.00938](https://arxiv.org/abs/2011.00938) | 2020-11 | J. of Forecasting 2022 | COVID-era extension of Scott-Varian BSTS for U.S. real GDP growth nowcasting with mixed-frequency variable selection | [kohns-nowcast](./kohns-nowcast.md) |
+| Medeiros-Pires (proper GT) | [2104.03065](https://arxiv.org/abs/2104.03065) | 2021-04 | preprint | Documents per-request sampling-noise problem in raw Google Trends data; repeated-sampling-and-stitching procedure | [gtrends-proper](./gtrends-proper.md) |
+| RTTP (Meta) | [2601.17567](https://arxiv.org/abs/2601.17567) | 2026-01 | preprint | Cold-start trend detection via continually-aligned LLM query generation; bridges Google-Trends-style methodology with modern LLM reprogramming | [rttp](./rttp.md) |

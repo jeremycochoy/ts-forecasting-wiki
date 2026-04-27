@@ -1,6 +1,6 @@
 # Timer-XL: Long-Context Transformers for Unified Time Series Forecasting
 
-> **Short name:** `timer-xl` · **arXiv:** [2410.04803](https://arxiv.org/abs/2410.04803) · **PDF:** [local](../../papers/timerxl_2410.04803.pdf) · **Date:** 2024-10 · **Venue:** ICLR 2025
+> **Short name:** `timer-xl` · **arXiv:** [2410.04803](https://arxiv.org/abs/2410.04803) · **PDF:** [local](../../papers/timer-xl_2410.04803.pdf) · **Date:** 2024-10 · **Venue:** ICLR 2025
 
 **Authors:** Yong Liu, Guo Qin, Xiangdong Huang, Jianmin Wang, Mingsheng Long (Tsinghua)
 

@@ -127,7 +127,7 @@ published-methodology references.
 - **LLM-based expansion (newer, 2024+ literature).** A recent line
   of work uses an LLM to generate candidate queries from a seed
   topic or a document — e.g., Meta's RTTP
-  ([rttp_2601.17567.pdf](../../papers/rttp_2601.17567.pdf)) "Real-Time
+  ([rttp](../papers/rttp.md)) "Real-Time
   Trend Prediction via Continually-Aligned LLM Query Generation".
   For a pretraining corpus this is useful for high-recall expansion
   but introduces LLM-specific biases; treat LLM outputs as candidates
@@ -168,8 +168,7 @@ The nowcasting-with-Google-Trends literature has been working on
 this exact problem since 2011. Key references:
 
 - **Ross (2013), "Nowcasting with Google Trends: a keyword
-  selection method"** — local PDF
-  [ross-backward-induction_2013.pdf](../../papers/ross-backward-induction_2013.pdf).
+  selection method"** — leaf [ross-backward-induction](../papers/ross-backward-induction.md).
   *Fraser of Allander Institute Economic Commentary*, 37(2).
   Introduces the **backward induction method**: start from Google
   Trends verticals as coarse seeds, test each candidate keyword's
@@ -179,42 +178,36 @@ this exact problem since 2011. Key references:
   significant contributors. Simple, interpretable, reproducible —
   and it anticipates most modern sparsity-plus-variance filters.
 - **Choi & Varian (2011/2012), "Predicting the Present with Google
-  Trends"** — local PDF
-  [choi-varian_ptp.pdf](../../papers/choi-varian_ptp.pdf). The
+  Trends"** — leaf [choi-varian](../papers/choi-varian.md). The
   foundational paper that established verticals-as-seeds as the
   default entry point for GT-based nowcasting.
 - **Ferrara & Simoni (2019/2020), "When are Google data useful to
   nowcast GDP? An approach via pre-selection and shrinkage"** —
-  local PDF
-  [ferrara-simoni_2007.00273.pdf](../../papers/ferrara-simoni_2007.00273.pdf)
+  leaf [ferrara-simoni](../papers/ferrara-simoni.md)
   (arXiv:2007.00273). Uses pre-screening (targeting methods) plus
   shrunk bridge regressions to select a useful Google-Trends subset
   from a large candidate pool.
 - **Scott & Varian (2013/2014), "Predicting the Present with
-  Bayesian Structural Time Series"** — local PDF
-  [scott-varian_2014_bsts.pdf](../../papers/scott-varian_2014_bsts.pdf).
+  Bayesian Structural Time Series"** — leaf [scott-varian](../papers/scott-varian.md).
   Introduces **spike-and-slab** priors for automated keyword
   selection inside a BSTS nowcasting model — the Bayesian
   formalization of "pick the ~20 most predictive keywords from a
   larger candidate pool".
 - **Kohns & Bhattacharjee (2022), "Nowcasting Growth using Google
-  Trends Data: A Bayesian Structural Time Series Model"** — local
-  PDF [kohns-nowcast_2011.00938.pdf](../../papers/kohns-nowcast_2011.00938.pdf)
+  Trends Data: A Bayesian Structural Time Series Model"** — leaf [kohns-nowcast](../papers/kohns-nowcast.md)
   (arXiv:2011.00938). Extends the Scott-Varian BSTS framework with
   **horseshoe** priors for heavier-tailed sparsity. Sensitivity
   analysis shows keyword-selection protocol matters roughly as much
   as model architecture for nowcasting accuracy.
 - **Medeiros & Pires (2021), "The Proper Use of Google Trends in
-  Forecasting Models"** — local PDF
-  [gtrends-proper_2104.03065.pdf](../../papers/gtrends-proper_2104.03065.pdf)
+  Forecasting Models"** — leaf [gtrends-proper](../papers/gtrends-proper.md)
   (arXiv:2104.03065). Warns that naïve keyword selection on a
   single GT sample can produce "arbitrary conclusions by chance"
   because of Bernoulli resampling noise; their §3 prescribes
   repeated-sample averaging *before* any keyword-selection
   statistics are computed.
 - **Meta RTTP (Hui et al., 2024+), "Real-Time Trend Prediction via
-  Continually-Aligned LLM Query Generation"** — local PDF
-  [rttp_2601.17567.pdf](../../papers/rttp_2601.17567.pdf)
+  Continually-Aligned LLM Query Generation"** — leaf [rttp](../papers/rttp.md)
   (arXiv:2601.17567). LLM-driven query generation from social-media
   posts; scores candidates by engagement strength + creator
   authority. The closest modern analog to Google Correlate for

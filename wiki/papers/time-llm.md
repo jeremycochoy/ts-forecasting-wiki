@@ -1,6 +1,6 @@
 # Time-LLM: Time Series Forecasting by Reprogramming Large Language Models
 
-> **Short name:** `time-llm` · **arXiv:** [2310.01728](https://arxiv.org/abs/2310.01728) · **PDF:** [local](../../papers/timellm_2310.01728.pdf) · **Date:** 2023-10 · **Venue:** ICLR 2024
+> **Short name:** `time-llm` · **arXiv:** [2310.01728](https://arxiv.org/abs/2310.01728) · **PDF:** [local](../../papers/time-llm_2310.01728.pdf) · **Date:** 2023-10 · **Venue:** ICLR 2024
 
 **Authors:** Ming Jin, Shiyu Wang, Lintao Ma et al.
 

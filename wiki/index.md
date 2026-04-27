@@ -147,3 +147,19 @@ Papers are listed in chronological order by the date on the arXiv metadata, olde
 ### Pre-FM precursors and baselines
 
 - [papers/tide.md](papers/tide.md) — Google MLP encoder-decoder with covariate highway and linear residual, TMLR 2023; design ancestor of [TimesFM](papers/timesfm.md) and standard full-shot baseline (2023-04)
+
+### Pre-FM representation learning
+
+- [papers/cpc.md](papers/cpc.md) — DeepMind Contrastive Predictive Coding: CNN encoder + GRU aggregator + InfoNCE; the foundational sequential-contrastive recipe (2018-07)
+- [papers/ts2vec.md](papers/ts2vec.md) — Peking U / Microsoft hierarchical contrastive over a dilated CNN; UCR/UEA classification SOTA, AAAI 2022 (2021-06)
+
+### Google Trends methodology and nowcasting
+
+- [papers/choi-varian.md](papers/choi-varian.md) — Choi & Varian (Google) "Predicting the Present with Google Trends"; the foundational paper for GT-as-leading-indicator nowcasting (2011-12)
+- [papers/scott-varian.md](papers/scott-varian.md) — Scott & Varian Bayesian Structural Time Series with spike-and-slab on Google Trends predictors (2013-06)
+- [papers/ross-backward-induction.md](papers/ross-backward-induction.md) — Andrew Ross (Strathclyde) game-theoretic backward-reasoning keyword-selection method for Google Trends nowcasting (2013)
+- [papers/gtab.md](papers/gtab.md) — Robert West (EPFL) Google Trends Anchor Bank: cross-batch calibration tooling, CIKM 2020 (2020-07)
+- [papers/ferrara-simoni.md](papers/ferrara-simoni.md) — Ferrara (SKEMA) & Simoni (CREST) theoretical preselection-and-shrinkage framework for GT-based GDP nowcasting (2020-07)
+- [papers/kohns-nowcast.md](papers/kohns-nowcast.md) — Kohns & Bhattacharjee (Heriot-Watt) COVID-era BSTS + Google Trends mixed-frequency nowcasting of U.S. real GDP (2020-11)
+- [papers/gtrends-proper.md](papers/gtrends-proper.md) — Medeiros & Pires (PUC-Rio) "Proper Use of Google Trends" — documents per-request sampling noise + repeated-sampling stitching (2021-04)
+- [papers/rttp.md](papers/rttp.md) — Meta Real-Time Trend Prediction via continually-aligned LLM query generation; cold-start trend detection (2026-01)

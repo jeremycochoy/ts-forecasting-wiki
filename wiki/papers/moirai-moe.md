@@ -1,6 +1,6 @@
 # Moirai-MoE: Empowering Time Series Foundation Models with Sparse Mixture of Experts
 
-> **Short name:** `moirai-moe` · **arXiv:** [2410.10469](https://arxiv.org/abs/2410.10469) · **PDF:** [local](../../papers/moiraimoe_2410.10469.pdf) · **Date:** 2024-10 · **Venue:** preprint
+> **Short name:** `moirai-moe` · **arXiv:** [2410.10469](https://arxiv.org/abs/2410.10469) · **PDF:** [local](../../papers/moirai-moe_2410.10469.pdf) · **Date:** 2024-10 · **Venue:** preprint
 
 **Authors:** Xu Liu, Juncheng Liu, Gerald Woo et al. (Salesforce AI Research)
 

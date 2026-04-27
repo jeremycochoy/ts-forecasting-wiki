@@ -1,6 +1,6 @@
 # Time-MoE: Billion-Scale Time Series Foundation Models with Mixture of Experts
 
-> **Short name:** `time-moe` · **arXiv:** [2409.16040](https://arxiv.org/abs/2409.16040) · **PDF:** [local](../../papers/timemoe_2409.16040.pdf) · **Date:** 2024-09 · **Venue:** ICLR 2025 Spotlight
+> **Short name:** `time-moe` · **arXiv:** [2409.16040](https://arxiv.org/abs/2409.16040) · **PDF:** [local](../../papers/time-moe_2409.16040.pdf) · **Date:** 2024-09 · **Venue:** ICLR 2025 Spotlight
 
 **Authors:** Xiaoming Shi, Shiyu Wang, Yuqi Nie et al.
 

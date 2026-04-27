@@ -1,6 +1,6 @@
 # Moirai 2.0: When Less Is More for Time Series Forecasting
 
-> **Short name:** `moirai-2` · **arXiv:** [2511.11698](https://arxiv.org/abs/2511.11698) · **PDF:** [local](../../papers/moirai2_2511.11698.pdf) · **Date:** 2026-02 · **Venue:** preprint (v3, 2026-02-03)
+> **Short name:** `moirai-2` · **arXiv:** [2511.11698](https://arxiv.org/abs/2511.11698) · **PDF:** [local](../../papers/moirai-2_2511.11698.pdf) · **Date:** 2026-02 · **Venue:** preprint (v3, 2026-02-03)
 
 **Authors:** Chenghao Liu, Taha Aksu, Juncheng Liu, Xu Liu et al. (Salesforce AI Research; corresponding author Junnan Li)
 
