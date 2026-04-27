@@ -968,3 +968,38 @@ to the generic pattern itself may go in only with explicit user
 direction and should be logged here under a `schema` op." That
 matches the rule's actual intent and acknowledges the user is the
 ultimate rule-setter.
+
+## [2026-04-27] schema | Promote concept-node convention into llm-wiki.md
+
+User asked whether the concept-node pattern is also explicit in
+`llm-wiki.md`. It was not — the file mentioned "interlinked
+collection," "cross-references," and "hubs" (only in passing in
+the Obsidian-graph-view tip), but did not define what a concept
+node is or articulate the discipline.
+
+Added one paragraph to `llm-wiki.md` (immediately after the leaf
+paragraph in §Architecture) stating:
+
+- The wiki's structure is held together by *concept nodes* —
+  graph hubs that compare and bridge leaves rather than
+  introducing a single source.
+- Three properties define a concept node: defines an idea or
+  family multiple sources instantiate; points outward to leaves
+  and other concept nodes with the *why* of each link;
+  carries comparative content (design choices, trade-offs, open
+  questions).
+- Reader-side promise: any leaf is reachable from any other leaf
+  in two or three hops via concept nodes.
+- Author-side discipline: adding a new source means updating
+  the relevant concept nodes' comparative sections, not just
+  dropping a leaf.
+- Tagline: "Without concept nodes, the wiki is a flat catalog;
+  with them, it's a navigable graph."
+
+Like the leaf-convention edit, this is a structural clarification
+of the *generic* pattern — true of any LLM-built wiki — so it
+belongs in `llm-wiki.md`. `CLAUDE.md`'s cross-link-discipline
+section already encodes the rule for this project; the README
+already has the human-facing prose. The `llm-wiki.md` paragraph
+closes the loop so a fresh wiki-builder picking up the generic
+pattern gets the convention from the start.
