@@ -1029,3 +1029,34 @@ Changes:
 
 The leaf-to-leaf historical claim is preserved in this log file
 (prior log entries) per the append-only rule.
+
+## [2026-04-27] lint | Final clean-state confirmation
+
+Comprehensive sweep across 114 markdown files (`wiki/`, `README.md`,
+`CLAUDE.md`, `llm-wiki.md`):
+
+- **Stale references** (paper-count, cluster-count, leaf-to-leaf
+  reachability promise): **0**.
+- **PDF ↔ leaf coverage:** 37 PDFs, 37 leaves, 1:1 slug match.
+- **Concept-node rule** (≥3 paper leaves per concept / architecture
+  page): all **22 concept nodes** pass.
+- **Orphan pages** (zero inbound links from within the wiki, excluding
+  expected anchors like overview / index / log / section hubs /
+  README / CLAUDE / llm-wiki): **0**.
+- **Broken markdown / pdf links** in linked output: **0** real
+  failures. The 13 raw matches the linter flags decompose to:
+  - 2 inside historical `wiki/log.md` entries (refactor mentions
+    of `architectures/architectures.md` from the README → folder-note
+    rename), kept per the append-only log rule.
+  - 11 template placeholders inside `CLAUDE.md` code blocks
+    (`<filename>.pdf`, `<page>.md`, `<slug>.md`, `<other>.md`,
+    `chronos.md` inside the example block), all intentional.
+
+State: the wiki, the schema (`CLAUDE.md`), the generic pattern
+(`llm-wiki.md`), and the human-facing landing page (`README.md`)
+are mutually consistent. 26 TS-FM leaves + 1 pre-FM precursor
+(TiDE) + 2 representation-learning leaves (CPC, TS2Vec) + 8 Google
+Trends methodology leaves = 37 leaves total, matching the 37 PDFs
+in `papers/`. 8 architecture pages + 13 concept pages + 1 taxonomy
++ 8 clusters = 22 concept nodes carrying the comparative load that
+keeps the leaves connected.
