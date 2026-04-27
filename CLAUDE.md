@@ -422,8 +422,13 @@ Run when asked, or after a batch of ingests. A full lint pass checks:
 - Do not write to `papers/` — the raw source layer is immutable.
 - Do not use absolute URLs for internal wiki navigation.
 - Do not leave a page without a "Related wiki pages" block.
-- Do not edit `llm-wiki.md`; it is the reference copy of the generic
-  pattern. Schema changes go in this file (`CLAUDE.md`).
+- Do not edit `llm-wiki.md` as part of routine ingest, query-filed-back,
+  or lint work; it is the reference copy of the generic pattern.
+  Schema changes that are project-specific go in this file (`CLAUDE.md`).
+  Structural clarifications to the *generic* pattern itself
+  (something true of any LLM-built wiki, not just this one) may go
+  into `llm-wiki.md` only with explicit user direction, and should
+  be logged with a `schema` op in `wiki/log.md`.
 - Do not commit auto-generated helper scripts (put them in `/tmp/`).
 - Do not touch `.obsidian/` or `.DS_Store` (gitignored).
 - Do not amend an already-pushed commit.
