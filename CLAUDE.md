@@ -88,8 +88,13 @@ this file first.
 ### 1. Paper leaf — `wiki/papers/<slug>.md`
 
 One per paper. Slug is the lowercase hyphen-separated model short name
-(`timesfm`, `chronos-2`, `moirai-moe`). Target length 600–1000 words,
-dense, no padding.
+(`timesfm`, `chronos-2`, `moirai-moe`). Target length 600–1200 words,
+dense, no padding. **A leaf is a faithful technical mirror of the paper's
+substantive content** — every design rationale the paper itself motivates
+(in §body, appendix, or figure caption) belongs on the leaf, not just the
+component inventory. If you find yourself bouncing to a concept page to
+answer "*why* does this paper's component X exist?", the leaf has a gap
+and must be fixed.
 
 ```markdown
 # <Full Paper Title>
@@ -106,8 +111,18 @@ dense, no padding.
 - bullet
 
 ## Architecture at a glance
-(2-4 sentences: backbone family, pretraining objective, parameter count,
-training corpus)
+(One short paragraph — backbone family, pretraining objective, parameter
+count, training corpus, AND the mechanism + rationale behind each
+non-trivial design choice the paper itself motivates. If the paper
+devotes a paragraph, appendix section, or figure caption to justifying
+a component — collapse prevention, choice of loss norm, choice of
+masking ratio, role of an EMA target, why this normalization, why this
+positional encoding — mirror that rationale here. Inventory without
+rationale is not enough; the leaf is a technical mirror of the paper's
+substantive design, not a parts list. If a single design choice carries
+multi-paragraph justification in the paper, promote it to its own H3
+subsection inside this section, e.g. `### How <model> prevents
+representation collapse`.)
 
 ## Why it matters
 (2-3 sentences on what this paper moved forward)
@@ -411,6 +426,13 @@ Run when asked, or after a batch of ingests. A full lint pass checks:
   no dedicated concept or architecture page. Propose a new page.
 - **Contradictions** — claims that disagree across pages. Flag in the
   lint report even if you can't resolve them.
+- **Design-rationale gaps in leaves** — for each paper leaf, check
+  whether the paper's body or appendix devotes space to motivating
+  a design choice (collapse prevention, loss-norm choice, masking
+  ratio, EMA decay, normalization, positional encoding) that the
+  leaf merely *names* without *explaining*. Flag leaves that fail
+  the test "a reader of this leaf alone can answer *why* component
+  X is there." Treat each gap as a fix-on-sight task.
 - Append `## [YYYY-MM-DD] lint | <summary>` to `wiki/log.md` with
   counts and links to the fixes.
 
@@ -420,6 +442,15 @@ Run when asked, or after a batch of ingests. A full lint pass checks:
 - Do not add emojis.
 - Do not create marketing-tone prose.
 - Do not duplicate content across pages; cross-link instead.
+- Do not write a paper leaf that omits a design rationale the paper
+  itself motivates. If the paper has a paragraph, appendix section,
+  or figure caption explaining WHY a component is there (collapse
+  prevention, choice of loss norm, choice of masking ratio, role of
+  an EMA target, choice of normalization, choice of positional
+  encoding), that rationale must appear on the leaf — not just the
+  inventory. Test: a reader of the leaf alone should be able to
+  answer "*why* does this paper's component X exist?" without
+  bouncing to the concept page or the PDF.
 - Do not write to `papers/` — the raw source layer is immutable.
 - Do not use absolute URLs for internal wiki navigation.
 - Do not leave a page without a "Related wiki pages" block.

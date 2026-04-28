@@ -18,6 +18,8 @@ Moirai-MoE replaces MOIRAI's frequency-specific input projection layers with a s
 ## Architecture at a glance
 Moirai-MoE keeps MOIRAI's any-variate flattening across variates but switches to a decoder-only causal backbone and injects sparse MoE feed-forward blocks with top-2 routing over 32 experts. Each token is routed to two experts, so total parameter count grows while per-token activated compute stays bounded. The frequency-specific input and output projection heads are removed and replaced with one shared residual-MLP projection.
 
+Two non-obvious design choices are explicitly motivated in the paper. **Token-level routing instead of frequency-level specialization** (paper §1, Fig. 1): MOIRAI's frequency-aware projections assume frequency is a useful first-class feature, but the paper shows series at different frequencies can share patterns (monthly vs. daily seasonality) while same-frequency series diverge — frequency-as-feature is the wrong abstraction, and learned per-token routing handles the real specialization axis. **Cluster-centroid gating** (paper §3.2.1, Fig. 4 right) seeds the gating function from a pretrained MOIRAI's self-attention outputs via mini-batch k-means: clusters reflect the true data distribution better than a randomly-initialized linear gate, and the ablation against pure linear+load-balancing gating shows the cluster-seeded gate is consistently superior across expert configurations.
+
 ## Why it matters
 Moirai-MoE argues that specialization in TS foundation models is better handled by learned routing than by hand-designed frequency heuristics. It delivers stronger accuracy than dense MOIRAI at lower activated compute, making MoE a natural scaling axis for universal TS models.
 

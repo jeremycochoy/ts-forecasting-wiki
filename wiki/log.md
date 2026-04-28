@@ -1060,3 +1060,177 @@ Trends methodology leaves = 37 leaves total, matching the 37 PDFs
 in `papers/`. 8 architecture pages + 13 concept pages + 1 taxonomy
 + 8 clusters = 22 concept nodes carrying the comparative load that
 keeps the leaves connected.
+
+## [2026-04-28] schema | leaf-as-mirror rule + design-rationale lint check
+
+Triggered by a query session: a reader asked how TS-JEPA prevents
+representation collapse. The answer required bouncing from the leaf
+([papers/ts-jepa.md](papers/ts-jepa.md)) to the JEPA concept page
+([concepts/joint-embedding-predictive-architecture.md](concepts/joint-embedding-predictive-architecture.md))
+because the leaf's "Architecture at a glance" merely *named* the EMA
+target encoder without *explaining* that the no-backprop EMA target
+is the entire collapse-prevention mechanism — even though the paper
+itself devotes §2(iv) and Appendix §1 ("On the EMA-Encoder") to this
+exact question.
+
+Schema changes in [`CLAUDE.md`](../CLAUDE.md):
+
+- **Paper-leaf preamble** — added the principle: "A leaf is a
+  faithful technical mirror of the paper's substantive content."
+  Bumped target length 600–1000 → 600–1200 to leave room for design
+  rationale on papers that motivate it heavily.
+- **`## Architecture at a glance` template** — rewritten from
+  "2-4 sentences: backbone, objective, params, corpus" to "one short
+  paragraph that includes the mechanism + rationale behind each
+  non-trivial design choice the paper itself motivates," with an
+  explicit list of common rationale topics (collapse prevention,
+  loss norm, masking ratio, EMA target, normalization, positional
+  encoding) and a recommendation to promote a single load-bearing
+  rationale to its own H3 subsection (e.g.
+  `### How <model> prevents representation collapse`).
+- **Anti-patterns** — added: "Do not write a paper leaf that omits
+  a design rationale the paper itself motivates," with a discoverable
+  test ("a reader of the leaf alone should be able to answer *why*
+  does this paper's component X exist? without bouncing to the
+  concept page or the PDF").
+- **Lint workflow** — added "Design-rationale gaps in leaves" as a
+  new checklist item alongside orphan detection, broken links,
+  template compliance, etc.
+
+Leaf fix in the same pass:
+
+- [papers/ts-jepa.md](papers/ts-jepa.md) — "Architecture at a glance"
+  expanded to include a new H3 subsection
+  `### How TS-JEPA prevents representation collapse` that grounds
+  the no-backprop EMA target encoder, the empirical `m = 0.998`
+  decay (no ablation, paper Appendix §1), the BYOL / I-JEPA / V-JEPA
+  lineage that TS-JEPA inherits the recipe from, and the explicit
+  contrast with [MTS-JEPA](papers/mts-jepa.md)'s codebook
+  bottleneck and TS2Vec's contrastive negatives. The paper itself
+  cites LeCun's JEPA position paper [12] and BYOL [10] in §2(iv);
+  the appendix adds I-JEPA [1] and V-JEPA [2].
+
+Scope notes:
+
+- The schema rule is project-specific (it concerns the structure of
+  paper leaves under our paper-leaf template), so it lives in
+  `CLAUDE.md`, not `llm-wiki.md`.
+- This change does not touch any other leaf. A subsequent lint pass
+  using the new "design-rationale gaps in leaves" check will sweep
+  the remaining 36 leaves. Expected suspects (paper devotes prose
+  to a non-trivial design rationale):
+  [moirai.md](papers/moirai.md) (any-variate attention masking),
+  [chronos.md](papers/chronos.md) (why uniform-bin quantization +
+  cross-entropy over MSE), [time-moe.md](papers/time-moe.md)
+  (router design and load balancing), [sundial.md](papers/sundial.md)
+  (why flow matching over discrete tokens),
+  [mts-jepa.md](papers/mts-jepa.md) (codebook non-collapse bound),
+  [lat-pfn.md](papers/lat-pfn.md) (system-identification regularizer
+  rationale), [ttm.md](papers/ttm.md) (TSMixer vs transformer
+  motivation). Lint is not run in this entry.
+
+## [2026-04-28] lint | design-rationale sweep across 30 leaves
+
+First end-to-end application of the new "design-rationale gaps in
+leaves" check (added to `CLAUDE.md` lint workflow earlier today).
+
+Scope: 30 of the 37 paper leaves linted in 5 parallel passes by
+groups of clusters. Each pass read both the leaf and the underlying
+PDF, flagged design choices the paper itself motivates that the
+leaf merely names without explaining, and proposed a concise fix.
+A 6th planned pass (Cluster 1 — `timesfm`, `timer`, `timer-xl`,
+`timer-s1`, `lag-llama`, `timegpt`, `moirai-2`) failed twice with
+"Prompt is too long" — the 7-paper PDF batch overflowed the
+sub-agent context budget. Cluster 1 lint is **deferred** to a
+follow-up that splits the cluster into 2-3 smaller batches.
+
+Findings and fixes (17 leaves edited):
+
+- **Cluster 2 (encoder / encoder-decoder)** — 4 of 4 had gaps:
+  - [chronos.md](papers/chronos.md) — added rationale for uniform
+    (vs quantile) binning and for cross-entropy (vs parametric NLL),
+    grounded in paper §3 + Appendix A.2 + Fig. 13.
+  - [chronos-2.md](papers/chronos-2.md) — added rationale for
+    sinh-inverse normalization (paper §3.1, Eq. 1-2) and for group
+    attention's O(V) memory advantage over MOIRAI's O(V^2)
+    flattening (paper §3.2).
+  - [moment.md](papers/moment.md) — added rationale for random
+    init over LLM init, for the 30% mask rate, and for input-space
+    (vs latent-bottleneck) patch reconstruction.
+  - [moirai.md](papers/moirai.md) — promoted the multi-patch and
+    mixture-of-distributions rationales from Strengths into
+    Architecture, with paper §3.1.1 / §3.1.3 citations and the
+    Appendix Table 7 ablation (0.130 MAE degradation when
+    per-frequency projections are removed).
+- **Clusters 3-4 (MoE + LLM-adapt)** — 5 of 5 had gaps:
+  - [time-moe.md](papers/time-moe.md) — added rationale for the
+    auxiliary load-balancing term (coefficient 0.02, paper §3.2.2)
+    as the routing-collapse safeguard.
+  - [moirai-moe.md](papers/moirai-moe.md) — added rationale for
+    token-level vs frequency-level routing (paper §1, Fig. 1) and
+    for cluster-centroid gating (paper §3.2.1, Fig. 4).
+  - [time-llm.md](papers/time-llm.md) — added rationale for
+    patch-to-text-prototype reprogramming via cross-attention
+    (paper §3) and for the frozen-LLM choice.
+  - [gpt4ts.md](papers/gpt4ts.md) — added rationale for fine-tuning
+    only LayerNorm + positional embeddings, grounded in the §3 +
+    §6 PCA-style analysis of frozen self-attention.
+  - [llmtime.md](papers/llmtime.md) — promoted digit-level
+    tokenisation to its own H3 subsection
+    `### Why digit-level tokenisation with explicit separators`,
+    explaining BPE misalignment, the GPT-4 vs GPT-3 paradox
+    (paper Figure 2), and how the change-of-variables construction
+    enables NLL/CRPS evaluation.
+- **Clusters 5-6 (lightweight + multi-task)** — 3 of 6 had gaps:
+  - [units.md](papers/units.md) — added rationale for factorised
+    (sequence + variable) attention as the mechanism that lets one
+    weight set handle 38 datasets with heterogeneous shapes (paper
+    §4.2).
+  - [totem.md](papers/totem.md) — added rationale for learned
+    VQ-VAE codebook (vs scalar uniform binning) and for
+    exclusively-temporal tokenisation (paper §3.2).
+  - [tspulse.md](papers/tspulse.md) — added rationale for hybrid
+    patch+point masking as a fix to MOMENT/UniTS block-mask bias
+    (paper §2) and for register tokens as the noise-robust
+    semantic-embedding view (paper Table 2 sensitivity analysis).
+  - `ttm.md`, `mamba4cast.md`, `sempo.md` — already compliant; no
+    edit.
+- **Clusters 7-8 + pre-FM TS** — 5 of 6 had gaps (excluding
+  `ts-jepa` already fixed; `mts-jepa` already compliant):
+  - [sundial.md](papers/sundial.md) — added rationale for
+    flow-matching over discrete tokens, multi-patch prediction, and
+    modern-LM stack adoption (RoPE/Pre-LN/FlashAttention/KV-cache);
+    grounded in paper §3.1, §3.2, ablation 14.8% memory + 43.6%
+    inference-time savings.
+  - [lat-pfn.md](papers/lat-pfn.md) — added rationale for the
+    system-identification head (paper Appendix D.1, §3.3) and the
+    normalized abstract time axis (paper §3.2).
+  - [tide.md](papers/tide.md) — added rationale for feature
+    projection (sidesteps `(L+H)·r` blow-up), temporal decoder
+    highway (sharp covariate-event propagation), and global linear
+    residual (DLinear sub-model property); grounded in paper §4.1,
+    §4.2, Figure 3.
+  - [cpc.md](papers/cpc.md) — added rationale for multi-step
+    prediction forcing slow features (paper Table 2: 12-step at
+    64.6% vs 2-step at 28.5%) and for the encoder + aggregator
+    split.
+  - [ts2vec.md](papers/ts2vec.md) — added rationale for contextual
+    consistency (paper §2.3, Fig. 3) over subseries / temporal
+    consistency, and for hierarchical contrasting (Algorithm 1,
+    §2.4) as the multi-scale mechanism.
+- **Google Trends methodology (8 leaves)** — 7 already compliant;
+  1 had a gap:
+  - [rttp.md](papers/rttp.md) — added rationale for inverting the
+    pipeline (post → query, paper §1, Fig. 2) and for Mix-Policy
+    DPO at the 1:9 off-to-on ratio (paper §3.2.1, Fig. 4 squeezing
+    effect).
+
+Each fix is grounded by a paper section, equation, table, or
+figure citation. Total edited: 17 leaves + the prior `ts-jepa`
+fix from earlier today = 18 leaves rewritten in the current
+push, 7 leaves still to lint (Cluster 1 deferred), 12 leaves
+already compliant.
+
+State after this pass: the wiki, the schema, and the leaf
+fleet are mutually consistent for the 30 linted leaves. The
+deferred Cluster 1 lint will be tracked as the next action.

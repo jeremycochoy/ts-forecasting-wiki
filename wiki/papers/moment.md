@@ -17,6 +17,8 @@ MOMENT is an open family of T5-shaped encoder-only foundation models pretrained 
 ## Architecture at a glance
 MOMENT follows the shape of T5 encoder but is randomly initialized (the paper explicitly ablates and prefers random init over language-model init for pretraining loss). It operates on patched, RevIN-normalized real-valued tokens of length T=512 split into 64 patches of length 8. A fraction of patches is masked and reconstructed during pretraining. At downstream time, the backbone is frozen or lightly tuned while a small task-specific head is trained on top.
 
+Three design choices are motivated in the paper rather than left empirical: (a) **random initialization** is preferred to GPT-2 / T5 init via Section 3.2 ablation — language-pretrained weights actually *raise* TS pretraining loss, directly refuting the "LLMs-transfer-for-free" hypothesis the paper uses to justify a TS-native backbone; (b) **30% mask rate** with a *learned* `[MASK]` embedding (rather than zero-masking) — the rate is ablated against higher and lower in the appendix and chosen to balance enough signal for representation learning against enough masked context for self-supervision on shorter horizons; (c) **input-space patch reconstruction** (rather than a latent-space bottleneck) — preserves fine-grained temporal structure (precise frequencies, trends) that downstream forecasting needs, and avoids information loss that a decoder bottleneck would introduce.
+
 ## Why it matters
 MOMENT provided one of the first fully open TS foundation model families with broad multi-task capability, a reproducible pretraining corpus, and competitive performance across four canonical TS tasks, acting as an accessible baseline for the open-source community.
 
