@@ -1234,3 +1234,35 @@ already compliant.
 State after this pass: the wiki, the schema, and the leaf
 fleet are mutually consistent for the 30 linted leaves. The
 deferred Cluster 1 lint will be tracked as the next action.
+
+## [2026-04-28] schema | propagate leaf-as-mirror principle into llm-wiki.md (generic pattern)
+
+Follow-up to the earlier `schema` entry today. The leaf-as-mirror
+principle was added to `CLAUDE.md` in that pass but not to
+`llm-wiki.md` (the generic pattern doc) — this entry closes that gap
+under explicit user direction.
+
+Change in [`llm-wiki.md`](../llm-wiki.md):
+
+- Added a new "third convention" paragraph in §Architecture, right
+  after the existing concept-node convention paragraph and before
+  §Operations. The text states the *generic* form of the principle:
+  a leaf is a faithful mirror of its source's substantive content,
+  not just an inventory of components, with a discoverable
+  reader-side test ("can a reader of the leaf alone answer *why*
+  does the source's X exist?"). Project-specific templates and
+  lint checks remain in `CLAUDE.md`; `llm-wiki.md` carries only the
+  abstract principle.
+
+Same paragraph added in parallel to:
+
+- `evolutionary-search-wiki/llm-wiki.md` (sibling repo)
+- `kg-rag-wiki/llm-wiki.md` (sibling repo)
+
+This keeps the three sibling wikis' generic-pattern documents in
+sync on the leaf-as-mirror discipline. The `evolutionary-search-wiki`
+also adopted the matching `CLAUDE.md` schema rules in its own
+parallel commit; `kg-rag-wiki/CLAUDE.md` already had the rule baked
+in, so only its `llm-wiki.md` needed the edit.
+
+No content layer changes; this is purely schematic.
