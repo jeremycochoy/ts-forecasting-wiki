@@ -16,6 +16,10 @@ Google Trends returns search-interest time series for up to five queries per req
 ## Method at a glance
 G-TAB has an offline phase that builds the anchor bank once per (region, time-span) and an online phase that calibrates each new query in a handful of requests. Offline: sample `n` anchor candidates from a popularity-stratified Freebase/ClueWeb pool, send `n − k + 1` shingled five-query requests so neighboring anchors co-occur, drop pairs where either max value falls below `τ = 10` to limit rounding error, then estimate every pairwise maximum ratio `r_xQ` against a reference query `Q` via the shortest path on a graph with edge weights `log η_xy`. An optimization round refits the bank to the `c ≈ 1/e` spacing using `k = 2` requests for the surviving neighbors. Online: given a new query `q`, binary-search the sorted anchor bank for an anchor `x*` whose ratio with `q` falls in `[ε, 1/ε]` (default `ε = 0.1`), then return the calibrated series `q · R_{x*} / m_q`.
 
+### Sizes
+
+Methodology paper — **no neural architecture, no forecasting model.** G-TAB is a calibration tool that places Google Trends queries on a common scale via a precomputed anchor bank + online binary search (~1.4–2.0 GT requests per calibrated query). The `(L, d_model, d_ff, heads, d_kv, params, patch, context)` tuple does not apply. Released as the Python package `gtab` at `github.com/epfl-dlab/GoogleTrendsAnchorBank`.
+
 ## Why it matters
 Without calibration, a multi-query Google Trends corpus has multiplicative scale errors — and outright zero-series collapses — that no downstream forecasting model can recover. G-TAB is the standard reference for the methodology of placing heterogeneous-popularity queries on one scale, and its open-source implementation makes it the default Step 2 in any Google-Trends pipeline that touches more than a single popularity band. The wiki's [rebuilding-google-trends-corpus](../benchmarks/rebuilding-google-trends-corpus.md) recipe uses G-TAB as the popularity-filter and stitching anchor in §5 and §7.
 

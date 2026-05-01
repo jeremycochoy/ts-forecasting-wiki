@@ -19,6 +19,16 @@ Time-MoE is a decoder-only transformer whose feed-forward blocks are replaced wi
 
 The **auxiliary load-balancing term** (coefficient 0.02, paper §3.2.2) is what prevents routing collapse in the sparse MoE: without it the gating function tends to concentrate nearly all tokens on a small subset of experts, wasting most of the parameter budget and breaking the scaling argument the paper hinges on. The **Huber loss** is chosen over MSE for outlier robustness on the heterogeneous Time-300B mix (heavy-tailed financial / sensor data), and the **multi-resolution heads** with horizons `{1, 8, 32, 64}` are jointly optimized so a single backbone serves both short and long horizons without retraining — dynamically scheduled at inference to keep the autoregressive rollout depth bounded.
 
+### Sizes (Shi et al. Table 2)
+
+| Variant | Layers | d_model | d_ff | Heads | Experts | Top-K | d_expert | Activated | Total | Token | Context |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Time-MoE-Base | 12 | 384 | 1536 | 12 | 8 + 1 shared | 2 | 192 | 50M | 113M | point-wise (1 step / token) | 4096 |
+| Time-MoE-Large | 12 | 768 | 3072 | 12 | 8 + 1 shared | 2 | 384 | 200M | 453M | point-wise | 4096 |
+| Time-MoE-Ultra | 36 | 1024 | 4096 | 16 | 8 + 1 shared | 2 | 512 | 1.1B | 2.4B | point-wise | 4096 |
+
+Sparse MoE replaces every dense FFN. RMSNorm + SwiGLU + RoPE; point-wise tokenization (NOT patch-based — each timestep is one SwiGLU-embedded token). Load-balancing auxiliary loss coefficient 0.02. Multi-resolution output heads at horizons `{1, 8, 32, 64}` shared across all sizes.
+
 ## Why it matters
 Time-MoE is the landmark result for scaling time-series foundation models beyond the hundred-million-parameter regime. It provides the clearest published evidence so far that neural scaling laws translate from language to time series when capacity is added via sparse MoE, and establishes a billion-parameter reference point the rest of the field now has to argue for or against.
 

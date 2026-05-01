@@ -18,6 +18,17 @@ Tiny Time Mixers are compact non-transformer foundation models based on the TSMi
 ## Architecture at a glance
 TTM stacks TSMixer blocks that alternate feature-mixing and time-mixing MLPs over patched inputs. The backbone is channel-independent during pretraining, followed by an optional channel-mixing decoder and exogenous-variable mixer during fine-tuning. Adaptive patching rearranges the patch/feature dimensions across levels, resolution prefix tuning injects a frequency token, and RevIN handles distribution shift. Patch sizes are adaptive (multiple sizes via resolution prefix tuning that adjusts patch size to data frequency); forecasting is direct multi-step — the TSMixer outputs the full forecast horizon in one pass (Ekambaram et al. Section 4).
 
+### Sizes (Ekambaram et al. §4.3 + Appendix D.1 + Table 1)
+
+| Variant | Mixer levels (L) | Blocks/level (M) | Decoder layers | Hidden (hf = 3·pl) | Expansion (ef = 2·hf) | Heads | Params | Patch (pl) | Context (sl) |
+|---|---|---|---|---|---|---|---|---|---|
+| TTM-Quick / TTM_Q | 3 | 2 | 2 | 192 | 384 | — (no attn) | not separately disclosed | 64 | 512 |
+| TTM-Base / TTM_B | 3 | 2 | 2 | 192 | 384 | — | 1M | 64 | 512 |
+| TTM-Enhanced / TTM_E | 3 | 2 | 2 | 384 | 768 | — | 4M | 128 | 1024 |
+| TTM-Advanced / TTM_A | 3 | 2 | 2 | 384 | 768 | — | 5M | 128 | 1536 |
+
+TSMixer / MLP-Mixer backbone — **no attention, no heads.** `hf = 3 × pl` and `ef = 2 × hf` are the architectural conventions; "expansion" plays the role of `d_ff` for FFN-equivalent feature mixing. Released via `ibm-granite/granite-timeseries-ttm-r2` on HuggingFace.
+
 ## Why it matters
 TTM makes the case that parameter count is not destiny for TS foundation models. By exploiting TS-specific inductive bias and multi-resolution training, a tiny MLP-Mixer serves as a practical, edge-deployable foundation model. Together with Mamba4Cast it anchors the argument that the transformer-by-default assumption inherited from NLP is not justified in TS.
 

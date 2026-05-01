@@ -19,6 +19,16 @@ MOMENT follows the shape of T5 encoder but is randomly initialized (the paper ex
 
 Three design choices are motivated in the paper rather than left empirical: (a) **random initialization** is preferred to GPT-2 / T5 init via Section 3.2 ablation — language-pretrained weights actually *raise* TS pretraining loss, directly refuting the "LLMs-transfer-for-free" hypothesis the paper uses to justify a TS-native backbone; (b) **30% mask rate** with a *learned* `[MASK]` embedding (rather than zero-masking) — the rate is ablated against higher and lower in the appendix and chosen to balance enough signal for representation learning against enough masked context for self-supervision on shorter horizons; (c) **input-space patch reconstruction** (rather than a latent-space bottleneck) — preserves fine-grained temporal structure (precise frequencies, trends) that downstream forecasting needs, and avoids information loss that a decoder bottleneck would introduce.
 
+### Sizes (Goswami et al. §3.4)
+
+| Variant | Layers | d_model | d_ff | Heads | d_kv | Params | Patch | Context |
+|---|---|---|---|---|---|---|---|---|
+| MOMENT-Small (`AutonLab/MOMENT-1-small`) | 6 | 512 | 2048 | 8 | 64 | 40M | P=8 | T=512 (N=64 patches) |
+| MOMENT-Base (`AutonLab/MOMENT-1-base`) | 12 | 768 | 3072 | 12 | 64 | 125M | P=8 | T=512 |
+| MOMENT-Large (`AutonLab/MOMENT-1-large`) | 24 | 1024 | 4096 | 16 | 64 | 385M | P=8 | T=512 |
+
+Encoder-only T5 (no decoder side). Sizes mirror T5-Small / Base / Large but the model is randomly initialized rather than copying T5 weights (paper's preferred ablation). Fixed 512-step input split into 64 patches of length 8.
+
 ## Why it matters
 MOMENT provided one of the first fully open TS foundation model families with broad multi-task capability, a reproducible pretraining corpus, and competitive performance across four canonical TS tasks, acting as an accessible baseline for the open-source community.
 

@@ -17,6 +17,16 @@ Timer-XL extends Timer's univariate generative pretraining to the multivariate s
 ## Architecture at a glance
 Timer-XL keeps Timer's decoder-only backbone and next-token MSE training objective but flattens multivariate patches into a 2D (N x T) token grid. TimeAttention lets each token attend to all variables at earlier or equal time steps via a Kronecker-structured mask, preserving causality along the time axis while allowing free attention across variates at the same or earlier times. With FlashAttention, the memory footprint is O(N*T) rather than the naive O(N^2 T^2). Input and output patch size is 96; forecasting is autoregressive rollout with the multivariate flattened-token format, using universal TimeAttention with causal positional embeddings (Liu et al. Table 11).
 
+### Sizes (Liu et al. Table 11; FFN hidden dim = 4D per §A.2)
+
+| Variant | Layers (L) | d_model (D) | d_ff | Heads (H) | d_kv | Patch (P) | Params | Context |
+|---|---|---|---|---|---|---|---|---|
+| Timer-XL pre-train (released `thuml/timer-base-84m`) | 8 | 1024 | 4096 | 8 | 128 | 96 | 84M | up to 3072 |
+| Timer-XL univariate fine-tune | 3 | 512 | 2048 | 8 | 64 | 96 | — | depends on dataset |
+| Timer-XL multivariate fine-tune (varies) | 1–6 | 512–1024 | 2048–4096 | 8 | 64–128 | 96 | — | up to 720 |
+
+Same recipe at the multi-task pre-training scale: the released model checkpoint corresponds to the L=8 / D=1024 row.
+
 ## Why it matters
 Timer-XL shows that long-context decoder-only transformers can absorb multivariate and covariate structure without bolt-on components, unifying a broader class of forecasting problems than univariate TS foundation models. It is one of the clearest demonstrations that causal channel-dependent attention can be scaled efficiently.
 

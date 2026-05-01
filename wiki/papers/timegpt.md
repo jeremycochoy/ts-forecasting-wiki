@@ -17,6 +17,14 @@ TimeGPT-1 is presented as the first end-to-end commercial time-series foundation
 ## Architecture at a glance
 TimeGPT is described as a transformer encoder-decoder with self-attention blocks, CNN layers in the input/output pipelines, residual connections, and layer normalization, producing a fixed-length forecast via a linear output head. Conformal prediction on rolling historical errors supplies prediction intervals at inference time without needing a parametric distribution head. The system accepts arbitrary univariate or multivariate histories and exogenous regressors through the API. Exact architecture sizes and training hyperparameters are not disclosed.
 
+### Sizes
+
+| Variant | Layers | d_model | d_ff | Heads | d_kv | Params | Patch | Context |
+|---|---|---|---|---|---|---|---|---|
+| TimeGPT-1 (Nixtla API) | not disclosed | not disclosed | not disclosed | not disclosed | not disclosed | not disclosed | segment-tokens | not disclosed |
+
+The paper describes the architecture only qualitatively ("encoder-decoder transformer with multiple layers, CNN input/output blocks, residual connections, layer normalization, conformal-prediction intervals"). No `(L, d_model, d_ff, heads, patch)` table is published, and the parameter count and pre-training-corpus composition are also undisclosed (per the [Timer](./timer.md) paper Table 9 even the param count is "Unknown"). This is the most opaque entry in the eight-cluster TS-FM taxonomy and is included here only for completeness.
+
 ## Why it matters
 TimeGPT demonstrated demand and feasibility for a production-grade zero-shot forecasting service and introduced the vocabulary of "TS foundation models" to the broader practitioner community, setting the stage for the open research wave that followed.
 

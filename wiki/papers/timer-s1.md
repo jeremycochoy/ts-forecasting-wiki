@@ -18,6 +18,23 @@ Timer-S1 is a Mixture-of-Experts time series foundation model with 8.3B total pa
 ## Architecture at a glance
 Timer-S1 is patch-tokenized with P=16 and hidden D=1024. Input values are first instance-renormalized (Eq. 1-2), then split into `N = ⌈T/P⌉` patches with left-padding and a per-patch binary mask `m_i ∈ {0,1}^P` marking padded positions. Each patch is concatenated with its mask and embedded by a shared residual network `R^{2P} → R^D` (Eq. 3) — i.e. the token encoder is a 32→1024 residual MLP, not a linear projection, and is weight-tied to the patch-projection output head. No additive positional embedding is applied at the embedding stage; relative position is injected inside attention via RoPE (Eq. 5-6). Pretraining context is T=2880 (N=180); stage-2 post-training extends to T=11520 (N=720) by RoPE continuation. The backbone is a 24-block decoder-only sparse-MoE transformer with QK-Norm, Pre-RMSNorm and 32 experts with top-2 routing — yielding 8.3B total / 0.75B active parameters. On top of the main stack sit 16 TimeSTP blocks: each one re-reads the original lookback plus the outputs of the preceding TimeSTP block through a projection, runs its own internal TimeMoE module, and emits a one-step-shifted prediction, so the final stack covers `(H+1)*P = 272` future points per forward pass. Inference simply retains these blocks, avoiding the autoregressive rollout that causes error accumulation in Timer and Time-MoE.
 
+### Sizes (Liu et al. §4.2)
+
+| Component | Value |
+|---|---|
+| Backbone blocks | 24 TimeMoE + 16 TimeSTP |
+| MoE config | E=32 experts, top-K=2 active per token |
+| d_model (D) | 1024 |
+| Heads / d_kv / d_ff | not tabulated |
+| Patch (P) | 16 |
+| Input tokens (N) | 180 (pre-train) → 720 (post-train via RoPE) |
+| Context length (T) | 2880 (pre-train) → 11520 (post-train) |
+| Total params | ~8.3B |
+| Activated params | ~0.75B |
+| Output | 9 quantiles, multi-horizon via TimeSTP stack |
+
+Per-block heads, `d_kv`, and `d_ff` are not separately tabulated; the paper reports backbone variants (Figs 13–14) only as "TimeMoE block count × TimeSTP block count," with the released configuration being 24 × 16.
+
 ## Why it matters
 Timer-S1 is the first paper to systematically separate "architecture scaling," "data scaling," and "training-pipeline scaling" for a TS foundation model, and the first to push GIFT-Eval MASE below the [Chronos](./chronos.md)/[Moirai](./moirai.md)/Sundial frontier using an explicit serial-prediction head instead of rolling next-token generation. It is also the authoritative writeup of TimeBench's curation pipeline: Sundial introduced the name and broad composition, but Timer-S1 is where the filtering, augmentation and leakage-handling are spelled out in enough detail to be reproduced.
 

@@ -16,6 +16,10 @@ The paper proposes a theoretically grounded nowcasting methodology that combines
 ## Method at a glance
 The nowcast equation is a linear bridge regression `Y_t = β_0 + β_s' x_{t,s} + β_h' x_{t,h} + β_g' x_{t,g} + ε_t` with soft (`x_{t,s}`), hard (`x_{t,h}`), and Google (`x_{t,g}`) blocks (paper Eq. 2.1). Step 1 keeps GSD index `j` if `|t_j| > λ` for a threshold `λ` set as the `(1-τ)`-quantile of `N(0,1)` with `τ ∈ {20%, 10%, 5%, 2.5%, 1%, 0.5%}`. Step 2 fits Ridge on the surviving design and picks α minimizing the GCV criterion. The paper does not touch the *raw GSD reliability* problem — sampling noise and rounding-collapse — addressed by [GTAB](./gtab.md) and [Medeiros-Pires](./gtrends-proper.md); it operates on whatever GSD vector the analyst supplies.
 
+### Sizes
+
+Methodology paper — **no neural architecture component.** Model class: two-step "Ridge after Model Selection" linear bridge regression with t-stat preselection (Step 1) followed by Ridge regression with GCV-tuned regularization (Step 2). The `(L, d_model, d_ff, heads, d_kv, params, patch, context)` tuple does not apply. Theoretical contribution: out-of-sample prediction-error bounds for the Ridge-after-selection estimator under sub-Gaussian errors, plus OOS optimality of GCV. Compute is closed-form Ridge plus a small grid search over α — laptop-scale.
+
 ## Why it matters
 Ferrara-Simoni is the first paper to give a clean theoretical answer to the question "*when* do Google data improve GDP nowcasting?", supplementing the empirical heuristics in [Choi-Varian](./choi-varian.md) and the Bayesian sparsity machinery in [Scott-Varian BSTS](./scott-varian.md). Its preselection-plus-shrinkage recipe is now the standard frequentist reference for high-dimensional nowcasting with alternative data, parallel to the Bayesian spike-and-slab / horseshoe lineage. On the foundation-model side, the paper's diagnosis — that "using all GSD is not always a good strategy" because of the noise budget — anticipates the corpus-curation lessons that resurface at TS-FM scale.
 

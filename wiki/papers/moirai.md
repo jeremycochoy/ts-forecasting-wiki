@@ -19,6 +19,16 @@ MOIRAI is an encoder-only transformer that patches each input series with a freq
 
 Two design rationales sit at the heart of the architecture. **Frequency-aware patch sizes** (paper §3.1.1, larger patches for high-frequency data, smaller for low-frequency) directly address cross-frequency negative interference: a single patch size across mixed-frequency pretraining corrupts temporal resolution for high-frequency series and wastes capacity on low-frequency ones, so a discrete set of frequency-specialized projection layers is learned per frequency bucket — the appendix ablation removes the per-frequency projections and OOD MAE degrades by 0.130. **Mixture-of-distributions head** (paper §3.1.3, Student-t / negative-binomial / log-normal variants) lets the same model produce well-calibrated probabilistic forecasts across signed, strictly-positive, and heavy-tailed series without committing to a single parametric family — and avoids the positivity failure mode of a Gaussian / Student-t head on count or strictly-positive data while remaining more efficient than direct quantile regression on rare tail events.
 
+### Sizes (Woo et al. Table 4)
+
+| Variant | Layers | d_model | d_ff | Heads | d_kv | Params | Patch | Context |
+|---|---|---|---|---|---|---|---|---|
+| MOIRAI-Small (`Salesforce/moirai-1.0-R-small`) | 6 | 384 | 1536 | 6 | 64 | 14M | freq-bucketed: 8 / 16 / 32 / 64 / 128 | sampled 1K–5K |
+| MOIRAI-Base (`Salesforce/moirai-1.0-R-base`) | 12 | 768 | 3072 | 12 | 64 | 91M | same | sampled 1K–5K |
+| MOIRAI-Large (`Salesforce/moirai-1.0-R-large`) | 24 | 1024 | 4096 | 16 | 64 | 311M | same | sampled 1K–5K |
+
+Standard ratios: `d_ff = 4 × d_model`, `heads × d_kv = d_model`. The five frequency-bucketed input/output projection layers (sizes 8, 16, 32, 64, 128) are shared across overlapping frequency buckets per Appendix B.1: Yearly/Quarterly→8; Monthly→8/16/32; Weekly/Daily→16/32; Hourly→32/64; Minute-level→32/64/128; Second-level→64/128.
+
 ## Why it matters
 MOIRAI was one of the first TS foundation models to fully commit to open, large-scale pretraining and to solve the variable-frequency, variable-variate problem inside one architecture, setting a standard for universal TS forecasters.
 

@@ -1366,3 +1366,67 @@ The cheatsheet does **not** duplicate `metrics.md`'s rigorous
 formulas; it links into it for math and edge-case detail. The two
 pages are now layered: cheatsheet for vocabulary and operations,
 metrics.md for formulas and per-paper usage citations.
+
+
+## [2026-05-01] lint | sizes-table pass across 39 paper leaves
+
+Added a required `### Sizes` H3 subsection inside (or right after)
+"Architecture at a glance" for every paper leaf, with a per-variant
+table standardised on
+`Variant | Layers | d_model | d_ff | Heads | d_kv | Params | Patch | Context`.
+Schema is adapted per model class:
+
+- Transformer leaves: tabulate `(L, d, d_ff, h, d_kv)` from the paper
+  with citation to the source table.
+- MoE leaves: extend with `Experts | Top-K | Activated | Total`.
+- LLM-adapted leaves: tabulate inherited backbone `(L, d, d_ff, h)`
+  alongside the trainable-adapter param count.
+- Non-transformer leaves (TSMixer / SSM / CNN / VQ-VAE): write
+  "—" or "no attention / no heads" and substitute the relevant
+  fields (mixer levels, SSM state dim, codebook K/D, etc.).
+- Methodology / nowcasting / pure-statistics leaves: brief
+  "Methodology paper — no neural architecture component" note
+  describing the model class (BSTS, Ridge-after-selection, GTAB
+  calibration, etc.) rather than skipping the section silently.
+
+39 leaves touched (37 paper leaves with new `### Sizes` blocks +
+2 methodology updates: aksu-gift-eval gets a "no new model
+architecture" note that points to moirai.md). All numbers are
+quoted from the cited paper section / table; cells that the paper
+does not disclose are written "not disclosed" or "—" rather than
+inferred.
+
+Schema change in `CLAUDE.md`:
+
+- Added `### Sizes` as a required H3 subsection in the paper-leaf
+  template, with explicit guidance for transformer / MoE /
+  LLM-adapted / non-transformer / methodology variants.
+- Added a "Sizes-table presence" check to the periodic-lint section.
+- Added an anti-pattern entry: "Do not omit the `### Sizes`
+  subsection from a paper leaf."
+
+Motivation: for the original Moirai-Small example (the user's
+question on 2026-04-30), the leaf only quoted the parameter count
+(14M) and the reader had to bounce to the PDF (Liu et al. Table 4)
+to recover `(L=6, d=384, d_ff=1536, h=6, d_kv=64)`. The Sizes block
+moves that lookup to the leaf and applies the same standard across
+the entire paper layer.
+
+Cluster coverage:
+
+- Cluster 1 (decoder-only AR): timesfm, timer, timer-xl, timer-s1,
+  lag-llama, timegpt, moirai-2.
+- Cluster 2 (masked-encoder / encoder-decoder): chronos, chronos-2,
+  moment, moirai.
+- Cluster 3 (MoE): time-moe, moirai-moe.
+- Cluster 4 (LLM-adapted): time-llm, gpt4ts, llmtime.
+- Cluster 5 (lightweight / non-transformer): ttm, mamba4cast, sempo.
+- Cluster 6 (multi-task / universal): units, totem, tspulse.
+- Cluster 7 (flow-matching): sundial.
+- Cluster 8 (JEPA): lat-pfn, ts-jepa, mts-jepa.
+- Pre-FM model papers: tide, cpc, ts2vec.
+- Methodology / nowcasting (model class noted, no neural arch):
+  choi-varian, scott-varian, ross-backward-induction, gtab,
+  ferrara-simoni, kohns-nowcast, gtrends-proper, rttp.
+- Benchmark paper: aksu-gift-eval (notes that the retrained Moirai
+  arch is documented on moirai.md).

@@ -20,6 +20,16 @@ Sundial pairs a decoder-style transformer (RoPE, Pre-LN, FlashAttention, KV-cach
 
 Three design rationales are made explicit in the paper. (a) **Flow-matching over discrete tokens** (paper §3.1): any discretisation ([Chronos](./chronos.md), [LLMTime](./llmtime.md)) commits to a fixed vocabulary that fails on out-of-vocabulary trends and forces *mode collapse* on heterogeneous distributions, while continuous flow-matching learns a velocity field over real-valued space along the conditional optimal-transport path — preserving the full distributional shape without any parametric prior commitment. (b) **Multi-patch prediction during pretraining** (paper §3.2) reduces the number of autoregressive rollout steps needed at inference, with shared lookback representations that enable fast repeated noise sampling for probabilistic forecasts. (c) **RoPE / Pre-LN / FlashAttention / KV-cache** are inherited from modern LM stacks rather than the older absolute-position transformer pattern most TS-FMs use; the paper's ablation attributes 14.8% memory and 43.6% inference-time savings to this engineering and treats them as essential for trillion-token-scale training stability.
 
+### Sizes (Liu et al. Tables 5 + 6)
+
+| Variant | Layers (L) | d_model | d_ff | Heads | d_kv | Params | Patch (P) | Context (T) | Pred (F) | TimeFlow head (D_tf, L_tf) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Sundial-Small | 6 | 512 | 2048 | 8 | not disclosed | 32M | 16 | 2880 | {16, 720} | (512, 3) |
+| Sundial-Base (`thuml/sundial-base-128m`) | 12 | 768 | 3072 | 12 | not disclosed | 128M | 16 | 2880 | {16, 720} | (768, 3) |
+| Sundial-Large | 24 | 1024 | 4096 | 16 | not disclosed | 444M | 16 | 2880 | {16, 720} | (1024, 6) |
+
+Backbone: decoder-only transformer with RoPE + Pre-LN + FlashAttention + KV-cache. Standard `d_ff = 4 × d_model`. `d_kv` is not split out; implied as `d_model / heads`. TimeFlow head (FM-Net) is a small MLP parameterizing the velocity field on the conditional optimal-transport path; conditioning is via AdaLN. Inference uses K-step push-forward with sampled Gaussian noise per call.
+
 ## Why it matters
 Sundial is the leading exponent of the continuous, flow-matching branch of TS foundation models. It shows that avoiding value quantisation can both improve accuracy and reduce parameter requirements, and provides the clearest argument to date that parametric probabilistic heads (Gaussian, Student-t, quantile) limit the capacity of foundation models on heterogeneous TS distributions.
 

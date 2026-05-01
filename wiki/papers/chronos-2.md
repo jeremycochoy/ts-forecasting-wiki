@@ -19,6 +19,15 @@ Chronos-2 is a 120M-parameter encoder-only transformer following the T5 encoder 
 
 Two design rationales sit at the centre of the architecture. **Sinh-inverse normalization** (paper §3.1, Eq. 1-2) provides log-like stabilization of outliers — inspired by econometrics and energy forecasting (Uniejewski & Weron 2018) — where standardization alone fails on strictly-positive or heavy-tailed series. **Group attention** (paper §3.2) preserves the inductive bias that related series share dynamics: by aggregating information *within* a group at each patch index rather than flattening all variates into one long sequence, it gives O(V) memory in the variate count (vs. O(V^2) for MOIRAI's any-variate flattening) while still letting the model disambiguate per-group via learned group assignments — a direct critique of [moirai](./moirai.md)'s scaling behaviour.
 
+### Sizes (Ansari et al. §5.1 + §5.4)
+
+| Variant | Layers | d_model | d_ff | Heads | d_kv | Params | Patch | Context |
+|---|---|---|---|---|---|---|---|---|
+| Chronos-2 (released, `amazon/chronos-2`) | not disclosed | not disclosed | not disclosed | not disclosed | not disclosed | 120M | 16 | 2048 (pre-train) → 8192 (post-train) |
+| Chronos-2-Small (28M ablation in §5.4) | not disclosed | not disclosed | not disclosed | not disclosed | not disclosed | 28M | 16 | same |
+
+The technical report does not tabulate `(L, d_model, d_ff, heads)` for either size — only the parameter counts and the architectural choices (encoder-only T5-style backbone with RoPE, alternating time + group attention blocks, REG separator token, 21-quantile multi-patch output head). The 28M Small lags 120M Base by ~1pp on GIFT-Eval skill score while running ~2× faster (§5.4).
+
 ## Why it matters
 Chronos-2 closes the gap between univariate TS foundation models and the multivariate, covariate-rich settings common in practice. By making related-series in-context learning a first-class mechanism, it unifies what used to require separate architectures or task-specific fine-tuning.
 

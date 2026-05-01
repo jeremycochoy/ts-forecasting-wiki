@@ -124,6 +124,38 @@ multi-paragraph justification in the paper, promote it to its own H3
 subsection inside this section, e.g. `### How <model> prevents
 representation collapse`.)
 
+### Sizes
+
+(REQUIRED H3 subsection for every paper that introduces a model. A
+table with one row per released variant. Standard columns are
+`Variant | Layers | d_model | d_ff | Heads | d_kv | Params | Patch |
+Context`, plus a citation line under the table naming the source
+table or section, e.g. "Liu et al. Table 4". Adapt the schema to the
+model class:
+
+- Transformer: the standard tuple above; if `d_kv` is not split out,
+  write the implied `d_model / heads`.
+- Mixture-of-experts: extend with `Experts (M / N) | Top-K | Activated
+  | Total`.
+- LLM-adapted (frozen-backbone): extend with `Backbone | Trainable
+  params`; the inherited `(L, d, d_ff, heads, d_kv)` is from the
+  cited base LLM and should be repeated here for the reader's
+  convenience.
+- Non-transformer (TSMixer / SSM / CNN / VQ-VAE): write "—" or "no
+  attention / no heads" in the heads / `d_kv` / `d_ff` columns and
+  substitute the relevant fields (mixer blocks, SSM state dim,
+  codebook K / D, etc.).
+- Methodology / nowcasting / pure-statistics paper that introduces no
+  neural model: write a one-paragraph "no neural architecture
+  component" note describing the model class (e.g., "BSTS
+  state-space with local linear trend + spike-and-slab regression").
+  Do NOT skip the section silently.
+
+Where the paper does not disclose a value, write "not disclosed" or
+"—" in that cell. NEVER fabricate. The point of this subsection is
+that a reader can scan the leaf and answer "what is the Small
+checkpoint's `(L, d, h, d_ff)`?" without bouncing to the PDF.)
+
 ## Why it matters
 (2-3 sentences on what this paper moved forward)
 
@@ -433,6 +465,13 @@ Run when asked, or after a batch of ingests. A full lint pass checks:
   leaf merely *names* without *explaining*. Flag leaves that fail
   the test "a reader of this leaf alone can answer *why* component
   X is there." Treat each gap as a fix-on-sight task.
+- **Sizes-table presence** — every paper leaf MUST contain a
+  `### Sizes` H3 subsection inside (or right after) "Architecture
+  at a glance" with a per-variant table, even when the values are
+  "not disclosed" or the paper introduces no neural model (in
+  which case write a one-paragraph "Methodology paper — no neural
+  architecture component" note describing the model class). Flag
+  any leaf where this subsection is missing.
 - Append `## [YYYY-MM-DD] lint | <summary>` to `wiki/log.md` with
   counts and links to the fixes.
 
@@ -451,6 +490,13 @@ Run when asked, or after a batch of ingests. A full lint pass checks:
   inventory. Test: a reader of the leaf alone should be able to
   answer "*why* does this paper's component X exist?" without
   bouncing to the concept page or the PDF.
+- Do not omit the `### Sizes` subsection from a paper leaf. Even for
+  methodology papers that introduce no neural model, write a brief
+  "Methodology paper — no neural architecture component" note
+  inside a `### Sizes` block describing the model class (BSTS,
+  Ridge-after-selection, calibration tool, etc.) — never skip the
+  section silently. The reader needs to know whether the leaf
+  describes a neural architecture or not at a glance.
 - Do not write to `papers/` — the raw source layer is immutable.
 - Do not use absolute URLs for internal wiki navigation.
 - Do not leave a page without a "Related wiki pages" block.

@@ -20,6 +20,14 @@ Input `X ∈ R^{S×C}` with `S=512`, patch `pl=8`, hidden `D=3·pl=24`. The inpu
 
 Two design rationales beyond the inventory are explicit in paper §2. (a) **Hybrid patch+point masking** is a direct response to the *block-mask bias* the paper documents in MOMENT and UniTS, which apply fixed block masking in embedding space — a setup that over-fits to large contiguous gaps that don't reflect real missingness; TSPulse instead masks at the raw patch level with a learnable token and randomized span / ratio, evaluated under Rubin's MAR / MNAR taxonomy in Appendix A.16. (b) **Register tokens as the semantic-embedding view** follows ViT-Registers (Darcet et al.); paper Table 2 sensitivity analysis shows register embeddings are highly robust to missingness, noise, and phase shift (12% phase distortion vs. 130% for `TimeE`), which is what makes them the stable substrate for retrieval and similarity search rather than a temporary architectural curiosity.
 
+### Sizes (Ekambaram et al. §2 + Appendix A.9)
+
+| Variant | Backbone layers (L) | Decoder layers | d_model (D=3·pl) | d_ff | Heads | d_kv | Params | Patch (pl) | Context (S) |
+|---|---|---|---|---|---|---|---|---|---|
+| TSPulse (released `ibm-granite/granite-timeseries-tspulse-r1`) | 8 | 2 | 24 | not disclosed (TSMixer expansion factor not tabulated) | gated-attn only — no MHSA heads | — | 1.06M | 8 | 512 |
+
+TSMixer (MLP-Mixer) backbone with **softmax-gated attention** between mixer blocks — NOT standard multi-head softmax attention with separate KV. Channel-independent at pre-train; channel mixing re-enabled at fine-tune. Three input streams (time patches + FFT patches + R register tokens) all at dimension D=24. Downstream task heads use much wider flattened-pooled features (d=1536 for time / FFT, d=256 for semantic) but those are not the pre-trained model's per-token width.
+
 ## Why it matters
 TSPulse is IBM Research's entry into multi-task TS analysis, combining sub-1M parameter count, a dual-space time+frequency masked objective, and explicit abstraction-level disentanglement. It is the analysis-side complement of [TTM](./ttm.md) — same lab, same TSMixer backbone, same Monash+LibCity corpus — and argues, against [MOMENT](./moment.md) and [UniTS](./units.md), that the right move for multi-task TS is not a larger encoder but better structured representations at the 1M scale.
 

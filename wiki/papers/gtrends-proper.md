@@ -16,6 +16,10 @@ Google Trends is a widely used free tool for forecasters, with a large literatur
 ## Method at a glance
 For every (search term, time window, location) the researcher cares about, query Google Trends repeatedly across separate days, retaining each returned series. Align the resulting series by timestamp and compute the pointwise mean across samples. Use the averaged series — not any single download — as the covariate fed into the downstream forecasting or selection model. The protocol is intra-query: it stabilizes a single query against Google's per-request Bernoulli noise, and is orthogonal to the cross-batch calibration problem that GTAB addresses (where queries of different popularity must be put on a common scale). Both fixes stack cleanly.
 
+### Sizes
+
+Methodology / data-quality paper — **no neural architecture, no forecasting model proposed.** The contribution is a sampling-noise diagnosis for raw Google Trends responses + a repeated-sampling-and-averaging fix that applies upstream of any downstream forecasting model. The `(L, d_model, d_ff, heads, d_kv, params, patch, context)` tuple does not apply. Empirical evidence: a downstream LASSO simulation and a Brazilian COVID-19 SARS nowcast that quantify gains from averaging. Compute is repeated API calls + pointwise averaging — script-level.
+
 ## Why it matters
 Medeiros-Pires is the canonical reference for "raw Google Trends data is noisier than it looks" and for the repeated-sampling-and-averaging fix. The [rebuilding-google-trends-corpus](../benchmarks/rebuilding-google-trends-corpus.md) recipe lifts this protocol verbatim as Step 6, stacked on top of GTAB calibration (Step 5) and trendecon-style frequency reconciliation (Step 8). Without it, a pretraining corpus assembled from raw Google Trends inherits Bernoulli noise that no downstream TS-FM can compensate for.
 

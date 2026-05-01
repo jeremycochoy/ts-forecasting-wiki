@@ -18,6 +18,20 @@ TiDE is channel-independent: each series is encoded separately with shared weigh
 
 Three design rationales make TiDE faster than transformers without losing covariate sensitivity. **Feature projection** (paper §4.1) compresses per-timestep dynamic covariates to lower dimension *before* they enter the encoder, side-stepping the `(L+H)·r` dimensionality blow-up of naively flattened covariate matrices and keeping encoder cost linear in `L+H`. The **temporal decoder** (paper §4.2, Figure 3 semi-synthetic experiment) re-injects future covariates at each horizon step via a residual highway from `\tilde x_{L+t}` to `\hat y_{L+t}`, letting sharp exogenous events (holidays, promotions) propagate without waiting for the encoder bottleneck — this is the mechanism that drives TiDE's M5 win where PatchTST cannot consume covariates at all. The **global linear residual** ensures DLinear is a sub-model: if the MLP learns nothing useful, performance degrades gracefully to the linear baseline rather than worse, preserving the inductive bias the post-DLinear consensus values.
 
+### Sizes (Das et al. Tables 7 + 8; per-dataset tuning, MLP-only)
+
+| Dataset | Encoder layers (n_e) | Decoder layers (n_d) | hiddenSize | tempDecoderHidden | decoderOutputDim | tempWidth | Heads | d_ff |
+|---|---|---|---|---|---|---|---|---|
+| Traffic | 1 | 1 | 256 | 64 | 16 | 4 | n/a | n/a |
+| Electricity | 2 | 2 | 1024 | 64 | 8 | 4 | n/a | n/a |
+| ETTh1 | 2 | 2 | 256 | 128 | 8 | 4 | n/a | n/a |
+| ETTh2 | 2 | 2 | 512 | 16 | 32 | 4 | n/a | n/a |
+| ETTm1 | 1 | 1 | 1024 | 128 | 8 | 4 | n/a | n/a |
+| ETTm2 | 2 | 2 | 512 | 128 | 16 | 4 | n/a | n/a |
+| Weather | 1 | 1 | 512 | 16 | 8 | 4 | n/a | n/a |
+
+Pure-MLP encoder-decoder — **no attention, no heads, no `d_ff`** (each block is one hidden layer + ReLU + skip + LayerNorm + dropout). Search ranges (Table 7): hiddenSize ∈ {256, 512, 1024}; n_e, n_d ∈ {1, 2, 3}; decoderOutputDim ∈ {4, 8, 16, 32}; temporalDecoderHidden ∈ {32, 64, 128}; temporalWidth fixed at 4. Total parameter count is not tabulated as a single number; in the low-millions for tuned LTSF configurations. Lookback `L` and horizon `H` are tuned per dataset.
+
 ## Why it matters
 TiDE crystallized the post-DLinear consensus that, for the canonical long-horizon ETT/Weather/Traffic/Electricity benchmarks, transformer self-attention adds little once a strong linear residual and a covariate-aware MLP are in place. It is the same Google research group (Das, Kong, Sen) that later released [TimesFM](./timesfm.md), and several TimesFM design choices — channel independence, covariate handling, a global residual — trace directly back to TiDE.
 

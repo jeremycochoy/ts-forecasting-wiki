@@ -17,6 +17,10 @@ Choi and Varian show that Google Trends search-volume indices, available in real
 ## Method at a glance
 For each target series the authors estimate a baseline of the form `y_t = b_1 y_{t-1} + b_{12} y_{t-12} + e_t` on `log y_t` (or a simpler `AR(1)` for already-seasonally-adjusted series like initial claims). They augment it with one or two Google Trends category indices selected by in-sample t-tests or by spike-and-slab posterior probability. Out-of-sample evaluation uses one-step-ahead rolling-window forecasting starting at observation `k = 17`, refitting on `[k, t-1]` for each `t`. Reported metric is mean absolute error of `log y_t`, with separate MAE numbers tabulated for the full sample and the December 2007 – June 2009 recession sub-sample.
 
+### Sizes
+
+Methodology paper — **no neural architecture component.** Model class: linear seasonal AR(1) with Google Trends category indices as additional contemporaneous regressors, fit by OLS in a rolling window. The `(L, d_model, d_ff, heads, d_kv, params, patch, context)` tuple does not apply. Variable selection is done either by in-sample t-tests (most case studies) or by spike-and-slab Bayesian posterior probability (Australian consumer-confidence case), which seeds the BSTS approach formalized in [scott-varian](./scott-varian.md).
+
 ## Why it matters
 This is the canonical reference that put Google Trends on the macro-forecasting map. The "search interest as a leading or contemporaneous indicator" paradigm it codified is the basis for [Scott & Varian 2014](./scott-varian.md) (BSTS + spike-and-slab), [Ferrara & Simoni 2020](./ferrara-simoni.md) (theoretical pre-selection for GDP nowcasting), [Kohns & Bhattacharjee 2022](./kohns-nowcast.md) (horseshoe priors for COVID-era nowcasting), and the entire applied epidemiology / labor-economics line that uses Google search counts as exogenous covariates. A decade later, the same paradigm underwrites [TimesFM](./timesfm.md)'s decision to build ~50% of its public pretraining corpus from Google Trends (~22k head queries, ~0.5B time points; see [Google Trends data](../datasets-benchmarks/google-trends-data.md)).
 
