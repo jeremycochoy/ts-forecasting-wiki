@@ -18,6 +18,14 @@ A fully-connected input projection lifts each scalar `x_{i,t}` to a latent `z_{i
 
 Two design rationales make TS2Vec the canonical pre-FM TS encoder. (a) **Contextual consistency** as the positive-pair definition (timestamp masking + random cropping with overlap, paper §2.3 Figure 3) is more robust than the alternatives the prior literature used: *subseries consistency* (T-Loss) breaks under level shifts because the two subseries can have arbitrarily different means, and *temporal consistency* (TNC) breaks when an anomaly spikes inside one of the two windows. Two views of the *same timestamp* under different surrounding contexts naturally absorb non-stationarity without assuming any global invariance. (b) **Hierarchical contrasting** (Algorithm 1, §2.4) applies the loss recursively after `maxpool1d(kernel=2)` downsampling, so a single encoder is forced to maintain consistent representations at multiple time-scales — fine-grained patterns at the bottom levels, coarse instance-wise semantics at the top — which is what enables the same frozen encoder to win on UCR/UEA classification, ETT/Electricity forecasting, and Yahoo/KPI anomaly detection without per-task fine-tuning.
 
+### Sizes (Yue et al. §C.2)
+
+| Component | Type | Layers (residual blocks) | Conv per block | Kernel | Hidden | Output dim | Heads | Params | Context |
+|---|---|---|---|---|---|---|---|---|---|
+| TS2Vec encoder | dilated 1-D CNN | 10 | 2 | 3 | 64 | 320 | n/a | sub-100M (not tabulated) | up to 3000 timestamps (training crop) |
+
+Pure dilated CNN encoder with skip connections between adjacent blocks; **no attention, no `d_ff`**. Dilation at block `i` is `2^i`. Channel-independent (multivariate handled by per-channel encoding + max-pool over channels for sub-series representation). Output representation dim K=320. Default training: batch 8, Adam lr 1e-3, 200 / 600 iterations on small / large datasets, single RTX 3090.
+
 ## Why it matters
 TS2Vec is the standard reference for "TS-specific [contrastive representation learning](../concepts/contrastive-representation-learning.md)." It crystallizes a four-way split of the positive-pair design space — subseries consistency (T-Loss), temporal consistency (TNC), transformation consistency (TS-TCC), and TS2Vec's own contextual consistency — that later self-supervised TS papers cite verbatim. It is also the canonical TS encoder against which non-reconstructive successors ([TS-JEPA](./ts-jepa.md), [LaT-PFN](./lat-pfn.md), [MTS-JEPA](./mts-jepa.md)) report matched-capacity ablations on UCR/UEA classification.
 

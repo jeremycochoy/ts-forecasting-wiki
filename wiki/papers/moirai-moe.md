@@ -20,6 +20,15 @@ Moirai-MoE keeps MOIRAI's any-variate flattening across variates but switches to
 
 Two non-obvious design choices are explicitly motivated in the paper. **Token-level routing instead of frequency-level specialization** (paper §1, Fig. 1): MOIRAI's frequency-aware projections assume frequency is a useful first-class feature, but the paper shows series at different frequencies can share patterns (monthly vs. daily seasonality) while same-frequency series diverge — frequency-as-feature is the wrong abstraction, and learned per-token routing handles the real specialization axis. **Cluster-centroid gating** (paper §3.2.1, Fig. 4 right) seeds the gating function from a pretrained MOIRAI's self-attention outputs via mini-batch k-means: clusters reflect the true data distribution better than a randomly-initialized linear gate, and the ablation against pure linear+load-balancing gating shows the cluster-seeded gate is consistently superior across expert configurations.
 
+### Sizes (Liu et al. Table 1)
+
+| Variant | Layers | d_model | d_ff (per expert) | Heads | Experts (M) | Top-K | Activated | Total | Patch | Context |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Moirai-MoE-Small | 6 | 384 | 512 | not disclosed | 32 | 2 | 11M | 117M | 16 | LOTSA-sampled |
+| Moirai-MoE-Base | 12 | 768 | 1024 | not disclosed | 32 | 2 | 86M | 935M | 16 | LOTSA-sampled |
+
+Per-expert `d_ff` is half the dense MOIRAI's (Moirai-S = 1024, Moirai-B = 2048): the per-expert FFN is intentionally narrowed since 32 experts are kept. Heads count not separately tabulated; inherits MOIRAI's any-variate attention. K=2 active of M=32 experts via cluster-centroid k-means gating seeded from a pretrained MOIRAI. Moirai-MoE-Large is omitted "due to the significant requirements of computational resources" (§4.1).
+
 ## Why it matters
 Moirai-MoE argues that specialization in TS foundation models is better handled by learned routing than by hand-designed frequency heuristics. It delivers stronger accuracy than dense MOIRAI at lower activated compute, making MoE a natural scaling axis for universal TS models.
 

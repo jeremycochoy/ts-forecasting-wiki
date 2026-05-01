@@ -17,6 +17,10 @@ The paper presents a short-term forecasting system that combines a structural ti
 ## Method at a glance
 The model is `y_t = mu_t + tau_t + beta^T x_t + epsilon_t` with a local-linear-trend transition and a 52-week dummy-style seasonal `tau_t` (paper §3.1, equation 3). The regression component is appended to the observation matrix by adding a constant 1 to the state, so the state dimension grows by only one regardless of how many candidate predictors `x_t` carries (paper §3.2). MCMC alternates between drawing latent state via the Durbin-Koopman simulation smoother, drawing variance parameters from inverse-Gamma full conditionals, and drawing `(gamma, beta, sigma_epsilon^2)` via SSVS (George-McCulloch 1997) on the marginal in equation 8 (paper §4.1).
 
+### Sizes
+
+Methodology paper — **no neural architecture component.** Model class: Bayesian Structural Time Series (BSTS) with local-linear-trend + 52-week seasonal + spike-and-slab regression on contemporaneous Google Trends predictors, fit by Kalman filter + Forward-Filtering-Backward-Sampling (FFBS) for the state and SSVS MCMC over inclusion indicators. The `(L, d_model, d_ff, heads, d_kv, params, patch, context)` tuple does not apply. Case studies use ~100 (initial claims) to ~700 (retail sales) candidate Google Trends predictors; median posterior model size is 9, with 95th percentile 12. MCMC: 5,000 iterations (1,000 burn-in) on a single CPU in roughly 105 seconds for the case-study scale. Released as the `bsts` R package.
+
 ## Why it matters
 This is the canonical reference for "BSTS plus Google Trends nowcasting" and the methodological successor to Choi-Varian's 2009/2012 regression approach: where Choi-Varian required hand-curated query selection, scott-varian automates it via spike-and-slab. The framework is what [kohns-nowcast](./kohns-nowcast.md) explicitly extends to the COVID era with horseshoe priors. The `bsts` R package, written by Scott himself, shipped this approach into production-economics use, where it remains a standard nowcasting baseline.
 

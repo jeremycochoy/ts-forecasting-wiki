@@ -17,6 +17,10 @@ GIFT-Eval is a zero-shot forecasting benchmark designed as a foundation-model le
 ## Methodology at a glance
 Each test dataset is split with the last 10% of every series held out. Foundation models are run zero-shot from public checkpoints (HF repos `Salesforce/moirai-1.1-R-{small,base,large}`, `amazon/chronos-t5-{tiny,small,base}`, `google/timesfm-1.0-200m`); deep-learning baselines train one instance per dataset under a hyperparameter search defined in Appendix A; statistical baselines are fit per series with `gluonts`. The evaluation harness uses `gluonts` for both metrics. Multivariate datasets are forecast natively only by `Moirai` (the only foundation model in the lineup that supports it); the other three foundation models marginalize per-channel. Eight A100 GPUs are used for the deep-learning grid; foundation-model inference is single-GPU. All `Moirai` retraining runs follow the public `Moirai` recipe with GIFT-Eval-aligned context lengths (1000–8000 search range).
 
+### Sizes
+
+Benchmark paper — **no new model architecture introduced.** The retrained `Moirai-S/B/L` checkpoints follow the [Moirai](./moirai.md) recipe (Woo et al. 2024 Table 4) verbatim with only the pretraining corpus changed (LOTSA → `GiftEvalPretrain`); the `(L, d_model, d_ff, heads, d_kv, params, patch, context)` tuple for those checkpoints is documented on [moirai.md](./moirai.md). The 17-baseline lineup (statistical / deep-learning / foundation-model) follows the architectures of the cited works without modification.
+
 ### Headline aggregate (Table 10, all 97 configs, lower is better)
 | Model | MAPE | CRPS | Rank |
 |---|---|---|---|

@@ -18,6 +18,17 @@ Time-LLM keeps a pretrained LLM (Llama-7B or GPT-2) frozen and learns only a sma
 
 The **patch-reprogramming via text prototypes** (paper §3) is the central design choice: rather than injecting TS patches at random points in the LLM's input embedding space, multi-head cross-attention maps each patch into a small set of *text prototypes* — themselves linearly probed from the frozen LLM's word-embedding matrix — so the frozen LLM perceives them as if they were language tokens and can apply its pretrained linguistic reasoning verbatim. Going through *prototypes* rather than the full vocabulary is for parameter efficiency: a small set of learned linear combinations spans the relevant subspace without retraining the embedding table. The frozen-backbone choice is independently motivated: any fine-tuning of the LLM weights risks catastrophic forgetting of the textual prior the method depends on, and adapter-only training keeps update cost to a few epochs on a single GPU.
 
+### Sizes (Jin et al. Table 9; backbone arch inherited per Touvron et al. 2023 / Radford et al. 2019)
+
+| Variant | Backbone | Layers (kept) | d_model | d_ff | Heads | d_kv | Total params | Trainable params | Reprog dim (d_m) | Context (T) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Time-LLM (default, Llama-7B) | Llama-7B | 32 | 4096 | 11008 (SwiGLU) | 32 | 128 | ~6.7B | ~6.6M (≈0.2% of base) | 16 | 512 |
+| Time-LLM (Llama 8-layer, ablation A.2) | Llama-7B (8 layers) | 8 | 4096 | 11008 | 32 | 128 | ~975M | adapter-only | 16 | 512 |
+| Time-LLM (GPT-2 full, ablation A.3) | GPT-2 small | 12 | 768 | 3072 | 12 | 64 | ~124M | adapter-only | 16 | 512 |
+| Time-LLM (GPT-2 6-layer, ablation A.4) | GPT-2 small | 6 | 768 | 3072 | 12 | 64 | ~62M | adapter-only | 16 | 512 |
+
+Backbone `(L, d, d_ff, h, d_kv)` is inherited from the cited LLM and not retabulated by Time-LLM. Trainable modules: input patch embedder + multi-head cross-attention reprogramming bridge (K=8 heads against V′=1000 learned text prototypes) + Prompt-as-Prefix tokens + output linear projection. All backbone weights are frozen.
+
 ## Why it matters
 Time-LLM showed that substantial TS forecasting capability can be unlocked from frozen LLMs with only modest adapter modules. Together with GPT4TS it defined the "reprogramming" branch of LLM-for-TS research and demonstrated that a small bridge between patch space and word-embedding space is enough to turn a text LLM into a competitive forecaster.
 

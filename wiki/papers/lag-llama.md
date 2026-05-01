@@ -18,6 +18,14 @@ Lag-Llama is an early open decoder-only foundation model for univariate probabil
 ## Architecture at a glance
 Lag-Llama is a LLaMA-style decoder-only transformer. At each time step the input token is a vector of lagged values at a fixed set of lag offsets, concatenated with time-of-day / day-of-week / month covariates, then projected to the residual stream. A Student-t output head parameterizes the next-step predictive distribution; autoregressive rollout produces multi-step probabilistic forecasts. Series are standardized using robust median / IQR scaling, and the model is frequency-agnostic because the lag ladder is fixed rather than tailored per dataset. Lag-Llama uses lag features as covariate input instead of patch tokenization; forecasting is autoregressive 1-step-ahead with a Student-t distribution head (Rasul et al. Section 3).
 
+### Sizes (Rasul et al. §D / Table 5)
+
+| Variant | Layers | d_model | d_ff | Heads | d_kv | Params | Context | Tokenization |
+|---|---|---|---|---|---|---|---|---|
+| Lag-Llama (released, optimum from 100-config search) | 8 | 144 | not disclosed | 9 | 16 | 2,449,299 (~2.45M) | 32 base + lag-ladder features | hourly–yearly lag indices (no patches) |
+
+`d_model = heads × d_kv = 9 × 16 = 144`. Search ranges (Table 5): layers ∈ {1..9}, heads ∈ {1..9}, d_kv ∈ {16, 32, 64, 128, 256, 512}, base context ∈ {32, 64, 128, 256, 512, 1024} — the optimal found by random search is the released configuration. `d_ff` is not tabulated.
+
 ## Why it matters
 Lag-Llama established an open, reproducible baseline for probabilistic TS foundation models and provided one of the first published scaling-law studies for time-series pretraining. It set the "decoder-only, parametric distribution head" design pattern that [timer](./timer.md), [time-moe](./time-moe.md), and others later iterated on.
 

@@ -18,6 +18,18 @@ Chronos is an encoder-decoder transformer based directly on the T5 family. Time 
 
 Two non-obvious design choices are motivated in paper §3 / Appendix A.2: (a) **uniform** rather than quantile binning — quantile bins encode CDF structure that does not transfer across heterogeneous datasets, and the closed `[-15s, +15s]` interval prevents trending series from overflowing the vocabulary (the failure mode the paper acknowledges in Fig. 13); (b) **cross-entropy over MSE / parametric NLL**, because a categorical head can express arbitrary including multi-modal predictive distributions without committing to a Gaussian / Student-t family — the paper accepts that the loss is not distance-aware (bin `i+1` is no closer to bin `i` than to `i+1000`) and explicitly suggests ordinal or label-smoothed variants as future work.
 
+### Sizes (Ansari et al. §5.2; backbone arch per Raffel et al. 2020 / Tay et al. 2022 with vocab adjusted to 4096)
+
+| Variant | Layers (enc / dec) | d_model | d_ff | Heads | d_kv | Params | Token | Context |
+|---|---|---|---|---|---|---|---|---|
+| Chronos-T5-Mini (`amazon/chronos-t5-mini`) | T5-Mini variant per Tay et al. 2022 | — | — | — | — | 20M | 1 token / scalar (4096 bins) | 512 |
+| Chronos-T5-Small (`amazon/chronos-t5-small`) | 6 / 6 | 512 | 2048 | 8 | 64 | 46M | same | 512 |
+| Chronos-T5-Base (`amazon/chronos-t5-base`) | 12 / 12 | 768 | 3072 | 12 | 64 | 200M | same | 512 |
+| Chronos-T5-Large (`amazon/chronos-t5-large`) | 24 / 24 | 1024 | 4096 | 16 | 64 | 710M | same | 512 |
+| Chronos-GPT2 (decoder-only ablation) | 12 | 768 | 3072 | 12 | 64 | 90M | same | 512 |
+
+Param counts are smaller than canonical T5 (60M / 220M / 770M) because Chronos shrinks the embedding vocabulary to 4096 bins. Mini follows Tay et al. 2022's "scale-efficient" T5 variant; the paper does not retabulate `(L, d, h)` for Mini. Prediction length 64 (greater than every evaluated horizon).
+
 ## Why it matters
 Chronos showed that minimal tokenization plus an existing language-model architecture, without any TS-specific inductive bias, can compete with purpose-built time-series models. It crystallized the "language modeling for time series" viewpoint and became a standard baseline for subsequent TS foundation models.
 

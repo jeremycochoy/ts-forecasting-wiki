@@ -19,6 +19,18 @@ The audio prototype uses a five-layer strided 1D CNN encoder over the raw 16 kHz
 
 Two design rationales are explicit in the paper. (a) **Predicting multiple steps ahead in latent space** — paper Table 2 shows 12-step prediction reaches 64.6% phone accuracy vs. 28.5% at 2 steps and 57.6% at 4 steps. The mechanism is that short-horizon prediction can be solved by local low-level features (immediate spectral structure), so requiring *long-horizon* prediction *forces* the encoder to capture slow, high-level structure (phonemes, speakers) that local features cannot reach. (b) **Encoder + aggregator split** — a non-linear CNN `g_enc` extracts frame-level latents `z_t` while a separate GRU `g_ar` summarises `z_{≤t}` into a context `c_t`. This is not an architectural accident: it gives downstream users a choice — `c_t` when long context matters (speech recognition), `z_t` when local features suffice (speaker identity at fixed frame), with the negative-sample-structure ablation (Table 2) showing the choice of negatives further shapes which axis the representation prioritises.
 
+### Sizes (van den Oord et al. §3.1 audio prototype)
+
+| Component | Type | Layers | Hidden | Heads | Notes |
+|---|---|---|---|---|---|
+| Encoder g_enc (audio) | strided 1D conv | 5 | 512 (ReLU units) | n/a | strides [5, 4, 2, 2, 2], kernels [10, 8, 4, 4, 4], total downsampling 160 (1 frame / 10 ms) |
+| Autoregressor g_ar (audio) | GRU | 1 | 256 | n/a | summarises z_{≤t} into c_t |
+| Prediction horizon (k) | log-bilinear scoring | 12 | n/a | n/a | per-step W_k matrix, log-bilinear `f_k = exp(z_{t+k}^T W_k c_t)` |
+| Encoder g_enc (vision) | ResNet v2 101 | 101 | 1024 (per-patch feature) | n/a | 7×7 grid of 64×64 image patches |
+| Autoregressor g_ar (vision) | PixelCNN | (multi-row context) | n/a | n/a | rows 1..i used to predict rows i+5 |
+
+Total parameter count is not disclosed. **No attention heads, no `d_ff`** — encoder is strided CNN, aggregator is GRU (audio) or PixelCNN (vision). Loss is InfoNCE with negatives drawn from other timesteps in the same minibatch. CPC is a recipe, not a shipped TS checkpoint; per-domain configs above (audio / vision) are the canonical references.
+
 ## Why it matters
 CPC is the first general-purpose contrastive *sequence* model: the InfoNCE loss it introduces became the de facto standard for contrastive self-supervision in vision (SimCLR, MoCo), audio (wav2vec 2.0), and language (sentence embeddings). The "GRU + InfoNCE" combination is the textbook reference for contrastive representation learning with a recurrent aggregator, and it is the canonical citation for the broader idea of predicting the future in latent space rather than reconstructing it.
 

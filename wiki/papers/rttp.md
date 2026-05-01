@@ -18,6 +18,14 @@ A new post triggers CL-LLM (LLaMA 3.3 70B), which generates candidate queries pl
 
 Two design rationales are explicit in the paper. (a) **Inverting the pipeline** (post → query, rather than query → trend) addresses the cold-start regime where Poisson-on-volume methods need search traffic that does not yet exist — generating queries directly from new posts surfaces tail trends that volume-based detectors miss entirely (paper §1, Fig. 2 reports +91.4% precision@500 over a Poisson-on-volume baseline). (b) **Mix-Policy DPO at the 1:9 off-to-on ratio** (paper §3.2.1, Fig. 4) avoids the *squeezing effect* of pure off-policy DPO, where probability mass collapses onto a single answer and reasoning degrades — the on-policy mix preserves model coherence while off-policy examples teach the new behavior, letting MMLU stay within ~5% across a month of retraining vs. SFT-only collapse to near-zero after two rounds.
 
+### Sizes
+
+| Variant | Backbone | Layers | d_model | d_ff | Heads | d_kv | Params | Patch | Context |
+|---|---|---|---|---|---|---|---|---|---|
+| RTTP / CL-LLM (production, Meta-internal) | LLaMA 3.3 70B | inherited (not restated) | inherited | inherited | inherited | inherited | 70B | n/a (text token sequence) | LLM-native (LLaMA 3.3 context) |
+
+RTTP is **not a time-series forecasting model**. It is an LLM-based query-generation system whose backbone arch is inherited from LLaMA 3.3 70B (Meta) and not retabulated by the paper. Retraining via Mix-Policy DPO at fixed `ρ = 1:9` off-to-on ratio when `Recall@3` regresses by >10%. Trend prediction arises from synthetic query generation + engagement-weighted scoring (`TrendingScore = CreatorQuality + Σ w_i · E_i`), not from forecasting a numeric time series — the standard `(L, d_model, ...)` tuple is included here for taxonomic completeness only.
+
 ## Why it matters
 RTTP modernizes the Google-Trends-style trend-detection pipeline by inserting an LLM as a *query generator*, not a forecaster. It is the closest published analog to Google Correlate — discontinued in 2019 — for finding queries that anticipate a target signal. Mix-Policy DPO is the more general artifact: a recipe for continual preference-tuning of instruction-aligned LLMs without catastrophic forgetting of MMLU-level reasoning.
 

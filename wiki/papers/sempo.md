@@ -17,6 +17,16 @@ SEMPO is a lightweight time series foundation model with only 6.5M parameters, p
 ## Architecture at a glance
 Encoder-decoder transformer with `S = 6` layers, 16 heads, `D_p = 256`, patch size `L_p = 64`, RMSNorm, pre-normalization, SwiGLU. Input is channel-independent. After EASD masking produces `N_m = 4` masked versions of the input, each is patchified and projected; the resulting `(N_m, P, D_p)` tokens flow through the MoPFormer encoder and a reconstruction/prediction decoder. Prompts from the `I = 128` expert pool are routed per token, reparameterized into `S x 2 x D_p` key-value pairs and concatenated into every self-attention layer. Total parameter count is 6.5M. Training corpus is a curated multi-domain subset of the UTSD collection totaling roughly 83M time points, a deliberately small fraction of typical TS-FM pre-training budgets. Input patch size is 64; forecasting uses a two-stage approach: (1) reconstruction pretraining with EASD masking, (2) MoP prediction head fine-tuning that produces the forecast (He et al. Section 4).
 
+### Sizes (He et al. §4 + Appendix C.3 + Appendix D)
+
+| Variant | Layers (S) | d_model (D_p) | d_ff | Heads | d_kv (implied) | Params | Patch (L_p) | Context (L) |
+|---|---|---|---|---|---|---|---|---|
+| SEMPO-Base (default) | 6 | 256 | 256 | 16 | 16 | 6.5M | 64 | 512 |
+| SEMPO-Enhanced | 6 | 256 | 256 | 16 | 16 | 7.3M | 128 | 1024 |
+| SEMPO-Advanced | 6 | 256 | 256 | 16 | 16 | 9.9M | 128 | 1536 |
+
+Encoder-decoder transformer with RMSNorm + pre-norm + SwiGLU. `d_kv` is not stated explicitly; implied as `D_p / heads = 16`. `I = 128` learnable prompt vectors are routed per token by a dense linear-softmax router (no top-K) and reparameterized into `S × 2 × D_p` key-value pairs concatenated into every self-attention layer. `N_M = 4` EASD-masked spectral views per training sample. Sparse-MoE ablation (3 experts, 1 active) is 8.5M parameters and underperforms.
+
 ## Why it matters
 SEMPO is the clearest paper-level statement so far that scaling is not destiny for TS foundation models along *either* axis: it argues you can simultaneously shrink the model by two orders of magnitude *and* the pre-training corpus by three-to-four orders of magnitude and still come out ahead. It supplies two concrete mechanisms — low-energy spectral preservation and prompt-based specialization — that do the work scale was previously doing, and it ablates them.
 

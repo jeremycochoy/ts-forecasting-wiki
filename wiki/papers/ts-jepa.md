@@ -24,6 +24,17 @@ Predicting your own encoder's outputs has a trivial degenerate solution: drive e
 
 The paper's own collapse-prevention citations are LeCun's JEPA position paper [12] and BYOL [Grill et al. 2020, paper ref 10]; the appendix additionally cites I-JEPA [1] and V-JEPA [2] as validation that the EMA-target recipe transfers across modalities. TS-JEPA does not add any auxiliary anti-collapse machinery on top — no codebook bottleneck (contrast [MTS-JEPA](./mts-jepa.md), which adds a soft-codebook simplex with an analytical non-collapse bound), no contrastive negatives (contrast [TS2Vec](../concepts/contrastive-representation-learning.md)), no variance/covariance regularizers (contrast VICReg). The "two encoders, one EMA-tracked" trick is the entire stabilizer.
 
+### Sizes (Ennadir et al. §3 + Appendix)
+
+| Component | Type | Layers (L) | d_model | d_ff | Heads | d_kv | Params |
+|---|---|---|---|---|---|---|---|
+| Tokenizer | 1-D CNN + sin/cos pos enc | not disclosed | 128 | n/a | n/a | n/a | not disclosed |
+| Online encoder E_θ | Transformer | not disclosed | 128 | not disclosed | 2 | not disclosed | not disclosed |
+| Predictor P_β | Transformer (same arch as encoder) | not disclosed | 128 | not disclosed | 2 | not disclosed | not disclosed |
+| EMA target encoder E_θ̄ | identical to encoder | not disclosed | 128 | not disclosed | 2 | not disclosed | tracked via EMA m=0.998 |
+
+Single released configuration; no multi-size family. The paper explicitly defers ablation of layer count, `d_ff`, EMA decay, masking ratio (70%) and L1-vs-L2 loss to future work. Patch is **non-fixed**: each series is split into 10 patches of length proportional to series length, not a constant. Context is dataset-dependent (FordA / FordB / FaultDetectionA-B / ECG5000 for classification; Weather / ETT-Small / Electricity for forecasting).
+
 ## Why it matters
 Until TS-JEPA, the time-series JEPA literature consisted of one application paper (Time-Series JEPA for predictive remote control, Girgis et al. 2024) and one combined work ([LaT-PFN](./lat-pfn.md), 2024), neither of which isolates the JEPA objective from other architectural changes. TS-JEPA is the first systematic study, with controlled baselines that share the encoder and only vary the pretraining objective — this is the cleanest evidence in the literature that "predict in latent space, not in input space" carries over from I-JEPA to TS at all. The paper closes by positioning TS-JEPA as a building block for future TS-FMs, which [MTS-JEPA](./mts-jepa.md) then takes up.
 

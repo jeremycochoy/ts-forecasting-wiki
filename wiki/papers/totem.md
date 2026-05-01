@@ -18,6 +18,24 @@ TOTEM trains a convolutional VQ-VAE whose codebook provides a discrete vocabular
 
 Two design choices are explicitly motivated in paper §3.2. (a) **A learned VQ-VAE codebook** rather than scalar uniform binning ([chronos](./chronos.md)-style) — the rationale is the analogy with NLP byte-pair encoding: a deterministic, reversible encoder is lossless and information-preserving, while scalar quantization throws away local structure that a learned vocabulary keeps. (b) **Exclusively temporal tokenisation** (only the time dimension is quantised, not the sensor / spatial axis) — sensor-wise tokenisation would encode domain-specific structure (one codebook entry per sensor type) that does not transfer across domains with different sensor counts, so quantising only along time keeps the vocabulary domain-agnostic and lets the same codebook serve neuroscience, river flow, sunspots, and birth rate without retraining.
 
+### Sizes (Talukder et al. Appendix A.11; two-stage architecture)
+
+**Stage 1 — VQ-VAE tokenizer (per task, no attention):**
+
+| Variant | Residual layers | Residual hidden | Block hidden | Codebook K | Code dim D | Compression F | Heads | Params |
+|---|---|---|---|---|---|---|---|---|
+| Forecasting tokenizer (specialist + "All" generalist) | 2 | 64 | 128 | 256 | 64 | 4 | — | ~345K |
+| Imputation tokenizer | 2 | 64 | 128 | 512 | 64 | 4 | — | not separately disclosed |
+| Anomaly-detection tokenizer | 2 | 64 | 128 | 1024 | 64 | 4 | — | not separately disclosed |
+
+**Stage 2 — downstream forecaster (transformer encoder over discrete codes):**
+
+| Layers | d_model | d_ff | Heads | d_kv (implied) | Patch | Context |
+|---|---|---|---|---|---|---|
+| 4 | 64 | 256 | 4 | 16 | none (operates on VQ-VAE codes; effective compression F=4 along time) | dataset-dependent |
+
+TOTEM ships **per-task codebooks** (not per-size) plus a small downstream transformer. Tokenizer is 1D strided CNN encoder + quantizer + transposed-CNN decoder — no attention. Each residual block contains 2 non-causal, non-dilated 1D conv layers. Released at `SaberaTalukder/TOTEM` on GitHub.
+
 ## Why it matters
 TOTEM anchors the discrete-tokenisation branch of TS foundation models. By quantifying specialist-versus-generalist trade-offs with a common codebook, it motivates subsequent approaches that combine VQ-style tokenisation with universal pretraining objectives and provides the cleanest evidence that a learned (rather than uniformly binned) discrete vocabulary is viable across many TS domains.
 

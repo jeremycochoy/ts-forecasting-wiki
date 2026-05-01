@@ -19,6 +19,17 @@ LaT-PFN has four learned components (paper §3.3, Figure 4): an **embedder** (8-
 
 The **system-identification head** (paper Appendix D.1, §3.3) regresses the simulation parameters of the synthetic context as auxiliary supervision — this directs the latent space toward modeling the *underlying generative dynamics* (the ARIMA / GP / piecewise parameters that produced the series) rather than memorizing per-series surface statistics; it stabilizes training and improves zero-shot extrapolation to novel domains. The **normalized abstract time axis** `T_0:T_H` is similarly load-bearing (paper §3.2): defining time relative to each series's forecast start decouples the model from absolute calendar units, so a single checkpoint can serve any frequency and any horizon — the design choice that makes the PFN's in-context Bayesian inference applicable across heterogeneous granularities without retraining.
 
+### Sizes (Verdenius et al. Appendix D.4)
+
+| Component | Type | Layers | Hidden (d_model) | d_ff | Heads | d_kv | Notes |
+|---|---|---|---|---|---|---|---|
+| Embedder E_θ | dilated MobileNet1D (1-D conv) | 8 | 512 (final) / 128 (tuning runs via μP) | n/a | n/a (conv) | n/a | feature extraction along time |
+| Predictor PFN_θ | Transformer (PFN-style with cross-attn + diagonal target mask) | 3 | 512 | not disclosed | not disclosed | not disclosed | takes pooled context η + held-out prompt z |
+| Decoder D_θ | feedforward network | 3 | 512 | n/a | n/a | n/a | 100 output bins, cross-entropy |
+| SI-head H_θ | MLP regressor | 2 | 512 | n/a | n/a | n/a | regresses 10 simulation params |
+
+Single released variant (no Small/Base/Large family). EMA target encoder is a copy of the embedder with linear-warmup decay 0.9952 → 1.0 over 95 epochs. Total parameter count is not disclosed. Patch is **emergent** (no explicit patching) — the dilated MobileNet1D produces multi-step embeddings the paper observes look like ViT patches. Final-model context: history=180, horizon=60, held-out=2, context dim=14, batch=32; time axis normalized to `[-3, 1]`.
+
 ## Why it matters
 LaT-PFN is the first paper to bring JEPA's "latent-space prediction with separated decoder" recipe — a flagship method in vision and audio SSL — into time series forecasting. By doing so it both (a) extends the JEPA family beyond perception, and (b) gives the PFN family (TabPFN, ForecastPFN) a stronger embedding backbone than the bag-of-tokens treatment those papers use. The emergent patch-token finding is a small but striking signal that the JEPA pretraining objective alone induces ViT-style structure on raw 1-D series.
 

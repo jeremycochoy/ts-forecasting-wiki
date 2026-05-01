@@ -17,6 +17,16 @@ Mamba4Cast replaces transformer backbones with a Mamba-2 selective state-space m
 ## Architecture at a glance
 Mamba4Cast consists of four components: (1) min-max scaled inputs with time-feature positional encoding, (2) an embedding stack of stacked causal Conv1d + GELU layers for input values and positional features, (3) an encoder of Mamba-2 blocks interleaved with LayerNorm and another dilated convolution block, (4) a linear decoder that maps the final hidden states to a full horizon of point forecasts. Training is on synthetic sequences of length uniformly sampled in [30, 512] with prediction length uniformly sampled in [10, 60]. There is no patch tokenization — the Mamba SSM processes the raw sequence continuously; forecasting is single-pass direct, generating the full forecast horizon in one forward pass with no autoregressive rollout (Bhethanabhotla et al. Section 3).
 
+### Sizes (Bhethanabhotla et al. §4.1 + Appendix B–D)
+
+| Variant | Mamba-2 blocks | d_model | SSM state (N) | Block expansion (E) | Heads | d_ff | Params | Tokenization | Context |
+|---|---|---|---|---|---|---|---|---|---|
+| Mamba4Cast (released, default) | 2 | 1024 | 128 | 2 | — (no attn) | not disclosed | 27M | 1 token / timestep (no patches) | ≤512 |
+| Ablation: linear final layer (no CNN) | 2 | 1024 | 128 | 2 | — | — | 17M | same | ≤512 |
+| Ablation: linear input + final | 2 | 1024 | 128 | 2 | — | — | 15M | same | ≤512 |
+
+Mamba-2 SSM-based encoder — **no attention heads.** Input embedding is a 4-layer stack of causal Conv1d (kernel 5, dilations 1/2/4/8) + GELU. The Mamba-2 block contains an implicit gated-MLP-equivalent inside the block; no separate `d_ff` is stated. Released at `automl/Mamba4Cast` on GitHub.
+
 ## Why it matters
 Mamba4Cast demonstrates that competitive zero-shot TS forecasting is achievable without transformers and without real-data pretraining. It combines two independent design choices — linear-time SSM backbone and PFN-style synthetic training — and shows they compose into a favourable accuracy-latency trade-off, especially at long horizons where transformer-based autoregressive decoding is penalised.
 

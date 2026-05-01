@@ -19,6 +19,17 @@ UniTS wraps a transformer encoder whose blocks contain factorised sequence MHSA 
 
 The **factorised attention over sequence and variable dimensions** (paper §4.2) is what lets one set of weights handle datasets with arbitrary numbers of channels and arbitrary lengths: a standard transformer's flat self-attention requires per-dataset reshaping (or padding to a global maximum) when channel count or sequence length varies, while factorising into separate sequence-MHSA and variable-MHSA passes keeps each attention call at a fixed shape per dataset. This is what makes the "one model across 38 datasets" claim architectural rather than a per-dataset fine-tuning trick.
 
+### Sizes (Gao et al. Appendix D.1 + Table 14)
+
+| Variant | UniTS blocks | d_model | d_ff | Heads | d_kv | Params | Patch | Context |
+|---|---|---|---|---|---|---|---|---|
+| UniTS-PMT ×32 (smallest) | 3 | 32 | not disclosed | not disclosed | — | 1.57M | 16 | dataset-dependent |
+| UniTS-SUP ×64 / UniTS-PMT ×64 (default supervised) | 3 | 64 | not disclosed | not disclosed | — | 3.41M | 16 | dataset-dependent |
+| UniTS-PMT ×96 | 3 | 96 | not disclosed | not disclosed | — | 5.67M | 16 | dataset-dependent |
+| UniTS-PMT ×128 (default prompt-tuning) | 3 | 128 | not disclosed | not disclosed | — | 8.24M | 16 | dataset-dependent |
+
+Each UniTS block contains time MHSA + variable MHSA + Dynamic FFN (first linear replaced by 3-kernel 1D conv). Heads count, `d_ff`, and `d_kv` are not tabulated in the paper — they must be read from the released config in `mims-harvard/UniTS`. Patch size and stride are fixed at 16 for both UniTS and patch-based baselines.
+
 ## Why it matters
 UniTS advances the multi-task-universal direction by showing that a single backbone and task-token prompt can match specialist models across a broad benchmark. Its design makes it easy to add new tasks and datasets without changing the architecture, and it is the reference comparison point for any unified-model claim that is not based on masked reconstruction.
 

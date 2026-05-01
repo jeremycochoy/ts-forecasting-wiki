@@ -18,6 +18,17 @@ GPT4TS takes a pretrained transformer and passes patched, RevIN-normalised time-
 
 The choice to **fine-tune only LayerNorm, positional embeddings, and the input/output projections** while freezing self-attention and feed-forward blocks is motivated in paper §3 + §6: the paper analytically links frozen self-attention to a fixed PCA-style dimensionality reducer, so the pretrained transformer already implements a "universal compute engine" that need not change for TS. What does need to adapt is the *normalization statistics* (LayerNorm) and the *positional structure* (PE) — both of which are TS-specific (different value scales, different sequence semantics) but cheap to retune without disturbing the underlying computation. Fine-tuning more (e.g. attention or FFN) risks catastrophic forgetting of the linguistic prior the PCA argument relies on; fine-tuning less (e.g. only the head) leaves the input mismatch unaddressed.
 
+### Sizes (Zhou et al. §3 + §4.10; backbone arch per Radford et al. 2019)
+
+| Variant | Backbone | Layers (kept) | d_model | d_ff | Heads | d_kv | Total params | Trainable params | Patch | Context |
+|---|---|---|---|---|---|---|---|---|---|---|
+| GPT2(6) — default for forecasting / classification / anomaly detection | GPT-2 small | 6 (of 12) | 768 | 3072 | 12 | 64 | ~62M | ~4M | PatchTST-style; size not stated in paper (typically 16 with stride 8) | task-dependent |
+| GPT2(3) — used for imputation | GPT-2 small | 3 (of 12) | 768 | 3072 | 12 | 64 | ~31M | ~4M | same | same |
+| GPT2(12) full (ablation) | GPT-2 small | 12 | 768 | 3072 | 12 | 64 | 124M | ~4M | same | same |
+| BERT(6) / BEiT(6) ablations | BERT / BEiT | 6 | 768 | 3072 | 12 | 64 | similar | adapter-only | same | same |
+
+Backbone `(L, d, d_ff, h)` is inherited from GPT-2 small (paper does not retabulate). Trainable parameters: positional embeddings + LayerNorm scale/shift + input patch embedder + output linear projection. Self-attention and FFN weights are frozen across all variants.
+
 ## Why it matters
 GPT4TS is the canonical early demonstration that large language models can be repurposed as generic TS backbones with minimal parameter updates. It is the reference baseline that every later LLM-for-TS paper compares against, and its PCA interpretation of frozen self-attention is frequently cited as intuition for why cross-modality transfer works.
 

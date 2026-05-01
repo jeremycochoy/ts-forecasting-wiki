@@ -18,6 +18,16 @@ Moirai 2.0 is a decoder-only time-series foundation model trained on a new 36M-s
 ## Architecture at a glance
 Moirai 2.0 is a decoder-only Transformer with RMSNorm, GLU feed-forwards, RoPE positional encodings, causal multi-head self-attention, and residual-block projections on both input and output sides. Univariate series are patched into non-overlapping patches, each concatenated with a binary missing-value indicator and projected to the hidden dimension. Instance-normalization statistics are computed only from the first 30% of each window to avoid future leakage, and samples whose second-70% segment drifts too far are filtered out. The output head produces `n_token * n_q * p` values — multi-token prediction of `n_q = 9` quantile levels for multiple future patches per position. Small is 11.4M parameters, base 87.1M, large 305M; exact `(d, L, heads, patch)` hyperparameters are not disclosed.
 
+### Sizes (Liu et al. Table 1)
+
+| Variant | Layers | d_model | d_ff | Heads | d_kv | Params | Patch | Context |
+|---|---|---|---|---|---|---|---|---|
+| Moirai 2.0 small (recommended, `Salesforce/moirai-2.0-R-small`) | not disclosed | not disclosed | not disclosed (GLU FFN) | not disclosed | not disclosed | 11.4M | not disclosed | ~10K (KV-cache study) |
+| Moirai 2.0 base (worse than small) | not disclosed | not disclosed | not disclosed | not disclosed | not disclosed | 87.1M | not disclosed | ~10K |
+| Moirai 2.0 large (worse than small) | not disclosed | not disclosed | not disclosed | not disclosed | not disclosed | 305M | not disclosed | ~10K |
+
+The paper does not tabulate `(L, d_model, d_ff, heads, patch)` for any of its three released sizes — only the parameter counts above plus the architectural choices (RMSNorm, GLU FFN, RoPE, causal SA, residual-block input/output projection, 9-quantile head, multi-token prediction with 50% patch masking). The `Salesforce/moirai-2.0-R-small` checkpoint is the team's recommendation; base and large strictly underperform on GIFT-Eval despite ~8× and ~30× the parameter count (Table 1: small MASE 0.728, base 0.732, large 0.743).
+
 ## Why it matters
 Moirai 2.0 is an explicit self-critique of the MOIRAI-1 recipe: the same Salesforce team argues that masked-encoder + multi-patch + mixture-of-distributions was over-engineered and that a decoder-only + single-patch + quantile-head stack wins on GIFT-Eval at a fraction of the size. Its failure to scale past 11M parameters despite 295B pretraining observations is a concrete data point against naive parameter scaling for TS-FMs.
 

@@ -16,6 +16,16 @@ TimesFM introduces a decoder-only transformer pretrained as a general-purpose ze
 ## Architecture at a glance
 TimesFM is a GPT-style decoder-only transformer operating on patched real-valued tokens. Input patches are projected into the residual stream, and each output step predicts an entire output patch, shortening the autoregressive rollout. Pretraining uses a next-patch prediction loss on Google Trends, Wiki Pageviews, and synthetic seasonal/trend mixtures. Input patch size is 32, output patch size is 128; forecasting is autoregressive rollout where the larger output patch (4x input) reduces the number of rollout steps needed to cover a given horizon (Das et al. Table 6).
 
+### Sizes (Das et al. §A.6 + Table 6)
+
+| Variant | Layers | d_model | d_ff | Heads | d_kv | Params | Patch (in / out) | Context |
+|---|---|---|---|---|---|---|---|---|
+| TimesFM-200M (released as `google/timesfm-1.0-200m`) | 20 | 1280 | 1280 | 16 | 80 | 200M | 32 / 128 | ≤512 |
+| TimesFM-70M (scaling sweep) | 10 | 1024 | 1024 | 16 | 64 | 70M | 32 / 128 | ≤512 |
+| TimesFM-17M (scaling sweep) | 10 | 512 | 512 | 16 | 32 | 17M | 32 / 128 | ≤512 |
+
+Note: TimesFM sets `d_ff = d_model` (paper §A.6: "the hidden dims of both the residual block and the FFN in the transformer layers are set as the same as model dimensions"), not the standard 4× FFN expansion. Dropout = 0.2 across sizes. Only the 200M is released; 17M / 70M exist only in the scaling study (Fig 3a). `d_kv = d_model / heads`.
+
 ## Why it matters
 TimesFM was among the first TS models to clearly demonstrate that a single pretrained transformer can generalize zero-shot across [Monash](../datasets-benchmarks/monash-archive.md), Darts, and ETT with quality comparable to supervised specialists, establishing the decoder-only patched paradigm for time-series foundation models.
 

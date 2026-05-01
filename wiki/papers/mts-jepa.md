@@ -17,6 +17,19 @@ MTS-JEPA targets multivariate time-series *anomaly prediction* — early warning
 ## Architecture at a glance
 A multivariate window `x ∈ R^{T × V}` is RevIN-normalized, then split into **fine view** (`P` patches of length `L`, with `T_w = P · L`) and **coarse view** (a single down-averaged token of length `L`). A shared **online encoder** `E_θ` (residual CNN tokenizer + transformer backbone) processes only the fine view at time `t`. The **EMA encoder** `E_ξ` processes both views at time `t+1` and produces multi-scale targets. The **soft codebook** `Q` projects continuous features `h_t,i` to simplex distributions `p_t,i,k = softmax(<h̄_t,i, c̄_k>/τ)` over `K` prototypes; the codebook is itself EMA-updated. The **dual predictor** has a fine branch (transformer over the patch sequence, output shape `R^{P × K}`) and a coarse branch (cross-attention with a learnable query token, output `R^{1 × K}`). An auxiliary **decoder** reconstructs the input patches from the soft-quantized embeddings to anchor the latent space. Training uses non-overlapping context-target pairs with stride 100, context length 100, target length 100, `P=5`, `L=20`.
 
+### Sizes (He et al. Appendix B.2)
+
+| Component | Type | Layers | d_model | d_ff | Heads | d_kv | Notes |
+|---|---|---|---|---|---|---|---|
+| Online encoder E_θ | residual CNN tokenizer + 2-layer projection MLP (64→32) + Transformer | 6 | 256 | not disclosed | 8 | not disclosed | EMA decay ρ=0.996 for E_ξ twin |
+| EMA encoder E_ξ | identical to online encoder | 6 | 256 | not disclosed | 8 | not disclosed | weights via `ξ ← ρξ + (1−ρ)θ` |
+| Fine predictor | Transformer | 2 | 128 | not disclosed | 4 | not disclosed | output `R^{P × K}` |
+| Coarse predictor | Transformer (cross-attn with learnable query) | 2 | 128 | not disclosed | 4 | not disclosed | output `R^{1 × K}` |
+| Codebook Q | K=128 prototypes, dim D=256, τ=0.1 | n/a | 256 | n/a | n/a | n/a | EMA-updated |
+| Decoder (auxiliary recon) | not specified | not disclosed | not disclosed | not disclosed | not disclosed | not disclosed | input-space reconstruction |
+
+Total params not disclosed. **Asymmetric** depth and width: predictor (L=2, d=128) is shallower and narrower than encoder (L=6, d=256). Patch length L=20, P=5 patches per window (T_c = T_t = 100). Channel-independent input formulation; RevIN normalization with cached affine stats for reconstruction loss inversion.
+
 ## Why it matters
 This is the first JEPA paper to (a) tackle anomaly prediction rather than forecasting or classification, (b) introduce a multi-resolution latent-prediction objective, and (c) demonstrate that a discrete codebook can serve double duty as a regime detector and a self-distillation stabilizer. The "codebook prevents collapse" argument is the strongest theoretical-empirical bridge in the JEPA-for-TS literature so far: paper Appendix A.3 derives both an upper bound (bounded latent excursions from convex-hull membership) and a strictly positive lower bound on batch variance, and the ablation in Table 3 shows F1 collapses to near-random when the codebook module is removed (`w/o Codebook Module`) — much worse than removing only the auxiliary codebook losses.
 

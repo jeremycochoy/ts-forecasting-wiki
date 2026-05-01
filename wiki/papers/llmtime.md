@@ -21,6 +21,17 @@ LLMTime uses unmodified pretrained LLMs as forecasters. Numeric series are seria
 
 Standard BPE tokenizers used by GPT-2, LLaMA, and GPT-4 merge frequent digit substrings (`42`, `235`, `1024`) into single tokens, destroying the alignment between token positions and numerical place values — the model can no longer treat next-token prediction as next-digit prediction (paper §2 Background, Figure 2). LLMTime forces one token per digit by inserting spaces between digits and commas between timesteps so the BPE merger cannot fire across digits. The trick is necessary, not cosmetic: GPT-4's "improved" number tokenizer actually *breaks* the method (paper §3 reports GPT-4 underperforming GPT-3 on the same series) while LLaMA-2 with the right space-handling convention works well. Once each digit is its own token, the **change-of-variables construction** in §3 turns the softmax over the resulting digit string into a proper continuous mixture density of per-bin uniform components — which is what enables NLL and CRPS evaluation rather than only point forecasts. The whole method is a careful tokenizer adapter plus a sampler; nothing else.
 
+### Sizes (Gruver et al. §3 + §6)
+
+| Variant | Backbone (frozen) | Trainable params | Tokenization | Context |
+|---|---|---|---|---|
+| LLMTime-GPT-3 (ada / babbage / curie / davinci) | OpenAI GPT-3 family (closed, sizes per Brown et al. 2020) | 0 (zero-shot) | digit-by-digit, space-separated to defeat BPE merging | LLM-native (GPT-3: ≤2048) |
+| LLMTime-GPT-4 (underperforms; tokenizer breaks the trick) | OpenAI GPT-4 | 0 | digit-by-digit | LLM-native |
+| LLMTime-LLaMA (1) (7B / 13B / 33B / 65B) | LLaMA / LLaMA-2 base + chat | 0 | per-digit (no spaces; LLaMA tokenizer is already 1-token-per-digit) | LLM-native (LLaMA-2: ≤4096) |
+| LLMTime-LLaMA-2 (7B / 13B / 70B + chat variants) | LLaMA-2 | 0 | same | ≤4096 |
+
+LLMTime trains **zero TS-specific weights**: the only "fitting" is two preprocessing scalars (α-percentile rescaler, β-offset) tuned on validation log-likelihoods (§3 "Rescaling"). Backbone `(L, d, d_ff, heads, d_kv)` inherits whichever LLM is used at inference time and is not retabulated by the paper. Per-step inference cost = one LLM forward pass per digit token per sample (default 20 samples per horizon position).
+
 ## Why it matters
 LLMTime provided a provocative zero-shot baseline showing that language models trained only on text already contain enough sequence structure to forecast numeric time series. It crystallised the discrete-tokenisation-of-values idea and is the canonical counterexample to the view that TS forecasting requires TS-specific pretraining.
 

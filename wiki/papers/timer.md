@@ -18,6 +18,18 @@ Timer recasts time series as a generative pretraining problem, introducing a uni
 ## Architecture at a glance
 Timer is a GPT-style decoder-only transformer with causal self-attention trained with next-token prediction on patched real-valued tokens, using segment length S=96. The S3 format splits multivariate data into channel-independent univariate sequences so that heterogeneous datasets with different dimensionalities and frequencies all feed the same model without architectural changes. Downstream tasks are reformulated as generation: forecasting via continued generation, imputation via masked-segment generation, anomaly detection via reconstruction loss. Input and output patch size is 96 (segment length S=96); forecasting is autoregressive rollout, one patch per step via next-token prediction over the S3 format (Liu et al. Table 14).
 
+### Sizes (Liu et al. Table 6, heads fixed at 8 across all sizes)
+
+| Variant | Layers | d_model | d_ff | Heads | d_kv | Params | Patch | Context |
+|---|---|---|---|---|---|---|---|---|
+| Timer dim-sweep (d=256 / 512 / 768 / 1024) | 6 | 256 / 512 / 768 / 1024 | 512 / 1024 / 1536 / 2048 | 8 | — | 3.21M / 12.72M / 28.51M / 50.59M | 96 | ≤1440 |
+| Timer layer-sweep (L=2 / 4 / 6 / 8 at d=256) | 2 / 4 / 6 / 8 | 256 | 512 | 8 | — | 1.10M / 2.16M / 3.21M / 4.27M | 96 | ≤1440 |
+| Timer-29M (released main) | 6 | 768 | 1536 | 8 | — | 28.51M | 96 | ≤1440 |
+| Timer-50M (released) | 6 | 1024 | 2048 | 8 | — | 50.59M | 96 | ≤1440 |
+| Timer-67M (released largest) | 8 | 1024 | 2048 | 8 | — | 67.40M | 96 | ≤1440 |
+
+Released checkpoints `Timer-1B / 16B / 28B` differ only in pretraining corpus scale (UTSD-1G / UTSD+Buildings900K / UTSD+LOTSA), not in `(L, d, h)`. `d_kv` not tabulated; the paper sets per-head dim implicitly via `d_model / heads`.
+
 ## Why it matters
 Timer is one of the clearest demonstrations that the LLM recipe — a large decoder-only transformer trained generatively on a unified sequence format — transfers to time series and yields strong few-shot behavior on downstream TS tasks. It is one of the first TS-FM papers to report parameter and data scaling curves side-by-side.
 
